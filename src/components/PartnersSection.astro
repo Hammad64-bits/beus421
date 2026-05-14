@@ -75,6 +75,7 @@ function shadowClass(shadow: string | null) {
           <div
             class={`partners__hex-cell${cell.src ? ` partners__hex-cell--filled${shadowClass(cell.shadow)}` : " partners__hex-cell--empty"}`}
             style={`grid-column:${cell.col};grid-row:${cell.row}`}
+            data-hex-id={cell.src ? `left-${cell.col}-${cell.row}` : undefined}
           >
             <div class="partners__hex-shape">
               {cell.src && (
@@ -104,6 +105,7 @@ function shadowClass(shadow: string | null) {
           <div
             class={`partners__hex-cell${cell.src ? ` partners__hex-cell--filled${shadowClass(cell.shadow)}` : " partners__hex-cell--empty"}`}
             style={`grid-column:${cell.col};grid-row:${cell.row}`}
+            data-hex-id={cell.src ? `right-${cell.col}-${cell.row}` : undefined}
           >
             <div class="partners__hex-shape">
               {cell.src && (
@@ -463,60 +465,118 @@ function shadowClass(shadow: string | null) {
     }
   }
 </style>
+
+<style>
+  /* ── Per-hex float animations ─────────────────────────────── */
+  /* Each filled hex gets a gentle bob at a unique phase/speed   */
+  [data-hex-id="left-2-1"]  { animation: hex-float-a 4.2s ease-in-out infinite; }
+  [data-hex-id="left-1-2"]  { animation: hex-float-b 3.8s ease-in-out infinite; }
+  [data-hex-id="left-2-3"]  { animation: hex-float-c 4.6s ease-in-out infinite; }
+  [data-hex-id="right-1-1"] { animation: hex-float-b 4.0s ease-in-out infinite; }
+  [data-hex-id="right-2-2"] { animation: hex-float-a 3.6s ease-in-out infinite; }
+  [data-hex-id="right-1-3"] { animation: hex-float-c 4.4s ease-in-out infinite; }
+
+  /* Central hex: slower, larger amplitude bob */
+  .partners__hex-main { animation: hex-float-main 5s ease-in-out infinite; }
+
+  @keyframes hex-float-a {
+    0%, 100% { transform: translateY(0px);    }
+    50%       { transform: translateY(-10px);  }
+  }
+  @keyframes hex-float-b {
+    0%, 100% { transform: translateY(-5px);  }
+    50%       { transform: translateY(5px);   }
+  }
+  @keyframes hex-float-c {
+    0%, 100% { transform: translateY(0px);   }
+    33%       { transform: translateY(-8px);  }
+    66%       { transform: translateY(4px);   }
+  }
+  @keyframes hex-float-main {
+    0%, 100% { transform: translateY(0px) scale(1);    }
+    50%       { transform: translateY(-8px) scale(1.01); }
+  }
+</style>
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
 
+  // ── Pause CSS float until entrance is done ─────────────────
+  const allHexes = document.querySelectorAll("[data-hex-id], .partners__hex-main");
+  allHexes.forEach((el) => {
+    (el as HTMLElement).style.animationPlayState = "paused";
+  });
+
+  // ── Each hex flies in from its own direction ───────────────
+  // Left grid: partner-1(col2,row1) = top-right, partner-2(col1,row2) = left, partner-3(col2,row3) = bottom-right
+  // Right grid: partner-4(col1,row1) = top-left, partner-5(col2,row2) = right, partner-6(col1,row3) = bottom-left
+  const hexConfigs: { id: string; x: number; y: number; rotation: number; delay: number }[] = [
+    { id: "left-2-1",  x:  80, y: -120, rotation: -25, delay: 0.2  }, // top-right → flies from top-right
+    { id: "left-1-2",  x: -140, y:   0, rotation:  15, delay: 0.35 }, // left      → flies from far left
+    { id: "left-2-3",  x:  80, y:  120, rotation:  20, delay: 0.5  }, // bottom-right → from bottom-right
+    { id: "right-1-1", x: -80, y: -120, rotation:  25, delay: 0.28 }, // top-left  → flies from top-left
+    { id: "right-2-2", x:  140, y:   0, rotation: -15, delay: 0.43 }, // right     → flies from far right
+    { id: "right-1-3", x: -80, y:  120, rotation: -20, delay: 0.58 }, // bottom-left → from bottom-left
+  ];
+
+  const st: ScrollTrigger.Vars = {
+    trigger: ".partners__row",
+    start: "top 76%",
+    once: true,
+  };
+
   // Header fades up
   gsap.from(".partners__header", {
-    y: 36,
+    y: 32,
     opacity: 0,
-    duration: 0.8,
+    duration: 0.75,
     ease: "power3.out",
-    scrollTrigger: {
-      trigger: "#partners",
-      start: "top 80%",
-      once: true,
-    },
+    scrollTrigger: { trigger: "#partners", start: "top 80%", once: true },
   });
 
-  // Central hex scales in
-  gsap.from(".partners__hex-main", {
-    scale: 0.8,
-    opacity: 0,
-    duration: 1,
-    ease: "back.out(1.5)",
-    scrollTrigger: {
-      trigger: ".partners__row",
-      start: "top 78%",
-      once: true,
-    },
-  });
+  // Central hex: dramatic scale-in + glow pulse
+  gsap.fromTo(
+    ".partners__hex-main",
+    { scale: 0.4, opacity: 0, rotation: -12 },
+    {
+      scale: 1,
+      opacity: 1,
+      rotation: 0,
+      duration: 1.1,
+      ease: "back.out(1.8)",
+      scrollTrigger: st,
+      onComplete() {
+        // Un-pause the CSS float on the main hex
+        (document.querySelector(".partners__hex-main") as HTMLElement | null)
+          ?.style.setProperty("animation-play-state", "running");
+      },
+    }
+  );
 
-  // Left grid slides in from left
-  gsap.from(".partners__hex-grid:first-of-type", {
-    x: -60,
-    opacity: 0,
-    duration: 0.9,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: ".partners__row",
-      start: "top 78%",
-      once: true,
-    },
-  });
+  // Partner hexes fly in one by one from their own direction
+  hexConfigs.forEach(({ id, x, y, rotation, delay }) => {
+    const el = document.querySelector(`[data-hex-id="${id}"]`);
+    if (!el) return;
 
-  // Right grid slides in from right
-  gsap.from(".partners__hex-grid:last-of-type", {
-    x: 60,
-    opacity: 0,
-    duration: 0.9,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: ".partners__row",
-      start: "top 78%",
-      once: true,
-    },
+    gsap.fromTo(
+      el,
+      { x, y, opacity: 0, rotation, scale: 0.6 },
+      {
+        x: 0,
+        y: 0,
+        opacity: 1,
+        rotation: 0,
+        scale: 1,
+        duration: 0.85,
+        delay,
+        ease: "back.out(1.4)",
+        scrollTrigger: st,
+        onComplete() {
+          // Un-pause CSS float for this hex
+          (el as HTMLElement).style.animationPlayState = "running";
+        },
+      }
+    );
   });
 </script>
