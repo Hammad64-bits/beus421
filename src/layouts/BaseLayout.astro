@@ -82,8 +82,35 @@ const siteName = "Vigilant Security Services";
         .querySelectorAll('[data-reveal]')
         .forEach((el) => io.observe(el));
     </script>
+
+    <!-- ── Lenis smooth scroll — wired to GSAP ticker for ScrollTrigger sync ── -->
+    <script>
+      import Lenis from "lenis";
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 0.9,
+        touchMultiplier: 1.5,
+      });
+
+      // Feed Lenis scroll position into ScrollTrigger on every GSAP tick
+      lenis.on("scroll", ScrollTrigger.update);
+
+      gsap.ticker.add((time: number) => {
+        lenis.raf(time * 1000);
+      });
+
+      // Prevent GSAP from running its own RAF — Lenis owns it now
+      gsap.ticker.lagSmoothing(0);
+    </script>
   </body>
 </html>
+
 
 <style>
   /* Sticky header wrapper — Navbar component keeps its own internal styles */
