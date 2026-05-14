@@ -12,28 +12,61 @@
 //
 // Service row (layout_Q9HEE1): column, gap 40px, padding 40px 0 0 24px
 //   - Icon pill 40×40 (navy 15% bg) + name (bold 700 16px) + arrow (24px)
-//   - Divider line 315px × 1px #EEEEEE
-// Active row: left border 4px solid #B61F26, padding-left 20px; icon bg rgba(51,88,125,0.15)
-//
-// Tag cards: 235×280px, borderRadius 12px, shadow 0 4 10 rgba(0,0,0,0.25)
-//   background: linear-gradient(180deg, rgba(102,102,102,0) 70%, rgba(51,88,125,1) 78%)
-//              + real background image /services/service-card-bg.png (cover)
-//   Text: Inter Medium 500 16px #323232, centered at bottom (padding 208px 11px 0px)
+// Service Section (1160:3964) — pixel perfect + dynamic tab switching
 
 const services = [
-  { name: "Sector-Specific Security", active: true },
-  { name: "Electronic Security Systems", active: false },
-  { name: "Guarding Services", active: false },
-  { name: "Support Services", active: false },
-];
-
-const tags = [
-  "Event Security Services",
-  "Construction Site Security",
-  "Retail Security Services",
-  "Corporate Security",
-  "Public Sector Protection",
-  "Care & Housing Security",
+  {
+    id: "sector",
+    name: "Sector-Specific Security",
+    icon: "/vigilant_icons/Vector-9.svg",
+    tags: [
+      "Event Security Services",
+      "Construction Site Security",
+      "Retail Security Services",
+      "Corporate Security",
+      "Public Sector Protection",
+      "Care & Housing Security",
+    ],
+  },
+  {
+    id: "electronic",
+    name: "Electronic Security Systems",
+    icon: "/vigilant_icons/Vector-2.svg",
+    tags: [
+      "CCTV & Surveillance",
+      "Access Control Systems",
+      "Intruder Alarm Systems",
+      "Fire Detection Systems",
+      "Intercom & Door Entry",
+      "Remote Monitoring",
+    ],
+  },
+  {
+    id: "guarding",
+    name: "Guarding Services",
+    icon: "/vigilant_icons/Vector-14.svg",
+    tags: [
+      "Manned Guarding",
+      "Mobile Patrols",
+      "Reception Security",
+      "Door Supervision",
+      "Key Holding & Response",
+      "Alarm Response",
+    ],
+  },
+  {
+    id: "support",
+    name: "Support Services",
+    icon: "/vigilant_icons/Vector-6.svg",
+    tags: [
+      "Cleaning Services",
+      "Facilities Management",
+      "Concierge Services",
+      "Maintenance Support",
+      "Landscaping Services",
+      "Waste Management",
+    ],
+  },
 ];
 ---
 
@@ -55,34 +88,23 @@ const tags = [
         <span class="svc__label">WHAT WE OFFER</span>
         <div class="svc__list">
           {
-            services.map((s) => (
-              <a
-                href="/services"
-                class={`svc__row${s.active ? " svc__row--active" : ""}`}
+            services.map((s, i) => (
+              <button
+                class={`svc__row${i === 0 ? " svc__row--active" : ""}`}
+                data-svc-id={s.id}
+                aria-pressed={i === 0 ? "true" : "false"}
+                type="button"
               >
                 <div class="svc__row-inner">
                   <div class="svc__icon-wrap">
-                    <svg
+                    <img
+                      src={s.icon}
+                      alt=""
+                      class="svc__icon-img"
+                      aria-hidden="true"
                       width="24"
                       height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                      />
-                      <path
-                        d="M12 8v4m0 4h.01"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                      />
-                    </svg>
+                    />
                   </div>
                   <span class="svc__row-name">{s.name}</span>
                   <svg
@@ -103,24 +125,36 @@ const tags = [
                   </svg>
                 </div>
                 <div class="svc__row-divider" />
-              </a>
+              </button>
             ))
           }
         </div>
       </div>
 
-      <!-- Right: tag cards grid + CTA -->
+      <!-- Right: tag panels (one per service, only active shown) + CTA -->
       <div class="svc__right">
-        <div class="svc__tags-wrap">
-          <!-- Row 1: first 3 tags -->
-          <div class="svc__tags-row">
-            {tags.slice(0, 3).map((t) => <div class="svc__tag">{t}</div>)}
-          </div>
-          <!-- Row 2: last 3 tags -->
-          <div class="svc__tags-row">
-            {tags.slice(3).map((t) => <div class="svc__tag">{t}</div>)}
-          </div>
-        </div>
+        {
+          services.map((s, i) => (
+            <div
+              class={`svc__panel${i === 0 ? " svc__panel--active" : ""}`}
+              data-svc-panel={s.id}
+              aria-hidden={i !== 0 ? "true" : "false"}
+            >
+              <div class="svc__tags-wrap">
+                <div class="svc__tags-row">
+                  {s.tags.slice(0, 3).map((t) => (
+                    <div class="svc__tag">{t}</div>
+                  ))}
+                </div>
+                <div class="svc__tags-row">
+                  {s.tags.slice(3).map((t) => (
+                    <div class="svc__tag">{t}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))
+        }
         <a href="/services" class="svc__cta">View All Services</a>
       </div>
     </div>
@@ -209,18 +243,24 @@ const tags = [
     flex-direction: column;
   }
 
-  /* Figma layout_Q9HEE1: column, gap 40px, padding 40px 0 0 24px */
+  /* Button reset — .svc__row is now a <button> */
   .svc__row {
     display: flex;
     flex-direction: column;
     gap: 0;
     padding: 40px 0 0 24px;
     text-decoration: none;
+    background: none;
+    border: none;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
     transition: opacity 180ms ease;
   }
 
   .svc__row:hover {
-    opacity: 0.8;
+    opacity: 0.85;
   }
 
   /* Active: 4px red left border, adjust padding */
@@ -238,22 +278,39 @@ const tags = [
     width: 100%;
   }
 
-  /* Icon pill 40×40, navy 15% bg */
+  /* Icon pill 40×40
+     Default (inactive): subtle grey background
+     Active: navy rgba(51,88,125,0.15) per Figma */
   .svc__icon-wrap {
     width: 40px;
     height: 40px;
     border-radius: 9999px;
-    background: rgba(51, 88, 125, 0.15);
+    background: rgba(51, 88, 125, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: #33587d;
+    transition: background 200ms ease;
   }
 
+  /* Icon image inside the pill */
+  .svc__icon-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    display: block;
+    /* Default: dark icon, slightly muted */
+    filter: opacity(0.5);
+    transition: filter 200ms ease;
+  }
+
+  /* Active state: navy pill + vibrant navy-tinted icon */
   .svc__row--active .svc__icon-wrap {
     background: rgba(51, 88, 125, 0.15);
-    color: #33587d;
+  }
+  .svc__row--active .svc__icon-img {
+    /* Shift icon to navy/blue tint — matches Figma active icon color #33587D */
+    filter: brightness(0) saturate(100%) invert(33%) sepia(29%) saturate(700%) hue-rotate(175deg) brightness(90%) contrast(90%);
   }
 
   /* Service name: Inter Bold 700 16px */
@@ -293,6 +350,21 @@ const tags = [
     gap: 56px;
     width: 753px;
     flex-shrink: 0;
+    /* Stack panels using CSS grid overlay — active panel shows, inactive hidden */
+    position: relative;
+  }
+
+  /* Each panel: hidden by default, shown when active */
+  .svc__panel {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    opacity: 0;
+    transition: opacity 280ms ease;
+  }
+  .svc__panel--active {
+    display: flex;
+    opacity: 1;
   }
 
   /* Tags container: column, gap 24px */
@@ -319,7 +391,11 @@ const tags = [
     border-radius: 12px;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
     background:
-      linear-gradient(180deg, rgba(102, 102, 102, 0) 70%, rgba(51, 88, 125, 1) 78%),
+      linear-gradient(
+        180deg,
+        rgba(102, 102, 102, 0) 70%,
+        rgba(51, 88, 125, 1) 78%
+      ),
       url("/services/service-card-bg.png") center / cover no-repeat;
     display: flex;
     align-items: flex-end;
@@ -416,3 +492,36 @@ const tags = [
     }
   }
 </style>
+
+<script>
+  // Service tab switching — runs after DOM is ready (Astro scripts are deferred modules)
+  const rows = document.querySelectorAll('[data-svc-id]');
+  const panels = document.querySelectorAll('[data-svc-panel]');
+
+  rows.forEach((row) => {
+    row.addEventListener('click', () => {
+      const targetId = row.getAttribute('data-svc-id');
+
+      // Deactivate all rows
+      rows.forEach((r) => {
+        r.classList.remove('svc__row--active');
+        r.setAttribute('aria-pressed', 'false');
+      });
+
+      // Activate clicked row
+      row.classList.add('svc__row--active');
+      row.setAttribute('aria-pressed', 'true');
+
+      // Swap panels
+      panels.forEach((panel) => {
+        if (panel.getAttribute('data-svc-panel') === targetId) {
+          panel.classList.add('svc__panel--active');
+          panel.setAttribute('aria-hidden', 'false');
+        } else {
+          panel.classList.remove('svc__panel--active');
+          panel.setAttribute('aria-hidden', 'true');
+        }
+      });
+    });
+  });
+</script>

@@ -1,15 +1,20 @@
 ---
+
 ---
 
 <section class="hero" id="hero">
-  <!-- Full-bleed GIF background -->
+  <!-- Full-bleed video background -->
   <div class="hero__bg">
-    <img
-      src="/hero/hero-bg.gif"
-      alt=""
-      aria-hidden="true"
+    <video
       class="hero__bg-gif"
-    />
+      autoplay
+      loop
+      muted
+      playsinline
+      aria-hidden="true"
+    >
+      <source src="/videos/output.webm" type="video/webm" />
+    </video>
     <!-- Dark gradient overlay (bottom-heavy, matching Figma) -->
     <div class="hero__overlay"></div>
   </div>
@@ -39,8 +44,7 @@
             stroke="white"
             stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke-linejoin="round"></path>
         </svg>
         Quick Quote
       </a>
@@ -59,8 +63,7 @@
             stroke="white"
             stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke-linejoin="round"></path>
         </svg>
         Request Call Back
       </a>
@@ -95,11 +98,16 @@
     display: block;
   }
 
-  /* ── Gradient overlay — transparent → black (bottom) ────── */
+  /* ── Gradient overlay — transparent → semi-dark (bottom) ── */
   .hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.55) 60%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
   }
 
   /* ── Content layer ──────────────────────────────────────── */
