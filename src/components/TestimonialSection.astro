@@ -1,0 +1,85 @@
+---
+import LogoCarousel from "@/components/LogoCarousel.astro";
+
+const clients = [
+  { src: "/clients/client-1.webp", alt: "client logo 1" },
+  { src: "/clients/client-2.webp", alt: "client logo 2" },
+  { src: "/clients/client-3.webp", alt: "client logo 3" },
+  { src: "/clients/client-4.webp", alt: "client logo 4" },
+  { src: "/clients/client-5.webp", alt: "client logo 5" },
+  { src: "/clients/client-6.webp", alt: "client logo 6" },
+];
+---
+
+<div class="figma-container">
+  <div class="flex-col">
+    <div class="flex-col" style="gap: 8px" data-reveal="up">
+      <h1 class="heading-2">Our Valued Client Partnerships</h1>
+      <p class="title" style="color: var(--secondary-text);">
+        Vigilant Security Services is proud to partner with leading
+        organisations across diverse sectors, delivering bespoke security
+        solutions that safeguard their operations and assets.
+      </p>
+      <LogoCarousel images={clients} imageHeight={64} grayscale={false} />
+    </div>
+    <div class="flex-row" style="gap: 32px">
+      <div class="card" data-reveal="up" data-reveal-delay="0">
+        <h2 class="body-large">
+          "Vigilant's concierge team seamlessly integrated into our corporate
+          environment. Their professionalism and attentiveness have
+          significantly enhanced our front-of-house experience, providing a
+          welcoming yet secure atmosphere for all our visitors."
+        </h2>
+        <div class="flex-col-start">
+          <span class="title">Sarah Jenkins</span>
+          <span class="pill-text" style="color: #00D4AA"
+            >Corporate Facilities Manager</span
+          >
+        </div>
+      </div>
+      <div class="card" data-reveal="up" data-reveal-delay="120">
+        <h2 class="body-large">
+          "Knowing Vigilant is on call for keyholding gives us immense peace of
+          mind. Their response times are exceptional, and their officers handle
+          every incident with calm efficiency, ensuring our property is secure,
+          day or night."
+        </h2>
+        <div class="flex-col-start">
+          <span class="title">Mark Davies</span>
+          <span class="pill-text" style="color: #00D4AA"
+            >Retail Operations Director</span
+          >
+        </div>
+      </div>
+      <div class="card" data-reveal="up" data-reveal-delay="240">
+        <h2 class="body-large">
+          "We relied on Vigilant for a complete overhaul of our CCTV and access
+          control systems. Their technical team designed and installed a
+          cutting-edge solution tailored to our needs, and their ongoing
+          maintenance keeps everything running flawlessly."
+        </h2>
+        <div class="flex-col-start">
+          <span class="title">Emily Thorne</span>
+          <span class="pill-text" style="color: #00D4AA"
+            >Head of Campus Security</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-items: center;
+    gap: 32px;
+    max-width: 362px;
+    height: auto;
+    border-radius: 24px;
+    padding: 24px;
+    background-color: #ffffff;
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+import Counter from "./Counter.astro";
+---
+
+<div class="figma-container">
+  <div class="flex-row" style="gap: 52px">
+    <div class="img-container" data-reveal="left">
+      <img
+        class="trust-img"
+        src="/security-equipment.png"
+        alt="security cameras image"
+      />
+    </div>
+    <div
+      class="flex-col-start"
+      style="gap: 40px; max-width: 550px;"
+      data-reveal="right"
+    >
+      <div class="flex-col-start" style="gap: 16px">
+        <span
+          class="pill-text"
+          style="padding: 8px; color: var(--color-primary)"
+        >
+          Trusted Security Experts
+        </span>
+        <h1 class="heading-2" style="color: var(--primary-text);">
+          Focused on Protecting What Matters Most
+        </h1>
+        <p
+          class="body-large"
+          style="text-align: left; color: var(--primary-text);"
+        >
+          Founded in 2006, Vigilant delivers retail, corporate, concierge,
+          event, loss prevention, security systems, and vetting & screening
+          services across the UK and Ireland.
+        </p>
+      </div>
+      <div class="flex-col-start" style="gap: 40px">
+        <div class="counters-row">
+          <Counter to={20} suffix="+" label="Years Experience" />
+          <div class="counter-divider"></div>
+          <Counter to={500} suffix="+" label="Clients Protected" />
+          <div class="counter-divider"></div>
+          <Counter to={98} suffix="%" label="Client Retention" />
+        </div>
+        <button class="primary-btn">Read More</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .trust-img {
+    width: 518px;
+    height: 524px;
+    border-radius: 8px;
+  }
+
+  /* ── Counters row ─────────────────────────────────────── */
+  .counters-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding: 8px 0;
+  }
+
+  /* Thin vertical rule between counters */
+  .counter-divider {
+    width: 1px;
+    height: 48px;
+    background: var(--color-border, rgba(0, 0, 0, 0.12));
+    flex-shrink: 0;
+  }
+</style>

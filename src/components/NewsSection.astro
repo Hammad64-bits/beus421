@@ -1,0 +1,199 @@
+---
+const news = [
+  {
+    img: "/petrol.webp",
+    heading:
+      "Enhancing Night-Time Security: Proactive Patrols & Rapid Response",
+    description:
+      "Discover how our vigilant security officers ensure safety and deter threats during crucial night-time hours, providing unparalleled protection for your premises.",
+    link: "/#",
+  },
+  {
+    img: "/control-room.webp",
+    heading: "The Future of Surveillance: AI-Powered CCTV & Remote Monitoring",
+    description:
+      "Explore the advancements in AI-driven CCTV systems and remote monitoring solutions that provide smarter, more efficient, and highly responsive security coverage.",
+    link: "/#",
+  },
+  {
+    img: "/nurse.webp",
+    heading: "The Human Touch: The Vital Role of Our Support Workers",
+    description:
+      "Learn about the profound impact our dedicated support workers have, empowering individuals to achieve their goals and foster stronger community connections.",
+    link: "/#",
+  },
+];
+---
+
+<div class="news-section">
+  <div class="news-inner">
+
+    <!-- Header -->
+    <div class="news-header" data-reveal="up">
+      <h2 class="news-title">Latest Insights &amp; News</h2>
+      <p class="news-subtitle">
+        Stay informed with our latest articles, company updates, and expert
+        insights on security best practices, industry trends, and community
+        engagement.
+      </p>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="news-grid">
+      {news.map((item, i) => (
+        <article
+          class="news-card"
+          data-reveal="up"
+          data-reveal-delay={String(i * 120)}
+        >
+          <div class="news-img-wrap">
+            <img src={item.img} alt={item.heading} class="news-img" />
+          </div>
+          <div class="news-body">
+            <h3 class="news-heading">{item.heading}</h3>
+            <p class="news-desc">{item.description}</p>
+            <a href={item.link} class="news-read-more">Read More</a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ── Section shell ─────────────────────────────────── */
+  .news-section {
+    background-color: #0d0d12;
+    width: 100%;
+    padding: 80px 64px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .news-inner {
+    width: 100%;
+    max-width: 1152px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  /* ── Header ────────────────────────────────────────── */
+  .news-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .news-title {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .news-subtitle {
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #8a94b0;
+    max-width: 560px;
+  }
+
+  /* ── Cards grid ────────────────────────────────────── */
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  /* ── Single card ───────────────────────────────────── */
+  .news-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Thumbnail */
+  .news-img-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .news-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 400ms ease;
+  }
+
+  .news-card:hover .news-img {
+    transform: scale(1.04);
+  }
+
+  /* Body */
+  .news-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .news-heading {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.35;
+    color: #ffffff;
+  }
+
+  .news-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.65;
+    color: #8a94b0;
+    text-align: left;
+  }
+
+  .news-read-more {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: opacity 180ms ease;
+    width: fit-content;
+  }
+
+  .news-read-more:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+  }
+
+  /* ── Responsive ────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .news-section {
+      padding: 60px 32px;
+    }
+    .news-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .news-section {
+      padding: 48px 20px;
+    }
+    .news-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

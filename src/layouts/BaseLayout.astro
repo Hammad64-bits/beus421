@@ -1,0 +1,96 @@
+---
+import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = "/og-default.png",
+  canonicalUrl = Astro.url.href,
+} = Astro.props;
+
+const siteName = "Vigilant Security Services";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO -->
+    <title>{title} | {siteName}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={`${title} | ${siteName}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={siteName} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | ${siteName}`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Performance: preconnect to external origins as needed -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" /> -->
+  </head>
+  <body>
+    <!-- Sticky navbar sits outside the page scroll flow -->
+    <header class="site-header">
+      <Navbar />
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- ── Scroll reveal observer (drives all data-reveal elements) ── -->
+    <script>
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target as HTMLElement;
+            const delay = parseInt(el.dataset.revealDelay ?? '0', 10);
+            setTimeout(() => el.classList.add('is-visible'), delay);
+            io.unobserve(el);
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      document
+        .querySelectorAll('[data-reveal]')
+        .forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>
+
+<style>
+  /* Sticky header wrapper — Navbar component keeps its own internal styles */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+  }
+</style>

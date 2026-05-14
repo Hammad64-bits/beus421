@@ -1,0 +1,172 @@
+---
+const steps = [
+  {
+    number: "01",
+    title: "Initial Consultation",
+    description:
+      "We begin with a thorough assessment of your site, understanding your unique security challenges and requirements.",
+  },
+  {
+    number: "02",
+    title: "Tailored Security Plan",
+    description:
+      "Our experts design a bespoke security strategy aligned with your operational needs, budget, and risk profile.",
+  },
+  {
+    number: "03",
+    title: "Vetted Officer Deployment",
+    description:
+      "SIA-licensed, fully screened officers are assigned and briefed — ready to protect your premises from day one.",
+  },
+  {
+    number: "04",
+    title: "Ongoing Review & Support",
+    description:
+      "We conduct regular performance reviews, adapt to changing threats, and provide 24-hour control room backup.",
+  },
+];
+---
+
+<div class="figma-container">
+  <div class="tl-grid">
+
+    <!-- Left: copy column -->
+    <div class="flex-col-start" style="gap: 40px; max-width: 480px;" data-reveal="left">
+      <div class="flex-col-start" style="gap: 16px;">
+        <span class="pill-text" style="padding: 8px; color: var(--color-primary);">
+          How It Works
+        </span>
+        <h2 class="heading-2" style="color: var(--primary-text);">
+          Your Security Solution in Four Simple Steps
+        </h2>
+        <p class="body-large" style="text-align: left; color: var(--primary-text);">
+          From the first conversation to boots on the ground, our proven
+          process ensures you get the right protection — quickly, efficiently,
+          and without compromise.
+        </p>
+      </div>
+      <button class="primary-btn">Get Started</button>
+    </div>
+
+    <!-- Right: timeline column -->
+    <div class="tl-steps">
+      {steps.map((step, i) => (
+        <div class="tl-step" data-reveal="up" data-reveal-delay={i * 120}>
+          <!-- Connector track (hidden on last item) -->
+          <div class="tl-track-col">
+            <div class="tl-circle">
+              <span class="tl-number">{step.number}</span>
+            </div>
+            {i < steps.length - 1 && <div class="tl-line" />}
+          </div>
+
+          <!-- Step content -->
+          <div class="tl-content">
+            <span class="title" style="color: var(--primary-text);">{step.title}</span>
+            <p class="body-large" style="text-align: left; color: var(--primary-text);">{step.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ── Two-column grid ─────────────────────────────────────── */
+  .tl-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;       /* vertically centre both cols */
+    justify-content: center;   /* horizontally centre the pair */
+    gap: 40px;                 /* Figma: 40px between cols */
+    width: 100%;
+  }
+
+  /* Left column: copy — don't shrink below its natural size */
+  .tl-grid > .flex-col-start {
+    flex-shrink: 0;
+  }
+
+  /* ── Steps column ────────────────────────────────────────── */
+  .tl-steps {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: 550px;
+  }
+
+  /* Each step row: circle|line track on the left, text on the right */
+  .tl-step {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  /* ── Track column (circle + connector line) ──────────────── */
+  .tl-track-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    /* keeps the circle and line perfectly centred on the left axis */
+  }
+
+  .tl-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .tl-number {
+    font-family: "Syne", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+
+  /* Connector line between circles */
+  .tl-line {
+    width: 2px;
+    flex: 1;
+    min-height: 32px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-primary) 0%,
+      rgba(37, 99, 235, 0.15) 100%
+    );
+    margin: 6px 0;
+  }
+
+  /* ── Step text block ─────────────────────────────────────── */
+  .tl-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 32px;
+    padding-top: 8px;         /* vertically align first line with circle centre */
+  }
+
+  /* No bottom padding on the last item */
+  .tl-step:last-child .tl-content {
+    padding-bottom: 0;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .tl-grid {
+      flex-direction: column;
+    }
+
+    .tl-grid > .flex-col-start {
+      max-width: 100% !important;
+    }
+  }
+</style>

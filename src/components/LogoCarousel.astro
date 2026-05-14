@@ -1,0 +1,186 @@
+---
+/**
+ * LogoCarousel — infinite auto-scrolling logo ticker.
+ *
+ * Props:
+ *   images       — array of { src: string; alt: string }
+ *   title        — optional heading above the strip (e.g. "Trusted by")
+ *   speed        — scroll duration in seconds (default 30)
+ *   imageHeight  — optional image height in px; width scales automatically (default 48)
+ *
+ * The set is duplicated so the ticker loops seamlessly with pure CSS.
+ */
+
+interface LogoImage {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: LogoImage[];
+  title?: string;
+  speed?: number;
+  imageHeight?: number;
+  grayscale?: boolean;
+}
+
+const {
+  images,
+  title,
+  speed = 30,
+  imageHeight = 48,
+  grayscale = true,
+} = Astro.props;
+---
+
+<section class="lc-section">
+  {title && <p class="lc-title">{title}</p>}
+
+  <!-- Outer mask: hides overflow and creates fade-out edges -->
+  <div class="lc-mask">
+    <!-- Track: contains TWO copies of the logo set for seamless looping -->
+    <div
+      class="lc-track"
+      style={`--lc-speed: ${speed}s; --lc-img-h: ${imageHeight}px; --lc-grayscale: ${grayscale ? 1 : 0}; --lc-opacity: ${grayscale ? 0.65 : 1};`}
+      aria-hidden="true"
+    >
+      <!-- Set A -->
+      <div class="lc-set">
+        {images.map((img) => (
+          <div class="lc-logo">
+            <img src={img.src} alt={img.alt} loading="lazy" draggable="false" />
+          </div>
+        ))}
+      </div>
+      <!-- Set B (duplicate — enters view as Set A leaves) -->
+      <div class="lc-set" aria-hidden="true">
+        {images.map((img) => (
+          <div class="lc-logo">
+            <img src={img.src} alt={img.alt} loading="lazy" draggable="false" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section wrapper (Figma container) ───────────────────── */
+  .lc-section {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding: 80px 64px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;         /* clip the scrolling track */
+  }
+
+  /* Optional eyebrow label */
+  .lc-title {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+  }
+
+  /* ── Mask: edge fade + overflow clip ─────────────────────── */
+  .lc-mask {
+    width: 100%;
+    overflow: hidden;
+    /* Soft fade on the left and right edges */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  /* ── Scrolling track (holds 2× the logo set) ─────────────── */
+  .lc-track {
+    display: flex;
+    width: max-content;
+    animation: lc-scroll var(--lc-speed, 30s) linear infinite;
+  }
+
+  /* Pause on hover — gives users time to read logos */
+  .lc-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Each half of the track */
+  .lc-set {
+    display: flex;
+    align-items: center;
+    gap: 64px;               /* Figma: 64px between logos */
+    padding-right: 64px;     /* gap before the duplicate set starts */
+  }
+
+  /* ── Individual logo cell ────────────────────────────────── */
+  .lc-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: var(--lc-img-h, 48px);
+    opacity: var(--lc-opacity, 0.65);
+    filter: grayscale(var(--lc-grayscale, 1));
+    transition: opacity 200ms ease, filter 200ms ease;
+  }
+
+  .lc-logo:hover {
+    opacity: 1;
+    filter: grayscale(0);
+  }
+
+  .lc-logo img {
+    height: var(--lc-img-h, 48px);
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ── Scroll keyframe ─────────────────────────────────────── */
+  /* Moves left by exactly 50% (= one full set width) so Set B
+     is indistinguishable from Set A when the loop resets. */
+  @keyframes lc-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .lc-section {
+      padding: 48px 24px;
+    }
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .lc-track {
+      animation: none;
+    }
+    .lc-set {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>

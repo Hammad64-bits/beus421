@@ -1,0 +1,33 @@
+---
+import LogoCarousel from "../components/LogoCarousel.astro";
+
+interface LogoImage {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: LogoImage[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="figma-container" style="padding-bottom: 0px;">
+  <div class="flex-col">
+    <div class="flex-col" style="gap: 8px" data-reveal="up">
+      <h1 class="heading-2">Trusted, Accredited & Ready to Help</h1>
+      <p
+        class="title"
+        style="color: var(--secondary-text); text-align: center;"
+      >
+        Vigilant Security Services is proud to hold industry-leading
+        accreditations, giving you complete confidence in our standards and
+        professionalism.
+      </p>
+    </div>
+    <div>
+      <LogoCarousel images={images} imageHeight={164} grayscale={false} />
+    </div>
+  </div>
+</div>

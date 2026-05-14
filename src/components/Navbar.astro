@@ -1,0 +1,932 @@
+<style>
+  /* ── Nav Menu ─────────────────────────────────────────────── */
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+  }
+
+  /* Each top-level nav item wrapper */
+  .nav-item {
+    position: relative;
+    height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Links and trigger buttons share the same text style */
+  .nav-link,
+  .nav-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 9px 4px;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--color-secondary);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: opacity 150ms ease;
+  }
+
+  .nav-link:hover,
+  .nav-dropdown-trigger:hover {
+    opacity: 0.8;
+  }
+
+  .nav-chevron {
+    flex-shrink: 0;
+    transition: transform 200ms ease;
+  }
+
+  .nav-dropdown:hover .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ── Dropdown Submenu ─────────────────────────────────────── */
+  .nav-submenu {
+    display: none;
+    position: absolute;
+    top: 44px;
+    left: 0;
+    width: 224px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 8px;
+  }
+
+  /* Invisible bridge that fills the 8px gap so hover doesn't break */
+  .nav-submenu::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
+
+  /* show submenu on parent hover */
+  .nav-dropdown:hover > .nav-submenu {
+    display: flex;
+  }
+
+  /* ── Submenu Items ────────────────────────────────────────── */
+  .nav-submenu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    width: 100%;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a2141;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+    background: #ffffff;
+  }
+
+  .nav-submenu-item:hover {
+    background-color: #f0f4fa;
+  }
+
+  /* ── Nested Flyout ────────────────────────────────────────── */
+  .nav-nested-trigger {
+    position: relative;
+  }
+
+  .nav-flyout {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 8px);
+    width: auto;
+  }
+
+  .nav-nested-trigger:hover > .nav-flyout {
+    display: flex;
+  }
+
+  /* bridge gap so the flyout stays open while moving cursor */
+  .nav-flyout::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -8px;
+    width: 8px;
+    height: 100%;
+  }
+
+  /* ── Responsive Visibility Helpers ───────────────────────── */
+  .mobile-controls {
+    display: none;
+  }
+  .desktop-cta {
+    display: block;
+  }
+
+  /* ── Mobile Sidebar ──────────────────────────────────────── */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 199;
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  .sidebar-overlay.is-visible {
+    display: block;
+    opacity: 1;
+  }
+
+  .mobile-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 85vw);
+    height: 100dvh;
+    background: var(--color-primary);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .mobile-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  /* Sidebar header */
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .sidebar-logo {
+    height: 44px;
+    width: auto;
+  }
+  .sidebar-close-btn {
+    color: #ffffff;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background 150ms ease;
+  }
+  .sidebar-close-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  /* Sidebar nav links */
+  .sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    overflow-y: auto;
+  }
+  .sidebar-link {
+    display: block;
+    padding: 13px 24px;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #ffffff;
+    transition: background 150ms ease;
+  }
+  .sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Sidebar accordion */
+  .sidebar-accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 24px;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 150ms ease;
+  }
+  .sidebar-accordion-trigger:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .sidebar-chevron {
+    flex-shrink: 0;
+    transition: transform 250ms ease;
+  }
+  .sidebar-accordion.is-open > .sidebar-accordion-trigger .sidebar-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Accordion body: collapsed by default */
+  .sidebar-accordion-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 300ms ease;
+    overflow: hidden;
+  }
+  .sidebar-accordion.is-open > .sidebar-accordion-body {
+    grid-template-rows: 1fr;
+  }
+  /* Inner wrapper needed for grid-template-rows animation trick */
+  .sidebar-accordion-body > * {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .sidebar-sub-link {
+    display: block;
+    padding: 10px 24px 10px 40px;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    transition:
+      background 150ms ease,
+      color 150ms ease;
+  }
+  .sidebar-sub-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  /* Nested accordion indentation */
+  .sidebar-nested-accordion .sidebar-accordion-trigger {
+    padding-left: 40px;
+    font-size: 14px;
+  }
+  .sidebar-deep-link {
+    padding-left: 56px;
+  }
+
+  /* Sidebar footer CTA */
+  .sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .sidebar-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ── Breakpoint: tablet / mobile (≤ 1024px) ─────────────── */
+  @media (max-width: 1024px) {
+    /* Hide banner entirely */
+    .nav-banner {
+      display: none;
+    }
+
+    /* Hide desktop nav + CTA */
+    .nav-menu {
+      display: none;
+    }
+    .desktop-cta {
+      display: none;
+    }
+
+    /* Show mobile controls */
+    .mobile-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Tighten nav-bar padding on tablet/mobile */
+    .nav-bar {
+      padding: 12px 24px;
+    }
+  }
+
+  /* ── Hamburger Button ────────────────────────────────────── */
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 150ms ease;
+  }
+  .hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition:
+      transform 300ms ease,
+      opacity 300ms ease;
+  }
+
+  .nav-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 64px;
+    position: relative; /* needed for ::before pseudo-element */
+    /* Figma gradient */
+    background: linear-gradient(
+      90.01deg,
+      #2563eb 0.01%,
+      #f97316 47.76%,
+      #1a2040 88.66%
+    );
+    overflow: hidden;
+  }
+
+  /* Frosted-glass layer sits on top of the gradient */
+  .nav-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.08); /* subtle white sheen */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    pointer-events: none; /* clicks pass through */
+    z-index: 0;
+  }
+
+  /* Lift all direct children above the glass layer */
+  .nav-banner > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .search-btn {
+    width: 32px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-secondary);
+    border-radius: 10px;
+  }
+
+  .rounded-bdr {
+    border-style: solid;
+    border-radius: 12px;
+    border-width: 1.5px;
+    border-color: #e2ebf5;
+    background-color: transparent;
+  }
+
+  .search-bar {
+    padding: 4px 16px;
+    color: #8a94b0;
+  }
+
+  .pill-btn {
+    padding: 4px 16px;
+    gap: 10px;
+  }
+
+  .nav-bar {
+    /* background-color: var(--color-primary); */
+    background-color: #ffffff;
+    padding: 14px 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .nav-logo {
+    width: auto;
+    height: 58px;
+  }
+
+  .nav-logo-mobile {
+    width: auto;
+    height: 44px;
+  }
+</style>
+
+<div class="nav-container">
+  <!-- ── Top Banner (hidden on mobile) ─────────────────────── -->
+  <!-- <div class="nav-banner">
+    <div class="flex-row" style="gap: 8px;">
+      <input
+        type="text"
+        placeholder="Search the site"
+        class="rounded-bdr search-bar"
+      />
+      <button class="search-btn">
+        <img src="/icons/search-icon.svg" alt="search icon" />
+      </button>
+    </div>
+    <div class="flex-row" style="gap: 16px;">
+      <button class="flex-row" style="gap: 8px;">
+        <img src="/icons/call-icon.svg" alt="phone icon" />
+        <span style="color: #ffffff;">+44 (0)800 983 3321</span>
+      </button>
+      <button class="flex-row" style="gap: 8px;">
+        <img src="/icons/call-icon.svg" alt="phone icon" />
+        <span style="color: #ffffff;">+44 (0)207 183 4247 </span>
+      </button>
+    </div>
+    <button class="flex-row rounded-bdr pill-btn pill-text">
+      <span class="pill-text"> Our Other Site </span>
+      <img src="/icons/irish-flag.svg" alt="Irish flag" />
+    </button>
+  </div> -->
+
+  <!-- ── Main Nav Bar ───────────────────────────────────────── -->
+  <div class="nav-bar">
+    <!-- Logo (always visible) -->
+    <a href="/" class="nav-logo-link">
+      <img
+        src="/Logo-3D.jpg"
+        alt="Vigilant Security Services Logo"
+        class="nav-logo"
+      />
+    </a>
+
+    <!-- Desktop nav menu -->
+    <nav class="nav-menu" aria-label="Main navigation">
+      <a href="/" class="nav-item nav-link">Home</a>
+
+      <!-- About Us -->
+      <div class="nav-item nav-dropdown">
+        <button class="nav-link nav-dropdown-trigger" aria-haspopup="true">
+          About Us
+          <svg
+            class="nav-chevron"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+          >
+            <path
+              d="M2 4L6 8L10 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="nav-submenu">
+          <a href="/about" class="nav-submenu-item">About Us</a>
+          <a href="/careers" class="nav-submenu-item">Careers</a>
+          <a href="/news" class="nav-submenu-item">News &amp; Updates</a>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="nav-item nav-dropdown">
+        <button class="nav-link nav-dropdown-trigger" aria-haspopup="true">
+          Services
+          <svg
+            class="nav-chevron"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+          >
+            <path
+              d="M2 4L6 8L10 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="nav-submenu">
+          <a href="/services/event-security" class="nav-submenu-item"
+            >Event Security Services</a
+          >
+          <a href="/services/construction-security" class="nav-submenu-item"
+            >Construction Site Security</a
+          >
+          <a href="/services/corporate-security" class="nav-submenu-item"
+            >Corporate Security</a
+          >
+          <a href="/services/public-sector" class="nav-submenu-item"
+            >Public Sector Protection</a
+          >
+          <a href="/services/care-housing" class="nav-submenu-item"
+            >Care &amp; Housing Security</a
+          >
+          <a href="/services/support-workers" class="nav-submenu-item"
+            >Support Workers</a
+          >
+          <a href="/services/security-cameras" class="nav-submenu-item"
+            >Security Cameras</a
+          >
+          <div class="nav-submenu-item nav-nested-trigger">
+            Support Services
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+              <path
+                d="M4 2L8 6L4 10"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+            <div class="nav-submenu nav-flyout">
+              <a href="/services/support/cleaning" class="nav-submenu-item"
+                >Cleaning Services</a
+              >
+              <a href="/services/support/reception" class="nav-submenu-item"
+                >Reception, Mail Room &amp; Support Services</a
+              >
+              <a href="/services/support/facilities" class="nav-submenu-item"
+                >Integrated Facilities Management</a
+              >
+              <a href="/services/support/grounds" class="nav-submenu-item"
+                >Grounds Maintenance &amp; Landscaping</a
+              >
+              <a href="/services/support/workers" class="nav-submenu-item"
+                >Support Workers</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Electronic Security System -->
+      <div class="nav-item nav-dropdown">
+        <button class="nav-link nav-dropdown-trigger" aria-haspopup="true">
+          Electronic Security System
+          <svg
+            class="nav-chevron"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+          >
+            <path
+              d="M2 4L6 8L10 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="nav-submenu">
+          <a href="/electronic/cctv" class="nav-submenu-item">CCTV Systems</a>
+          <a href="/electronic/access-control" class="nav-submenu-item"
+            >Access Control</a
+          >
+          <a href="/electronic/alarm" class="nav-submenu-item"
+            >Intruder Alarm Systems</a
+          >
+          <a href="/electronic/fire" class="nav-submenu-item">Fire Detection</a>
+        </div>
+      </div>
+
+      <!-- Our People -->
+      <div class="nav-item nav-dropdown">
+        <button class="nav-link nav-dropdown-trigger" aria-haspopup="true">
+          Our People
+          <svg
+            class="nav-chevron"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+          >
+            <path
+              d="M2 4L6 8L10 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="nav-submenu">
+          <a href="/people/team" class="nav-submenu-item">Our Team</a>
+          <a href="/people/leadership" class="nav-submenu-item">Leadership</a>
+        </div>
+      </div>
+
+      <a href="/contact" class="nav-item nav-link">Contact US</a>
+    </nav>
+
+    <!-- Desktop CTA -->
+    <button class="primary-btn desktop-cta">Join Our Team</button>
+
+    <!-- Mobile right-side controls -->
+    <div class="mobile-controls">
+      <!-- <button class="primary-btn mobile-cta">Join Our Team</button> -->
+      <button
+        id="hamburger-btn"
+        class="hamburger-btn"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+      >
+        <!-- Hamburger icon -->
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Mobile Sidebar Overlay ─────────────────────────────── -->
+<div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+<!-- ── Mobile Sidebar ─────────────────────────────────────── -->
+<aside
+  id="mobile-sidebar"
+  class="mobile-sidebar"
+  aria-label="Mobile navigation"
+>
+  <div class="sidebar-header">
+    <img
+      src="/Logo-3D.jpg"
+      alt="Vigilant Security Services Logo"
+      class="sidebar-logo"
+    />
+    <button
+      id="sidebar-close"
+      class="sidebar-close-btn"
+      aria-label="Close navigation menu"
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path
+          d="M4 4L16 16M16 4L4 16"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="/" class="sidebar-link">Home</a>
+
+    <!-- About Us accordion -->
+    <div class="sidebar-accordion">
+      <button class="sidebar-accordion-trigger">
+        About Us
+        <svg
+          class="sidebar-chevron"
+          width="14"
+          height="14"
+          viewBox="0 0 12 12"
+          fill="none"
+        >
+          <path
+            d="M2 4L6 8L10 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+      <div class="sidebar-accordion-body">
+        <div>
+          <a href="/about" class="sidebar-sub-link">About Us</a>
+          <a href="/careers" class="sidebar-sub-link">Careers</a>
+          <a href="/news" class="sidebar-sub-link">News &amp; Updates</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services accordion -->
+    <div class="sidebar-accordion">
+      <button class="sidebar-accordion-trigger">
+        Services
+        <svg
+          class="sidebar-chevron"
+          width="14"
+          height="14"
+          viewBox="0 0 12 12"
+          fill="none"
+        >
+          <path
+            d="M2 4L6 8L10 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+      <div class="sidebar-accordion-body">
+        <div>
+          <a href="/services/event-security" class="sidebar-sub-link"
+            >Event Security Services</a
+          >
+          <a href="/services/construction-security" class="sidebar-sub-link"
+            >Construction Site Security</a
+          >
+          <a href="/services/corporate-security" class="sidebar-sub-link"
+            >Corporate Security</a
+          >
+          <a href="/services/public-sector" class="sidebar-sub-link"
+            >Public Sector Protection</a
+          >
+          <a href="/services/care-housing" class="sidebar-sub-link"
+            >Care &amp; Housing Security</a
+          >
+          <a href="/services/support-workers" class="sidebar-sub-link"
+            >Support Workers</a
+          >
+          <a href="/services/security-cameras" class="sidebar-sub-link"
+            >Security Cameras</a
+          >
+          <!-- Support Services nested accordion -->
+          <div class="sidebar-accordion sidebar-nested-accordion">
+            <button class="sidebar-accordion-trigger sidebar-nested-trigger">
+              Support Services
+              <svg
+                class="sidebar-chevron"
+                width="14"
+                height="14"
+                viewBox="0 0 12 12"
+                fill="none"
+              >
+                <path
+                  d="M2 4L6 8L10 4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="sidebar-accordion-body">
+              <div>
+                <a
+                  href="/services/support/cleaning"
+                  class="sidebar-sub-link sidebar-deep-link"
+                  >Cleaning Services</a
+                >
+                <a
+                  href="/services/support/reception"
+                  class="sidebar-sub-link sidebar-deep-link"
+                  >Reception, Mail Room &amp; Support Services</a
+                >
+                <a
+                  href="/services/support/facilities"
+                  class="sidebar-sub-link sidebar-deep-link"
+                  >Integrated Facilities Management</a
+                >
+                <a
+                  href="/services/support/grounds"
+                  class="sidebar-sub-link sidebar-deep-link"
+                  >Grounds Maintenance &amp; Landscaping</a
+                >
+                <a
+                  href="/services/support/workers"
+                  class="sidebar-sub-link sidebar-deep-link">Support Workers</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Electronic Security System accordion -->
+    <div class="sidebar-accordion">
+      <button class="sidebar-accordion-trigger">
+        Electronic Security System
+        <svg
+          class="sidebar-chevron"
+          width="14"
+          height="14"
+          viewBox="0 0 12 12"
+          fill="none"
+        >
+          <path
+            d="M2 4L6 8L10 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+      <div class="sidebar-accordion-body">
+        <div>
+          <a href="/electronic/cctv" class="sidebar-sub-link">CCTV Systems</a>
+          <a href="/electronic/access-control" class="sidebar-sub-link"
+            >Access Control</a
+          >
+          <a href="/electronic/alarm" class="sidebar-sub-link"
+            >Intruder Alarm Systems</a
+          >
+          <a href="/electronic/fire" class="sidebar-sub-link">Fire Detection</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Our People accordion -->
+    <div class="sidebar-accordion">
+      <button class="sidebar-accordion-trigger">
+        Our People
+        <svg
+          class="sidebar-chevron"
+          width="14"
+          height="14"
+          viewBox="0 0 12 12"
+          fill="none"
+        >
+          <path
+            d="M2 4L6 8L10 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+      <div class="sidebar-accordion-body">
+        <div>
+          <a href="/people/team" class="sidebar-sub-link">Our Team</a>
+          <a href="/people/leadership" class="sidebar-sub-link">Leadership</a>
+        </div>
+      </div>
+    </div>
+
+    <a href="/contact" class="sidebar-link">Contact US</a>
+  </nav>
+
+  <!-- CTA at bottom of sidebar -->
+  <div class="sidebar-footer">
+    <button class="primary-btn sidebar-cta">Join Our Team</button>
+  </div>
+</aside>
+
+<script>
+  const hamburger = document.getElementById(
+    "hamburger-btn",
+  ) as HTMLButtonElement;
+  const sidebar = document.getElementById("mobile-sidebar") as HTMLElement;
+  const overlay = document.getElementById("sidebar-overlay") as HTMLElement;
+  const closeBtn = document.getElementById(
+    "sidebar-close",
+  ) as HTMLButtonElement;
+
+  function openSidebar() {
+    sidebar.classList.add("is-open");
+    overlay.classList.add("is-visible");
+    hamburger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("is-open");
+    overlay.classList.remove("is-visible");
+    hamburger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  hamburger.addEventListener("click", openSidebar);
+  closeBtn.addEventListener("click", closeSidebar);
+  overlay.addEventListener("click", closeSidebar);
+
+  // Accordion toggle
+  document
+    .querySelectorAll<HTMLButtonElement>(".sidebar-accordion-trigger")
+    .forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const accordion = trigger.closest(".sidebar-accordion") as HTMLElement;
+        const isOpen = accordion.classList.contains("is-open");
+        // Close siblings at the same level (not nested ones)
+        if (!accordion.classList.contains("sidebar-nested-accordion")) {
+          accordion
+            .closest(".sidebar-nav, .sidebar-accordion-body")
+            ?.querySelectorAll(
+              ":scope > .sidebar-accordion:not(.sidebar-nested-accordion)",
+            )
+            .forEach((el) => el.classList.remove("is-open"));
+        }
+        accordion.classList.toggle("is-open", !isOpen);
+      });
+    });
+
+  // Close sidebar on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSidebar();
+  });
+</script>

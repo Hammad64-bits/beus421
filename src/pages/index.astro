@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroSection from "@/components/HeroSectionV1.astro";
+import LogoCarousel from "@/components/LogoCarousel.astro";
+import TrustedSection from "@/components/TrustedSection.astro";
+import AboutSection from "@/components/AboutSection.astro";
+import ServicesSection from "@/components/ServicesSection.astro";
+import TimelineSection from "@/components/TimelineSection.astro";
+import ChooseSection from "@/components/ChooseSection.astro";
+import TestimonialSection from "@/components/TestimonialSection.astro";
+import CertificationsSection from "@/components/CertificationsSection.astro";
+import FinalCtaSection from "@/components/FinalCtaSection.astro";
+import NewsSection from "@/components/NewsSection.astro";
+import SupportSection from "@/components/SupportSection.astro";
+
+const accreditations = [
+  { src: "/slider/14001-RGB-White.jpg", alt: "ISO 14001" },
+  { src: "/slider/27001-CMYK-White.jpg", alt: "ISO 27001" },
+  { src: "/slider/45001-CMYK-White.jpg", alt: "ISO 45001" },
+  { src: "/slider/Achilles.jpg", alt: "Achilles" },
+  { src: "/slider/Constructionline.jpg", alt: "Constructionline" },
+  { src: "/slider/Investor-In-People.jpg", alt: "Investor in People" },
+  { src: "/slider/Iso-9002-logo.png", alt: "ISO 9001" },
+  { src: "/slider/NSI-GOLD-UKAS-PCMS-RGB-300dpi.jpg", alt: "NSI Gold" },
+  { src: "/slider/PSA.jpg", alt: "PSA" },
+  {
+    src: "/slider/safecontractor-round-RGB-297x300-1(1).jpg",
+    alt: "SafeContractor",
+  },
+  { src: "/slider/SIA-logo-grey.jpg", alt: "SIA" },
+];
+
+const clients = [
+  { src: "/clients/client-1.webp", alt: "client logo 1" },
+  { src: "/clients/client-2.webp", alt: "client logo 2" },
+  { src: "/clients/client-3.webp", alt: "client logo 3" },
+  { src: "/clients/client-4.webp", alt: "client logo 4" },
+  { src: "/clients/client-5.webp", alt: "client logo 5" },
+  { src: "/clients/client-6.webp", alt: "client logo 6" },
+];
+---
+
+<BaseLayout
+  title="Home"
+  description="Vigilant Security Services — proactive, technology-driven security solutions for businesses and communities across the UK."
+>
+  <HeroSection />
+  <TrustedSection />
+  <AboutSection />
+  <ServicesSection />
+  <TimelineSection />
+  <ChooseSection />
+  <SupportSection />
+  <TestimonialSection />
+  <!-- <LogoCarousel images={clients} imageHeight={64} grayscale={false} /> -->
+  <CertificationsSection images={accreditations} />
+  <NewsSection />
+  <FinalCtaSection />
+</BaseLayout>

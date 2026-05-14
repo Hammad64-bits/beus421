@@ -1,0 +1,224 @@
+---
+
+---
+
+<section class="hv1-section">
+  <!-- ── Top content row ───────────────────────────────────── -->
+  <div class="hv1-content">
+    <!-- Left: heading + CTAs -->
+    <div class="hv1-left">
+      <h1 class="heading-2">
+        <span class="hv1-heading-dark">Protect what's valuable</span>
+        <br />
+        <span class="hv1-heading-accent">stay Vigilant.</span>
+      </h1>
+
+      <!-- CTA card — sits at the bottom of the left col and overlaps the image -->
+      <div class="hv1-cta-card">
+        <a href="/contact" class="hv1-btn-ghost">Get Protected Now</a>
+        <a href="/contact" class="hv1-btn-primary">Contact us today</a>
+      </div>
+    </div>
+
+    <!-- Right: descriptive copy -->
+    <div class="hv1-right">
+      <p class="body-large hv1-body">
+        Protecting <span class="hv1-accent-text">People.</span> Securing
+        <span class="hv1-accent-text">Assets</span>. Delivering <span
+          class="hv1-accent-text">Peace of Mind.</span
+        >
+      </p>
+      <p class="body-large hv1-body">
+        Founded in <span class="hv1-accent-text">2006</span>, we are one of the
+        leading providers of physical security services in the UK and Ireland —
+        delivering<span class="hv1-accent-text"> high-standard</span>, <span
+          class="hv1-accent-text">cost-effective</span
+        >, and <span class="hv1-accent-text">tailor-made security</span>
+        solutions.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Full-bleed hero image ─────────────────────────────── -->
+  <div class="hv1-image-wrap">
+    <video autoplay loop muted playsinline class="hv1-image">
+      <source src="/videos/hero_background.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <style>
+    /* ── Section shell ───────────────────────────────────────── */
+    .hv1-section {
+      width: 100%;
+      background-color: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      /* no overflow:hidden so the CTA card can visually overlap the image */
+    }
+
+    /* ── Top content row ─────────────────────────────────────── */
+    .hv1-content {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 64px;
+      max-width: 1152px;
+      margin-inline: auto;
+      width: 100%;
+      padding: 72px 64px 0;
+    }
+
+    /* ── Left column ─────────────────────────────────────────── */
+    .hv1-left {
+      flex: 0 0 auto;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* Heading */
+    .hv1-heading {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .hv1-heading-dark {
+      color: var(--color-secondary);
+    }
+    .hv1-heading-accent {
+      color: var(--color-primary);
+    }
+
+    /* CTA card — white pill that visually floats over the image below */
+    .hv1-cta-card {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      /* Negative bottom margin pulls the image up behind it */
+      margin-bottom: -28px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Ghost / outline button */
+    .hv1-btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 1.5px solid var(--color-secondary);
+      font-family: "Inter", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--color-secondary);
+      background: transparent;
+      text-decoration: none;
+      white-space: nowrap;
+      transition:
+        background 180ms ease,
+        color 180ms ease;
+    }
+    .hv1-btn-ghost:hover {
+      background: var(--color-secondary);
+      color: #ffffff;
+    }
+
+    /* Solid primary button */
+    .hv1-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: var(--color-primary);
+      font-family: "Inter", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #ffffff;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 180ms ease;
+    }
+    .hv1-btn-primary:hover {
+      opacity: 0.88;
+    }
+
+    /* ── Right column ─────────────────────────────────────────── */
+    .hv1-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding-top: 8px; /* optical alignment with heading cap-height */
+    }
+
+    .hv1-body {
+      color: var(--primary-text);
+      text-align: left;
+    }
+
+    /* Inline accent colour for highlighted words */
+    .hv1-accent-text {
+      color: var(--color-primary);
+    }
+
+    /* ── Hero image ──────────────────────────────────────────── */
+    .hv1-image-wrap {
+      position: relative;
+      width: 100%;
+      /* Height drives how much of the image shows */
+      height: clamp(260px, 38vw, 420px);
+      overflow: hidden;
+    }
+
+    .hv1-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+      display: block;
+    }
+
+    /* Gradient at the top of the image so it blends into the bg */
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hv1-content {
+        flex-direction: column;
+        gap: 32px;
+        padding: 48px 32px 0;
+      }
+
+      .hv1-left {
+        max-width: 100%;
+      }
+
+      .hv1-cta-card {
+        margin-bottom: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hv1-content {
+        padding: 36px 20px 0;
+      }
+
+      .hv1-cta-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hv1-btn-ghost,
+      .hv1-btn-primary {
+        justify-content: center;
+      }
+    }
+  </style>
+</section>

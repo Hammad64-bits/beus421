@@ -1,0 +1,233 @@
+---
+const slides = [
+  { src: "/hero/site-assessment.png", alt: "Site Security Assessment" },
+  { src: "/hero/alarm-response.png", alt: "Alarm Response Security" },
+  { src: "/hero/IMG_8041_test.webp", alt: "Vigilant Security Officers" },
+];
+// Initial layout: slides[0]=left, slides[1]=center, slides[2]=right
+// → dot[1] lights up first (alarm-response in center)
+---
+
+<div class="hc-wrap">
+  <!-- ── Image stage ───────────────────────────────────────── -->
+  <div class="hc-stage" id="hc-stage">
+    <div class="hc-item is-left">
+      <img src={slides[0].src} alt={slides[0].alt} draggable="false" />
+    </div>
+    <div class="hc-item is-center">
+      <img src={slides[1].src} alt={slides[1].alt} draggable="false" />
+    </div>
+    <div class="hc-item is-right">
+      <img src={slides[2].src} alt={slides[2].alt} draggable="false" />
+    </div>
+  </div>
+
+  <!-- ── Progress dots ─────────────────────────────────────── -->
+  <div class="hc-dots" id="hc-dots">
+    <button class="hc-dot" aria-label="Slide 1"></button>
+    <button class="hc-dot active" aria-label="Slide 2"></button>
+    <button class="hc-dot" aria-label="Slide 3"></button>
+  </div>
+</div>
+
+<style>
+  .hc-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+  }
+
+  /* ── Stage ───────────────────────────────────────────────── */
+  .hc-stage {
+    position: relative;
+    width: 792px;
+    max-width: 100%;
+    height: 300px;
+    /* allow side images to bleed outside the stage bounds */
+    overflow: visible;
+  }
+
+  /* ── Shared item base ────────────────────────────────────── */
+  .hc-item {
+    position: absolute;
+    overflow: hidden;
+    will-change: left, top, width, height, opacity, box-shadow, filter;
+    transition:
+      left 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      top 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      width 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      height 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-radius 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 380ms ease,
+      box-shadow 500ms ease,
+      filter 500ms ease;
+  }
+
+  .hc-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ── Slot: CENTER (active / Figma main image) ────────────── */
+  .is-center {
+    /* Figma: left:196, width:400, height:300, border-radius:34 */
+    left: 196px;
+    top: 0;
+    width: 400px;
+    height: 300px;
+    border-radius: 34px;
+    opacity: 1;
+    z-index: 2;
+    filter: brightness(1) saturate(1);
+    /* orange ring frame — box-shadow doesn't affect layout, transitions smoothly */
+    box-shadow:
+      0 0 0 14px var(--color-primary),
+      0 24px 64px rgba(0, 0, 0, 0);
+  }
+
+  /* ── Slot: LEFT (previous) ───────────────────────────────── */
+  .is-left {
+    /* By symmetry with right: starts 50px before stage left edge */
+    left: -50px;
+    top: 25px;
+    width: 300px;
+    height: 250px;
+    border-radius: 32px;
+    opacity: 0.72;
+    z-index: 1;
+    filter: brightness(0.5) saturate(0.15);
+    box-shadow:
+      0 0 0 0px transparent,
+      0 0px 0px rgba(0, 0, 0, 0);
+  }
+
+  /* ── Slot: RIGHT (next) ──────────────────────────────────── */
+  .is-right {
+    /* Figma: left:542, width:300, height:250, top:50→25px (centred in 300h) */
+    left: 542px;
+    top: 25px;
+    width: 300px;
+    height: 250px;
+    border-radius: 32px;
+    opacity: 0.72;
+    z-index: 1;
+    filter: brightness(0.5) saturate(0.15);
+    box-shadow:
+      0 0 0 0px transparent,
+      0 0px 0px rgba(0, 0, 0, 0);
+  }
+
+  /* ── Dots ────────────────────────────────────────────────── */
+  .hc-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .hc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition:
+      width 300ms ease,
+      background-color 300ms ease;
+  }
+
+  .hc-dot.active {
+    width: 24px;
+    background-color: #ffffff;
+  }
+</style>
+
+<script>
+  const stage = document.getElementById("hc-stage") as HTMLElement;
+  const dotEls = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("#hc-dots .hc-dot"),
+  );
+
+  // Track "cycle position" (0-2) — which dot to light up.
+  // Initial: center slot has cycle-pos 1 (second dot active).
+  let cyclePos = 1;
+  const TOTAL = 3;
+
+  function updateDots() {
+    dotEls.forEach((d, i) => d.classList.toggle("active", i === cyclePos));
+  }
+
+  /**
+   * Advance: content scrolls LEFT (next image comes in from the right).
+   *  isRight  → becomes isCenter (slides left into center)
+   *  isCenter → becomes isLeft   (slides out to the left)
+   *  isLeft   → teleports invisibly to isRight, then fades in
+   */
+  function advance() {
+    const leftEl = stage.querySelector<HTMLElement>(".is-left")!;
+    const centerEl = stage.querySelector<HTMLElement>(".is-center")!;
+    const rightEl = stage.querySelector<HTMLElement>(".is-right")!;
+
+    // ── Step 1: Teleport LEFT → RIGHT (no visible movement) ──
+    leftEl.style.transition = "none";
+    leftEl.style.opacity = "0";
+    leftEl.classList.replace("is-left", "is-right");
+
+    // Force the browser to commit the teleport before re-enabling transitions
+    void leftEl.offsetWidth;
+
+    // Restore CSS transitions on the teleported element
+    leftEl.style.transition = "";
+
+    // ── Step 2: On the very next paint frame, run the animated moves ──
+    requestAnimationFrame(() => {
+      // Fade the teleported element in at its new right position
+      leftEl.style.opacity = "";
+
+      // Center slides out to left
+      centerEl.classList.replace("is-center", "is-left");
+
+      // Right slides in to center (grows, gains orange ring)
+      rightEl.classList.replace("is-right", "is-center");
+    });
+
+    // Update dot indicator
+    cyclePos = (cyclePos + 1) % TOTAL;
+    updateDots();
+  }
+
+  // ── Auto-play ─────────────────────────────────────────────
+  let timer = setInterval(advance, 4000);
+
+  stage.addEventListener("mouseenter", () => clearInterval(timer));
+  stage.addEventListener("mouseleave", () => {
+    timer = setInterval(advance, 4000);
+  });
+
+  // ── Dot clicks: advance until desired position is active ──
+  dotEls.forEach((dot, targetPos) => {
+    dot.addEventListener("click", () => {
+      clearInterval(timer);
+
+      // How many steps to reach the target position?
+      let steps = (targetPos - cyclePos + TOTAL) % TOTAL;
+
+      function stepOnce() {
+        if (steps-- > 0) {
+          advance();
+          // Wait for the transition to mostly finish before the next step
+          setTimeout(stepOnce, 700);
+        } else {
+          timer = setInterval(advance, 4000);
+        }
+      }
+
+      stepOnce();
+    });
+  });
+</script>

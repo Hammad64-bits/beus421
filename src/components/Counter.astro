@@ -1,0 +1,122 @@
+---
+/**
+ * Counter — animates from 0 to `to` when it scrolls into view.
+ *
+ * Props:
+ *   to       – target number (required)
+ *   suffix   – string appended after the number, e.g. "+" or "k+"
+ *   label    – descriptive sub-text below the number
+ *   duration – animation length in ms (default 2000)
+ */
+
+interface Props {
+  to: number;
+  suffix?: string;
+  label: string;
+  duration?: number;
+}
+
+const { to, suffix = "", label, duration = 2000 } = Astro.props;
+
+// Unique ID so multiple counters on one page don't share state
+const uid = `counter-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="counter" id={uid}>
+  <div>
+    <span class="counter-value state">0</span>
+    <span class="counter-suffix state">{suffix}</span>
+  </div>
+  <span class="counter-label title">{label}</span>
+</div>
+
+<style>
+  .counter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 100px;
+  }
+
+  .counter-value,
+  .counter-suffix {
+    font-family: "Syne", sans-serif;
+  }
+
+  /* value + suffix sit on the same baseline row */
+  .counter-value,
+  .counter-suffix {
+    display: inline;
+  }
+
+  /* wrapper span that holds both value and suffix */
+  .counter > :first-child,
+  .counter > :nth-child(2) {
+    display: inline;
+  }
+
+  .counter-label {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary, #9090aa);
+    margin-top: 2px;
+  }
+</style>
+
+<script define:vars={{ uid, to, duration }}>
+  (function () {
+    const root = document.getElementById(uid);
+    if (!root) return;
+
+    const valueEl = root.querySelector(".counter-value");
+    if (!valueEl) return;
+
+    let started = false;
+
+    // Easing: ease-out quad — fast start, slow finish
+    function easeOut(t) {
+      return 1 - (1 - t) * (1 - t);
+    }
+
+    function runCounter() {
+      if (started) return;
+      started = true;
+
+      const startTime = performance.now();
+
+      function tick(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeOut(progress);
+        const current = Math.round(eased * to);
+
+        valueEl.textContent = current.toLocaleString();
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          valueEl.textContent = to.toLocaleString();
+        }
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    // Fire only when the counter enters the viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            runCounter();
+            observer.disconnect(); // only run once
+          }
+        });
+      },
+      { threshold: 0.3 }, // trigger when 30% visible
+    );
+
+    observer.observe(root);
+  })();
+</script>

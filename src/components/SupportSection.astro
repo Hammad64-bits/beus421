@@ -1,0 +1,346 @@
+---
+const features = [
+  {
+    img: "/icons/rocket.svg",
+    title: "Rapid Deployment",
+    description:
+      "Sentry Units are quick to mobilise and ready to protect sites with minimal disruption to operations.",
+  },
+  {
+    img: "/icons/sheild.svg",
+    title: "Flexible Coverage",
+    description:
+      "Ideal for short-term requirements, vacant properties, construction sites, and changing site conditions.",
+  },
+  {
+    img: "/icons/eye.svg",
+    title: "Monitored Protection",
+    description:
+      "Units provide an added layer of visibility and reassurance, backed by responsive on-site support.",
+  },
+];
+---
+
+<div class="figma-container">
+  <div class="support-banner" data-reveal="up">
+    <!-- Left col: branding + description -->
+    <div class="support-left">
+      <div class="orbis-logo-row">
+        <img src="/orbis.svg" alt="Orbis Protect Logo" class="orbis-logo" />
+      </div>
+      <h2 class="support-heading">
+        Supporting <span class="accent">Orbis</span> Protect
+      </h2>
+      <p class="support-desc">
+        Vigilant Security Services is proud to support Orbis Protect, deploying
+        their Sentry Units across client sites to deliver reliable, flexible
+        protection where it is needed most.
+      </p>
+      <p class="support-footnote">
+        Together with Orbis Protect, we deliver a professional, scalable
+        security solution trusted by clients across the UK.
+      </p>
+    </div>
+
+    <!-- Right col: 3 feature cards -->
+    <div class="feature-grid">
+      {
+        features.map((f, i) => (
+          <div class="feature-card">
+
+            <!-- Accent bar (slides in on hover) -->
+            <div class="f-accent-bar"></div>
+
+            <!-- Inner content -->
+            <div class="f-inner">
+
+              <!-- Icon + index -->
+              <div class="f-top-row">
+                <div class="f-icon-wrap">
+                  <img src={f.img} alt={f.title} width="22" height="22" class="f-icon-img" />
+                </div>
+                <span class="f-number">0{i + 1}</span>
+              </div>
+
+              <!-- Title -->
+              <p class="f-title">{f.title}</p>
+
+              <!-- Description -->
+              <p class="f-desc">{f.description}</p>
+
+              <!-- CTA row -->
+              <div class="f-link-row">
+                <span class="f-link-label">Learn more</span>
+                <div class="f-link-arrow">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path
+                      d="M4 10h12M11 5l5 5-5 5"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Banner shell ─────────────────────────────────────────── */
+  .support-banner {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 48px;
+    align-items: start;
+    background: #ffffff;
+    border: 1px solid rgba(141, 153, 174, 0.2);
+    border-radius: 20px;
+    padding: 44px 48px;
+    box-shadow:
+      0 1px 2px rgba(43, 45, 66, 0.04),
+      0 6px 20px rgba(43, 45, 66, 0.06);
+    /* Red left accent line */
+    border-left: 4px solid #d90429;
+  }
+
+  /* ── Left col ─────────────────────────────────────────────── */
+  .support-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .orbis-logo-row {
+    display: flex;
+    align-items: center;
+  }
+
+  /* The SVG has white fill — render on a dark pill so it's visible */
+  .orbis-logo {
+    height: 32px;
+    width: auto;
+    /* tint white paths to the dark navy */
+    /* filter: invert(16%) sepia(20%) saturate(600%) hue-rotate(195deg) brightness(80%); */
+  }
+
+  .support-heading {
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #2b2d42;
+    margin: 0;
+  }
+
+  .support-heading .accent {
+    color: #d90429;
+  }
+
+  .support-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #2b2d42;
+    margin: 0;
+  }
+
+  .support-footnote {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #8d99ae;
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px solid #edf2f4;
+  }
+
+  /* ── Feature grid ─────────────────────────────────────────── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  /* ── Feature card shell (mirrors .service-card) ──────────── */
+  .feature-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid rgba(141, 153, 174, 0.2);
+    overflow: hidden;
+    box-shadow:
+      0 1px 2px rgba(43, 45, 66, 0.04),
+      0 4px 12px rgba(43, 45, 66, 0.06);
+    transition:
+      transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 240ms ease,
+      border-color 240ms ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(217, 4, 41, 0.2);
+    box-shadow:
+      0 4px 12px rgba(43, 45, 66, 0.08),
+      0 16px 36px rgba(43, 45, 66, 0.1);
+  }
+
+  /* Accent bar */
+  .f-accent-bar {
+    height: 3px;
+    width: 100%;
+    background: #d90429;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .feature-card:hover .f-accent-bar {
+    transform: scaleX(1);
+  }
+
+  /* Inner padding */
+  .f-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    flex: 1;
+  }
+
+  /* Top row: icon + number */
+  .f-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Icon wrap */
+  .f-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #edf2f4;
+    border: 1px solid rgba(141, 153, 174, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 240ms ease, border-color 240ms ease;
+  }
+
+  .feature-card:hover .f-icon-wrap {
+    background: rgba(217, 4, 41, 0.08);
+    border-color: rgba(217, 4, 41, 0.2);
+  }
+
+  .f-icon-img {
+    display: block;
+    filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(4996%) hue-rotate(341deg) brightness(90%) contrast(110%);
+    transition: filter 240ms ease;
+  }
+
+  /* Number badge */
+  .f-number {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(141, 153, 174, 0.5);
+    transition: color 240ms ease;
+  }
+
+  .feature-card:hover .f-number {
+    color: #d90429;
+  }
+
+  /* Title */
+  .f-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #2b2d42;
+    margin: 0;
+    transition: color 240ms ease;
+  }
+
+  .feature-card:hover .f-title {
+    color: #d90429;
+  }
+
+  /* Description */
+  .f-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #8d99ae;
+    margin: 0;
+    flex: 1;
+  }
+
+  /* CTA row */
+  .f-link-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid #edf2f4;
+  }
+
+  .f-link-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #8d99ae;
+    transition: color 240ms ease;
+  }
+
+  .feature-card:hover .f-link-label {
+    color: #d90429;
+  }
+
+  .f-link-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #edf2f4;
+    color: #8d99ae;
+    margin-left: auto;
+    transition: background 240ms ease, color 240ms ease, transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .feature-card:hover .f-link-arrow {
+    background: #d90429;
+    color: #ffffff;
+    transform: translateX(3px);
+  }
+
+  .f-link-arrow svg {
+    display: block;
+    stroke: currentColor;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 1100px) {
+    .support-banner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+    .support-banner {
+      padding: 28px 24px;
+    }
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+import HeroCarousel from "./hero/HeroCarousel.astro";
+---
+
+<div class="figma-container hero-bg">
+  <div class="hero-section">
+    <div class="chip">
+      <span class="staus"></span>
+      <span class="pill-text">SIA & NSI APPROVED</span>
+    </div>
+    <div class="heading">
+      <div class="heading-box">
+        <h1 class="heading-1">Protecting What Matters with</h1>
+        <h1 class="heading-1" style="color: var(--color-secondary);">
+          Advance Security
+        </h1>
+      </div>
+      <div class="heading-box">
+        <h2 class="body-large" style="color: white;">
+          We deliver proactive, technology driven security solutions for
+          business and communities.
+        </h2>
+      </div>
+    </div>
+    <div class="flex-row" style="gap: 32px;">
+      <button class="primary-btn flex-row">
+        <img src="/icons/quick-reply.svg" alt="box icon" />
+        <span> Quick Quote </span>
+      </button>
+      <button class="secondary-btn flex-row">
+        <img src="/icons/call-icon.svg" alt="phone icon" />
+        <span> Request Callback </span>
+      </button>
+    </div>
+    <HeroCarousel />
+  </div>
+</div>
+
+<style>
+  .hero-bg {
+    background-color: var(--color-primary);
+  }
+
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+    padding-top: 200px;
+    padding-bottom: 200px;
+    gap: 8px;
+    angle: 0 deg;
+    opacity: 1;
+  }
+
+  .chip {
+    padding: 0px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid #14b8a6;
+    border-radius: 12px;
+  }
+
+  .status {
+    position: absolute; /* float on top */
+    bottom: 2px; /* adjust position */
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background-color: #00ff00; /* green */
+    border-radius: 50%; /* make it a circle */
+    border: 2px solid white; /* gives that nice ring effect */
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .heading-box {
+    padding: 8px;
+  }
+</style>
