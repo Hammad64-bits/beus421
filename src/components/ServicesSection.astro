@@ -515,9 +515,30 @@ const services = [
 </style>
 
 <script>
-  // Service tab switching — runs after DOM is ready (Astro scripts are deferred modules)
+  import { gsap } from "gsap";
+
   const rows = document.querySelectorAll("[data-svc-id]");
   const panels = document.querySelectorAll("[data-svc-panel]");
+
+  // Animate the cards inside a panel in with a stagger
+  function animatePanel(panel: Element) {
+    const tags = panel.querySelectorAll(".svc__tag");
+    // Reset so they can re-animate even on re-click
+    gsap.killTweensOf(tags);
+    gsap.fromTo(
+      tags,
+      { y: 28, opacity: 0, scale: 0.94 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.45,
+        stagger: 0.07,
+        ease: "back.out(1.3)",
+        clearProps: "transform",
+      }
+    );
+  }
 
   rows.forEach((row) => {
     row.addEventListener("click", () => {
@@ -533,11 +554,12 @@ const services = [
       row.classList.add("svc__row--active");
       row.setAttribute("aria-pressed", "true");
 
-      // Swap panels
+      // Swap panels + animate incoming cards
       panels.forEach((panel) => {
         if (panel.getAttribute("data-svc-panel") === targetId) {
           panel.classList.add("svc__panel--active");
           panel.setAttribute("aria-hidden", "false");
+          animatePanel(panel);
         } else {
           panel.classList.remove("svc__panel--active");
           panel.setAttribute("aria-hidden", "true");
@@ -545,7 +567,12 @@ const services = [
       });
     });
   });
+
+  // Run entrance animation on the initially active panel too
+  const initialPanel = document.querySelector(".svc__panel--active");
+  if (initialPanel) animatePanel(initialPanel);
 </script>
+
 
 <script>
   import { gsap } from "gsap";
