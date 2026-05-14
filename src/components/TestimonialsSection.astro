@@ -1,0 +1,238 @@
+---
+// Testimonial container (903:2617)
+// Figma: padding 60px 64px 0px, white bg
+// Centered heading + body, then 3-column testimonial card row (gap 32px)
+// Each card: 362px wide, 24px padding, column layout
+//   - Quote text box (border-radius 12px, 8px padding, body bold #1A2040)
+//   - Author name (Inter Medium 14px, #1A2040) + Role pill (Inter SemiBold 11px, #00D4AA)
+
+const testimonials = [
+  {
+    quote:
+      '" The level of professionalism displayed by the Vigilant team during our peak season was unparalleled. Truly elite service. "',
+    name: "Sarah Jenkins",
+    role: "GLOBAL LOGISTICS DIRECTOR",
+  },
+  {
+    quote:
+      '" Vigilant provided outstanding security for our flagship retail locations across London. Their officers are disciplined, courteous, and highly responsive. "',
+    name: "Marcus Reid",
+    role: "HEAD OF FACILITIES",
+  },
+  {
+    quote:
+      '" From initial consultation to on-site deployment, the entire process was seamless. We feel genuinely protected with Vigilant on our side. "',
+    name: "Priya Sharma",
+    role: "OPERATIONS MANAGER",
+  },
+];
+---
+
+<section class="testi" id="testimonials" aria-label="Client testimonials">
+  <div class="testi__inner">
+    <!-- Header -->
+    <div class="testi__header">
+      <h2 class="testi__heading">Proven by Our Clients</h2>
+      <p class="testi__body">
+        Real feedback from businesses and individuals who trust us to protect
+        what matters most.
+      </p>
+    </div>
+
+    <!-- Cards row -->
+    <div class="testi__cards">
+      {
+        testimonials.map((t) => (
+          <div class="testi__card">
+            {/* Quote text box */}
+            <div class="testi__card-content">
+              <div class="testi__quote-box">
+                <p class="testi__quote">{t.quote}</p>
+              </div>
+              {/* Author row */}
+              <div class="testi__author">
+                <div class="testi__author-name-row">
+                  <span class="testi__name">{t.name}</span>
+                </div>
+                <div class="testi__role-row">
+                  <span class="testi__role">{t.role}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ────────────────────────────────────────────── */
+  .testi {
+    background: #ffffff;
+    padding: 60px 64px 0;
+  }
+
+  .testi__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 1152px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .testi__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .testi__heading {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+    text-align: center;
+    margin: 0;
+  }
+
+  .testi__body {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    text-align: center;
+    max-width: 800px;
+    margin: 0;
+  }
+
+  /* ── Cards row ──────────────────────────────────────────── */
+  .testi__cards {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+  }
+
+  /* ── Card ───────────────────────────────────────────────── */
+  .testi__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    flex: 1;
+    min-width: 0;
+    /* border: 1px solid rgba(51, 88, 125, 0.12); */
+    border-radius: 12px;
+    background: #ffffff;
+    /* box-shadow: 0 2px 12px rgba(51, 88, 125, 0.06); */
+    transition:
+      box-shadow 220ms ease,
+      transform 220ms ease;
+  }
+
+  .testi__card:hover {
+    box-shadow: 0 6px 24px rgba(51, 88, 125, 0.12);
+    transform: translateY(-3px);
+  }
+
+  .testi__card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  /* ── Quote box ──────────────────────────────────────────── */
+  .testi__quote-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 8px;
+    width: 100%;
+  }
+
+  .testi__quote {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    color: #1a2040;
+    margin: 0;
+    text-align: left;
+  }
+
+  /* ── Author block ───────────────────────────────────────── */
+  .testi__author {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .testi__author-name-row,
+  .testi__role-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 8px;
+    width: 100%;
+  }
+
+  .testi__name {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1a2040;
+  }
+
+  .testi__role {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.1364em;
+    color: #00d4aa;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .testi__cards {
+      flex-wrap: wrap;
+    }
+
+    .testi__card {
+      flex: 1 1 calc(50% - 16px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .testi {
+      padding: 40px 32px 0;
+    }
+
+    .testi__heading {
+      font-size: 32px;
+      line-height: 40px;
+    }
+
+    .testi__card {
+      flex: 1 1 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .testi {
+      padding: 40px 20px 0;
+    }
+  }
+</style>

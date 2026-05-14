@@ -1,0 +1,189 @@
+---
+// certification container (767:1375)
+// Figma: padding 120px 64px 60px, white bg, col gap 64px
+// Header: centered h2 "Our Industry Accreditations & Commitments" + body (800px)
+// Certificates: auto-scrolling horizontal marquee of 12 cert logos (164px height strip)
+
+const certs = [
+  { src: "/certs/cert-1.png", alt: "SIA Approved Contractor" },
+  { src: "/certs/cert-2.png", alt: "ISO Certification" },
+  { src: "/certs/cert-3.png", alt: "Altius Accreditation" },
+  { src: "/certs/cert-4.png", alt: "BS 7858 Certified" },
+  { src: "/certs/cert-5.png", alt: "Safe Contractor" },
+  { src: "/certs/cert-6.png", alt: "CHAS Accreditation" },
+  { src: "/certs/cert-7.png", alt: "Cyber Essentials" },
+  { src: "/certs/cert-8.png", alt: "Living Wage Employer" },
+  { src: "/certs/cert-9.png", alt: "ISO 45001" },
+  { src: "/certs/cert-10.png", alt: "ISO 14001" },
+  { src: "/certs/cert-11.png", alt: "Constructionline" },
+  { src: "/certs/cert-12.png", alt: "GDPR Certified" },
+];
+---
+
+<section
+  class="accred"
+  id="accreditations"
+  aria-label="Industry accreditations and commitments"
+>
+  <div class="accred__inner">
+    <!-- Header -->
+    <div class="accred__header">
+      <h2 class="accred__heading">
+        Our Industry Accreditations<br />&amp; Commitments
+      </h2>
+      <p class="accred__body">
+        These accreditations signify our promise to deliver reliable, compliant,
+        and exceptional security services, giving you complete confidence in
+        choosing Vigilant.
+      </p>
+    </div>
+
+    <!-- Scrolling marquee of cert logos -->
+    <div class="accred__marquee-wrap" aria-hidden="true">
+      <div class="accred__track">
+        {
+          [...certs, ...certs].map((c, i) => (
+            <div class="accred__cert">
+              <img src={c.src} alt={c.alt} class="accred__cert-img" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ────────────────────────────────────────────── */
+  .accred {
+    background: #ffffff;
+    padding: 120px 64px 60px;
+  }
+
+  .accred__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+    max-width: 1152px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .accred__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .accred__heading {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+    text-align: center;
+    margin: 0;
+  }
+
+  .accred__body {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    text-align: center;
+    max-width: 800px;
+    margin: 0;
+  }
+
+  /* ── Marquee wrapper ─────────────────────────────────────── */
+  .accred__marquee-wrap {
+    width: 100%;
+    overflow: hidden;
+    /* subtle fade masks at edges */
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
+  }
+
+  /* ── Scrolling track (doubled for seamless loop) ─────────── */
+  .accred__track {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+    animation: accred-scroll 35s linear infinite;
+    width: max-content;
+  }
+
+  @keyframes accred-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Pause on hover */
+  .accred__marquee-wrap:hover .accred__track {
+    animation-play-state: paused;
+  }
+
+  /* ── Individual cert tile ────────────────────────────────── */
+  .accred__cert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 164px;
+    flex-shrink: 0;
+    padding: 16px;
+  }
+
+  .accred__cert-img {
+    max-height: 100%;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    display: block;
+    filter: grayscale(30%);
+    transition: filter 220ms ease;
+  }
+
+  .accred__cert:hover .accred__cert-img {
+    filter: grayscale(0%);
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .accred {
+      padding: 80px 32px 40px;
+    }
+
+    .accred__heading {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .accred {
+      padding: 60px 20px 32px;
+    }
+  }
+</style>

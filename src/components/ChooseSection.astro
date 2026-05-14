@@ -1,39 +1,202 @@
-<div class="figma-container">
-  <div class="flex-row" style="gap: 52px">
-    <div class="flex-col-start" style="gap: 40px; max-width: 550px;" data-reveal="left">
-      <div class="flex-col-start" style="gap: 16px">
-        <h1 class="heading-2" style="color: var(--primary-text);">
-          Why Choose Vigilant Security Services?
-        </h1>
-        <h2 class="card-title">SIA-Approved Security Services Company</h2>
-        <p
-          class="body-large"
-          style="text-align: left; color: var(--primary-text);"
-        >
-          As an SIA-approved contractor for Security Guarding, Door Supervision,
-          and Keyholding, we meet the highest industry standards set by the
-          Security Industry Authority. This prestigious accreditation
-          demonstrates our commitment to excellence and confirms that our
-          security services in London consistently deliver quality protection
-          that exceeds regulatory requirements.
-        </p>
-      </div>
+---
+// Sector Section (741:2982)
+// Figma: padding 120px 64px 0px, white bg
+// Header centered, 4 portrait photo cards 264×469 with label at bottom
+
+const sectors = [
+  { label: "Retail", img: "/sectors/retail.png" },
+  { label: "Education", img: "/sectors/education.png" },
+  { label: "Construction", img: "/sectors/construction.png" },
+  { label: "Corporate", img: "/sectors/corporate.png" },
+];
+---
+
+<section class="sector" id="sectors" aria-label="Sectors we serve">
+  <div class="sector__inner">
+    <!-- Header -->
+    <div class="sector__header">
+      <h2 class="sector__heading">
+        Specialized Solutions for<br />Complex Environments
+      </h2>
+      <p class="sector__body">
+        Our extensive range of security services in the UK is designed to
+        address the unique challenges faced by various sectors. Each service is
+        delivered by thoroughly vetted, SIA-licensed security officers and
+        backed by our commitment to professional excellence
+      </p>
     </div>
 
-    <div class="img-container" data-reveal="right">
-      <img
-        class="trust-img"
-        src="/guarding-services.jpg"
-        alt="vigilant security guards"
-      />
+    <!-- Photo cards row -->
+    <div class="sector__cards">
+      {
+        sectors.map((s) => (
+          <div class="sector__card">
+            <img src={s.img} alt={s.label} class="sector__card-img" />
+            <div class="sector__card-overlay" />
+            <span class="sector__card-label">{s.label}</span>
+          </div>
+        ))
+      }
     </div>
   </div>
-</div>
+</section>
 
 <style>
-  .trust-img {
-    width: 518px;
-    height: 320px;
-    border-radius: 8px;
+  /* ── Section ────────────────────────────────────────────── */
+  .sector {
+    background-color: #ffffff;
+    padding: 120px 64px 0;
+  }
+
+  .sector__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+    max-width: 1152px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .sector__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .sector__heading {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+    text-align: center;
+    margin: 0;
+  }
+
+  .sector__body {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    text-align: center;
+    max-width: 800px;
+    margin: 0;
+  }
+
+  /* ── Cards row ──────────────────────────────────────────── */
+  .sector__cards {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    width: 100%;
+  }
+
+  /* ── Single card ────────────────────────────────────────── */
+  .sector__card {
+    position: relative;
+    width: 264px;
+    height: 469px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .sector__card:hover {
+    transform: translateY(-6px);
+  }
+
+  .sector__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* gradient overlay: transparent → dark at bottom */
+  .sector__card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Label at bottom of card */
+  .sector__card-label {
+    position: absolute;
+    bottom: 36px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: 0.0156em;
+    color: #ffffff;
+    pointer-events: none;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 1100px) {
+    .sector__cards {
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .sector {
+      padding: 80px 32px 0;
+    }
+
+    .sector__heading {
+      font-size: 32px;
+      line-height: 40px;
+    }
+
+    .sector__card {
+      width: 220px;
+      height: 380px;
+    }
+
+    .sector__card-label {
+      font-size: 24px;
+      bottom: 24px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .sector {
+      padding: 60px 20px 0;
+    }
+
+    .sector__cards {
+      gap: 16px;
+    }
+
+    .sector__card {
+      width: 150px;
+      height: 280px;
+    }
+
+    .sector__card-label {
+      font-size: 18px;
+      bottom: 16px;
+    }
   }
 </style>

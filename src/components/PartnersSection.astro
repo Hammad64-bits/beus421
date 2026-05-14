@@ -1,0 +1,337 @@
+---
+// Partners sections (1004:3675) — pixel perfect from Figma
+//
+// Figma structure (Frame 179 = row, gap 1px, 1152px wide):
+//   Frame 177 (column): 2 cols × 3 rows of 200×200px partner hexes
+//     col layout: 0   200
+//     row layout: 0   200   400
+//     Partner slots: (0,0) (200,0) / (0,200) (200,200) / (0,400) (200,400)
+//   Frame 173 (350×350): central Vigilant hex (red gradient)
+//   Frame 178 (column): same 2×3 grid mirrored
+//
+// Central hex (Polygon 12): 350×350, radius 24px
+//   gradient: linear-gradient(238deg, #D3787C 5%, #B61F26 22%, #D3787C 45%, #E2A5A8 64%, #D3787C 85%, #B61F26 100%)
+//   Logo image at x:51, y:138 → 247×73px
+//
+// Partner hexes (Polygon 20-24+): 200×200, radius 24px, white bg
+//   shadow: 5px 5px 30px rgba(51,88,125,0.15) or rgba(0,0,0,0.15)
+//   logo inside at ~22×48 → 141-157×105-112px
+
+const leftPartners = [
+  { src: "/partners/partner-1.png", alt: "Partner 1" },
+  { src: "/partners/partner-2.png", alt: "Partner 2" },
+  { src: "/partners/partner-3.png", alt: "Partner 3" },
+  { src: "/partners/partner-4.png", alt: "Partner 4" },
+];
+
+const rightPartners = [
+  { src: "/partners/partner-5.png", alt: "Partner 5" },
+  { src: "/partners/partner-6.png", alt: "Partner 6" },
+];
+---
+
+<section
+  class="partners"
+  id="partners"
+  aria-label="Our valued client partnerships"
+>
+  <div class="partners__inner">
+    <!-- Header -->
+    <div class="partners__header">
+      <h2 class="partners__heading">Our Valued Client<br />Partnerships</h2>
+      <p class="partners__body">
+        Vigilant Security Services is proud to partner with leading
+        organisations across diverse sectors, delivering bespoke security
+        solutions that safeguard their operations and assets.
+      </p>
+    </div>
+
+    <!-- Hex grid: [left 2-col grid] [central hex] [right 2-col grid] -->
+    <div class="partners__grid-row" aria-hidden="true">
+      <!-- Glow blobs -->
+      <div class="partners__blob partners__blob--red"></div>
+      <div class="partners__blob partners__blob--blue"></div>
+
+      <!-- Left 2×2 partner hex grid -->
+      <div class="partners__col-grid">
+        {
+          leftPartners.map((p, i) => (
+            <div class="partners__hex">
+              <img src={p.src} alt={p.alt} class="partners__logo" />
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Central Vigilant hex -->
+      <div class="partners__hex-main">
+        <img
+          src="/partners/partner-logo.png"
+          alt="Vigilant Security"
+          class="partners__main-logo"
+        />
+      </div>
+
+      <!-- Right 2×1 partner hex grid -->
+      <div class="partners__col-grid partners__col-grid--right">
+        {
+          rightPartners.map((p) => (
+            <div class="partners__hex">
+              <img src={p.src} alt={p.alt} class="partners__logo" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ────────────────────────────────────────────── */
+  .partners {
+    background: #ffffff;
+    padding: 30px 64px 120px;
+    overflow: hidden;
+  }
+
+  .partners__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    max-width: 1152px;
+    margin: 0 auto;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .partners__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .partners__heading {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+    text-align: center;
+    margin: 0;
+  }
+
+  .partners__body {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    text-align: center;
+    max-width: 800px;
+    margin: 0;
+  }
+
+  /* ── Grid row: [left] [center] [right] ───────────────────── */
+  /* Figma Frame 179: row, gap 1px, 1152px, alignItems center */
+  .partners__grid-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    width: 100%;
+    position: relative;
+  }
+
+  /* ── Glow blobs ─────────────────────────────────────────── */
+  .partners__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(250px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .partners__blob--red {
+    width: 426px;
+    height: 386px;
+    background: rgba(182, 31, 38, 0.1);
+    left: -213px;
+    bottom: 0;
+  }
+
+  .partners__blob--blue {
+    width: 507px;
+    height: 467px;
+    background: rgba(51, 88, 125, 0.08);
+    right: -100px;
+    top: -80px;
+  }
+
+  /* ── 2-column partner hex grid ───────────────────────────── */
+  /* Figma Frame 177/178: 2 columns × (n rows) of 200×200px hexes */
+  .partners__col-grid {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-auto-rows: 200px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Right grid: only 1 column needed for 2 logos */
+  .partners__col-grid--right {
+    grid-template-columns: 200px 200px;
+  }
+
+  /* ── Individual partner hex tile ─────────────────────────── */
+  /* Figma Polygon 20-24: 200×200, radius 24px, white bg, shadow */
+  .partners__hex {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.15);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .partners__hex:hover {
+    transform: translateY(-4px);
+    box-shadow: 5px 10px 30px 0px rgba(51, 88, 125, 0.25);
+  }
+
+  .partners__logo {
+    width: 70%;
+    height: 55%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* ── Central Vigilant hex ────────────────────────────────── */
+  /* Figma Frame 173: 350×350, radius 24px
+     Gradient: linear-gradient(238deg, #D3787C 5%, #B61F26 22%, #D3787C 45%, #E2A5A8 64%, #D3787C 85%, #B61F26 100%)
+     Logo (image 27): 247×73px at (51, 138) inside hex */
+  .partners__hex-main {
+    width: 350px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    background: linear-gradient(
+      238deg,
+      #d3787c 5%,
+      #b61f26 22%,
+      #d3787c 45%,
+      #e2a5a8 64%,
+      #d3787c 85%,
+      #b61f26 100%
+    );
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    /* Figma box-shadow on the polygon (effect_8NIEXC) */
+    filter: drop-shadow(5px 5px 30px rgba(51, 88, 125, 0.15));
+  }
+
+  .partners__main-logo {
+    /* Figma image: 247×73px inside 350px hex */
+    width: 247px;
+    height: 73px;
+    object-fit: contain;
+    display: block;
+    /* Logo is on red bg, make it white */
+    filter: brightness(0) invert(1);
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 1100px) {
+    .partners__grid-row {
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .partners__col-grid {
+      grid-template-columns: 160px 160px;
+      grid-auto-rows: 160px;
+    }
+
+    .partners__hex {
+      width: 160px;
+      height: 160px;
+    }
+
+    .partners__hex-main {
+      width: 280px;
+      height: 280px;
+    }
+
+    .partners__main-logo {
+      width: 180px;
+      height: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .partners {
+      padding: 20px 32px 80px;
+    }
+
+    .partners__heading {
+      font-size: 32px;
+      line-height: 40px;
+    }
+
+    .partners__grid-row {
+      gap: 16px;
+    }
+
+    .partners__col-grid {
+      grid-template-columns: 120px 120px;
+      grid-auto-rows: 120px;
+    }
+
+    .partners__hex {
+      width: 120px;
+      height: 120px;
+    }
+
+    .partners__hex-main {
+      width: 220px;
+      height: 220px;
+    }
+
+    .partners__main-logo {
+      width: 140px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .partners__grid-row {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .partners__col-grid {
+      grid-template-columns: 120px 120px 120px 120px;
+      grid-auto-rows: 120px;
+    }
+
+    .partners__col-grid--right {
+      grid-template-columns: 120px 120px;
+    }
+  }
+</style>

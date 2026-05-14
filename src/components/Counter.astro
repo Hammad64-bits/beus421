@@ -1,122 +1,184 @@
 ---
-/**
- * Counter — animates from 0 to `to` when it scrolls into view.
- *
- * Props:
- *   to       – target number (required)
- *   suffix   – string appended after the number, e.g. "+" or "k+"
- *   label    – descriptive sub-text below the number
- *   duration – animation length in ms (default 2000)
- */
-
-interface Props {
-  to: number;
-  suffix?: string;
-  label: string;
-  duration?: number;
-}
-
-const { to, suffix = "", label, duration = 2000 } = Astro.props;
-
-// Unique ID so multiple counters on one page don't share state
-const uid = `counter-${Math.random().toString(36).slice(2, 8)}`;
+// Stats section — Figma node 767:4102
+// padding: 120px 64px 0px, white bg
+// Three stats: 20+ Years | 500+ Clients | 24/7 Availability
 ---
 
-<div class="counter" id={uid}>
-  <div>
-    <span class="counter-value state">0</span>
-    <span class="counter-suffix state">{suffix}</span>
+<section class="stats" id="stats" aria-label="Company statistics">
+  <div class="stats__inner">
+    <!-- Years -->
+    <div class="stats__item">
+      <div class="stats__number-wrap">
+        <span class="stats__number" data-target="20" data-suffix="+">0+</span>
+      </div>
+      <span class="stats__label">Years</span>
+    </div>
+
+    <!-- Divider -->
+    <div class="stats__divider" aria-hidden="true"></div>
+
+    <!-- Clients -->
+    <div class="stats__item">
+      <div class="stats__number-wrap">
+        <span class="stats__number" data-target="500" data-suffix="+">0+</span>
+      </div>
+      <span class="stats__label">Clients</span>
+    </div>
+
+    <!-- Divider -->
+    <div class="stats__divider" aria-hidden="true"></div>
+
+    <!-- Availability -->
+    <div class="stats__item">
+      <div class="stats__number-wrap">
+        <span class="stats__number stats__number--text">24/7</span>
+      </div>
+      <span class="stats__label">Availability</span>
+    </div>
   </div>
-  <span class="counter-label title">{label}</span>
-</div>
+</section>
 
 <style>
-  .counter {
+  /* ── Section shell ──────────────────────────────────────── */
+  .stats {
+    background-color: #ffffff;
+    padding: 120px 64px 0;
+  }
+
+  /* ── Row container ──────────────────────────────────────── */
+  .stats__inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1152px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 8px 0;
+    gap: 32px;
+  }
+
+  /* ── Single stat ────────────────────────────────────────── */
+  .stats__item {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
-    min-width: 100px;
   }
 
-  .counter-value,
-  .counter-suffix {
-    font-family: "Syne", sans-serif;
+  .stats__number-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 
-  /* value + suffix sit on the same baseline row */
-  .counter-value,
-  .counter-suffix {
-    display: inline;
-  }
-
-  /* wrapper span that holds both value and suffix */
-  .counter > :first-child,
-  .counter > :nth-child(2) {
-    display: inline;
-  }
-
-  .counter-label {
+  .stats__number {
     font-family: "Inter", sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-secondary, #9090aa);
-    margin-top: 2px;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+  }
+
+  .stats__label {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    display: block;
+    width: 100%;
+  }
+
+  /* ── Thin vertical divider ──────────────────────────────── */
+  .stats__divider {
+    width: 1px;
+    height: 52px;
+    background-color: #eeeeee;
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .stats {
+      padding: 80px 32px 0;
+    }
+
+    .stats__inner {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .stats__divider {
+      display: none;
+    }
+
+    .stats__number {
+      font-size: 36px;
+      line-height: 44px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats {
+      padding: 60px 20px 0;
+    }
+
+    .stats__inner {
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .stats__item {
+      align-items: center;
+    }
   }
 </style>
 
-<script define:vars={{ uid, to, duration }}>
+<script>
+  // Animate counting numbers on scroll-into-view
   (function () {
-    const root = document.getElementById(uid);
-    if (!root) return;
-
-    const valueEl = root.querySelector(".counter-value");
-    if (!valueEl) return;
-
-    let started = false;
-
-    // Easing: ease-out quad — fast start, slow finish
-    function easeOut(t) {
+    function easeOut(t: number) {
       return 1 - (1 - t) * (1 - t);
     }
 
-    function runCounter() {
-      if (started) return;
-      started = true;
-
+    function animateCounter(el: Element) {
+      const target = parseInt((el as HTMLElement).dataset.target || "0", 10);
+      const suffix = (el as HTMLElement).dataset.suffix || "";
+      const duration = 2000;
       const startTime = performance.now();
 
-      function tick(now) {
+      function tick(now: number) {
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const eased = easeOut(progress);
-        const current = Math.round(eased * to);
-
-        valueEl.textContent = current.toLocaleString();
-
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        } else {
-          valueEl.textContent = to.toLocaleString();
-        }
+        const current = Math.round(easeOut(progress) * target);
+        el.textContent = current.toLocaleString() + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
       }
 
       requestAnimationFrame(tick);
     }
 
-    // Fire only when the counter enters the viewport
+    const counters = document.querySelectorAll(
+      ".stats__number[data-target]"
+    );
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            runCounter();
-            observer.disconnect(); // only run once
+            animateCounter(entry.target);
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.3 }, // trigger when 30% visible
+      { threshold: 0.3 }
     );
 
-    observer.observe(root);
+    counters.forEach((el) => observer.observe(el));
   })();
 </script>

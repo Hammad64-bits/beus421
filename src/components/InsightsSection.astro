@@ -1,0 +1,328 @@
+---
+// Insight & News (1164:4291)
+// Figma: padding 120px 64px 0px, white bg, 1152px inner, col gap 64px
+// Header: centered h2 + body (800px max)
+// Cards row: 3 cards, gap 33px, each 314px wide
+//   Card: column, 24px padding, shadow
+//     - Image frame: 314×199px (grey bg + photo)
+//     - Card title (Inter Bold 700 20px, #33587D)
+//     - Body text (Inter Regular 16px, #323232, 314px wide)
+//     - "Read More" link (Inter SemiBold 600 18px, #B61F26) + arrow icon
+// Below cards: red "View All Articles" CTA button centered
+
+const articles = [
+  {
+    img: "/news/news-1.png",
+    category: "Case Studies",
+    title: "Enhancing Night-Time Security: Proactive Patrols & Rapid Response",
+    excerpt:
+      "Discover how our vigilant security officers ensure safety and deter threats during crucial night-time hours, providing unparalleled protection for your premises.",
+    href: "/insights",
+  },
+  {
+    img: "/news/news-2.png",
+    category: "Case Studies",
+    title:
+      "The Future of Surveillance: AI-Powered CCTV & Remote Monitoring",
+    excerpt:
+      "Explore the advancements in AI-driven CCTV systems and remote monitoring solutions that provide smarter, more efficient, and highly responsive security coverage.",
+    href: "/insights",
+  },
+  {
+    img: "/news/news-3.png",
+    category: "Case Studies",
+    title: "The Human Touch: The Vital Role of Our Support Workers",
+    excerpt:
+      "Learn about the profound impact our dedicated support workers have, empowering individuals to achieve their goals and foster stronger community connections.",
+    href: "/insights",
+  },
+];
+---
+
+<section class="news" id="insights" aria-label="Latest Insights and News">
+  <div class="news__inner">
+    <!-- Header -->
+    <div class="news__header">
+      <h2 class="news__heading">Latest Insights &amp; News</h2>
+      <p class="news__body">
+        Stay informed with our latest articles, company updates, and expert
+        insights on security best practices, industry trends, and community
+        engagement.
+      </p>
+    </div>
+
+    <!-- Cards + CTA -->
+    <div class="news__content">
+      <!-- 3 article cards -->
+      <div class="news__cards">
+        {
+          articles.map((a) => (
+            <a href={a.href} class="news__card">
+              {/* Image */}
+              <div class="news__card-img-wrap">
+                <img src={a.img} alt={a.title} class="news__card-img" />
+              </div>
+
+              {/* Text content */}
+              <div class="news__card-body">
+                <div class="news__card-title-wrap">
+                  <h3 class="news__card-title">{a.title}</h3>
+                </div>
+                <div class="news__card-excerpt-wrap">
+                  <p class="news__card-excerpt">{a.excerpt}</p>
+                </div>
+                <div class="news__card-link">
+                  <span class="news__card-link-text">Read More</span>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M4 10h12M11 5l5 5-5 5"
+                      stroke="#B61F26"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- View All Articles CTA -->
+      <a href="/insights" class="news__cta">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.6 1.27h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.87a16 16 0 006 6l.96-.96a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        View All Articles
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ────────────────────────────────────────────── */
+  .news {
+    background: #ffffff;
+    padding: 120px 64px 0;
+  }
+
+  .news__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    max-width: 1152px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .news__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .news__heading {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+    text-align: center;
+    margin: 0;
+  }
+
+  .news__body {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    text-align: center;
+    max-width: 800px;
+    margin: 0;
+  }
+
+  /* ── Content block ──────────────────────────────────────── */
+  .news__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+    width: 100%;
+  }
+
+  /* ── Cards row ──────────────────────────────────────────── */
+  .news__cards {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 33px;
+    width: 100%;
+  }
+
+  /* ── Single card ────────────────────────────────────────── */
+  .news__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    flex: 1;
+    min-width: 0;
+    text-decoration: none;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+
+  .news__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.18);
+  }
+
+  /* ── Card image ──────────────────────────────────────────── */
+  .news__card-img-wrap {
+    width: 100%;
+    height: 199px;
+    background: #eeeeee;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .news__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ── Card body ───────────────────────────────────────────── */
+  .news__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .news__card-title-wrap,
+  .news__card-excerpt-wrap {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+  }
+
+  .news__card-title {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    color: #33587d;
+    margin: 0;
+    text-align: left;
+  }
+
+  .news__card-excerpt {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    margin: 0;
+    text-align: left;
+  }
+
+  /* ── Read More link ─────────────────────────────────────── */
+  .news__card-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 0;
+  }
+
+  .news__card-link-text {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: #b61f26;
+  }
+
+  /* ── View All Articles CTA ──────────────────────────────── */
+  .news__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #b61f26;
+    color: #ffffff;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .news__cta:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 1000px) {
+    .news__cards {
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .news__card {
+      flex: 1 1 calc(50% - 12px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .news {
+      padding: 80px 32px 0;
+    }
+
+    .news__heading {
+      font-size: 32px;
+      line-height: 40px;
+    }
+
+    .news__card {
+      flex: 1 1 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .news {
+      padding: 60px 20px 0;
+    }
+  }
+</style>
