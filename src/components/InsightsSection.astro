@@ -326,3 +326,48 @@ const articles = [
     }
   }
 </style>
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Header fades up
+  gsap.from(".news__header", {
+    y: 36,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#insights",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Cards stagger in
+  gsap.from(".news__card", {
+    y: 50,
+    opacity: 0,
+    duration: 0.75,
+    stagger: 0.14,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".news__cards",
+      start: "top 82%",
+      once: true,
+    },
+  });
+
+  // CTA button fades in after cards
+  gsap.from(".news__cta", {
+    y: 20,
+    opacity: 0,
+    duration: 0.6,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".news__cta",
+      start: "top 90%",
+      once: true,
+    },
+  });
+</script>

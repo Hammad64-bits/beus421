@@ -60,3 +60,37 @@ const features = [
   @media(max-width:768px) { .cta-section{padding:80px 32px 60px;} .cta-line1{font-size:44px;line-height:52px;} .cta-line2{font-size:32px;line-height:40px;} .cta-buttons{padding-right:0;} }
   @media(max-width:480px) { .cta-section{padding:60px 20px 40px;} .cta-line1{font-size:36px;line-height:44px;} .cta-btn{width:100%;justify-content:center;} .cta-buttons{flex-direction:column;} }
 </style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Headings fade up
+  gsap.from(".cta-line1, .cta-line2, .cta-subtitle", {
+    y: 36,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.14,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#cta",
+      start: "top 78%",
+      once: true,
+    },
+  });
+
+  // Image slides in from right
+  gsap.from(".cta-img-wrap", {
+    x: 60,
+    opacity: 0,
+    duration: 1,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#cta",
+      start: "top 78%",
+      once: true,
+    },
+  });
+</script>
+

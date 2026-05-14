@@ -255,3 +255,48 @@ const features = [
     }
   }
 </style>
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Header fades up
+  gsap.from(".orbis__header", {
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#orbis",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Image slides in from left
+  gsap.from(".orbis__img-wrap", {
+    x: -60,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".orbis__content",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Feature cards stagger in from right
+  gsap.from(".orbis__card", {
+    x: 40,
+    opacity: 0,
+    duration: 0.7,
+    stagger: 0.18,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".orbis__cards",
+      start: "top 80%",
+      once: true,
+    },
+  });
+</script>

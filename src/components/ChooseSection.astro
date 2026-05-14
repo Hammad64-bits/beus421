@@ -200,3 +200,35 @@ const sectors = [
     }
   }
 </style>
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Header fades up
+  gsap.from(".sector__header", {
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#sectors",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Cards stagger up with a springy elastic feel
+  gsap.from(".sector__card", {
+    y: 60,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.12,
+    ease: "back.out(1.4)",
+    scrollTrigger: {
+      trigger: ".sector__cards",
+      start: "top 82%",
+      once: true,
+    },
+  });
+</script>

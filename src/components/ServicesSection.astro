@@ -546,3 +546,49 @@ const services = [
     });
   });
 </script>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Section header fades up
+  gsap.from(".svc__header", {
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#services",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Left service list slides in from left
+  gsap.from(".svc__left", {
+    x: -50,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".svc__body",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Right panel slides in from right
+  gsap.from(".svc__right", {
+    x: 50,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".svc__body",
+      start: "top 80%",
+      once: true,
+    },
+  });
+</script>
+

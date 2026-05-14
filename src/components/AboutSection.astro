@@ -295,3 +295,52 @@
     }
   }
 </style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const aboutSection = document.querySelector("#about");
+
+  // Left content: slide in from left
+  gsap.from(".about__content", {
+    x: -60,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: aboutSection,
+      start: "top 75%",
+      once: true,
+    },
+  });
+
+  // Right image: slide in from right, with a slight delay
+  gsap.from(".about__img-wrap", {
+    x: 60,
+    opacity: 0,
+    duration: 0.9,
+    delay: 0.15,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: aboutSection,
+      start: "top 75%",
+      once: true,
+    },
+  });
+
+  // Feature cards stagger up
+  gsap.from(".about__feature-card, .about__feature-row, .about__btn", {
+    y: 30,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.15,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".about__features",
+      start: "top 80%",
+      once: true,
+    },
+  });
+</script>

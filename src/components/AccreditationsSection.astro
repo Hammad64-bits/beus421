@@ -187,3 +187,34 @@ const certs = [
     }
   }
 </style>
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Header fades up
+  gsap.from(".accred__header", {
+    y: 36,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#accreditations",
+      start: "top 82%",
+      once: true,
+    },
+  });
+
+  // Marquee strip fades in
+  gsap.from(".accred__marquee-wrap", {
+    opacity: 0,
+    duration: 1,
+    delay: 0.2,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".accred__marquee-wrap",
+      start: "top 90%",
+      once: true,
+    },
+  });
+</script>

@@ -182,3 +182,24 @@
     counters.forEach((el) => observer.observe(el));
   })();
 </script>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Stagger each stat item up as section scrolls into view
+  gsap.from(".stats__item", {
+    y: 40,
+    opacity: 0,
+    duration: 0.7,
+    stagger: 0.15,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#stats",
+      start: "top 80%",
+      once: true,
+    },
+  });
+</script>
+

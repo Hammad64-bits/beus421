@@ -236,3 +236,35 @@ const testimonials = [
     }
   }
 </style>
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Header fades up
+  gsap.from(".testi__header", {
+    y: 36,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#testimonials",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Cards stagger in
+  gsap.from(".testi__card", {
+    y: 48,
+    opacity: 0,
+    duration: 0.75,
+    stagger: 0.14,
+    ease: "back.out(1.2)",
+    scrollTrigger: {
+      trigger: ".testi__cards",
+      start: "top 82%",
+      once: true,
+    },
+  });
+</script>

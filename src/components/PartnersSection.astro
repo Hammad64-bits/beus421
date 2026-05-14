@@ -463,3 +463,60 @@ function shadowClass(shadow: string | null) {
     }
   }
 </style>
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Header fades up
+  gsap.from(".partners__header", {
+    y: 36,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#partners",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Central hex scales in
+  gsap.from(".partners__hex-main", {
+    scale: 0.8,
+    opacity: 0,
+    duration: 1,
+    ease: "back.out(1.5)",
+    scrollTrigger: {
+      trigger: ".partners__row",
+      start: "top 78%",
+      once: true,
+    },
+  });
+
+  // Left grid slides in from left
+  gsap.from(".partners__hex-grid:first-of-type", {
+    x: -60,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".partners__row",
+      start: "top 78%",
+      once: true,
+    },
+  });
+
+  // Right grid slides in from right
+  gsap.from(".partners__hex-grid:last-of-type", {
+    x: 60,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".partners__row",
+      start: "top 78%",
+      once: true,
+    },
+  });
+</script>
