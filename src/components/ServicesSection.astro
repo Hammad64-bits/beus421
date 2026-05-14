@@ -20,12 +20,18 @@ const services = [
     name: "Sector-Specific Security",
     icon: "/vigilant_icons/Vector-9.svg",
     tags: [
-      "Event Security Services",
-      "Construction Site Security",
-      "Retail Security Services",
-      "Corporate Security",
-      "Public Sector Protection",
-      "Care & Housing Security",
+      { name: "Event Security Services", image: "/services_images/event.png" },
+      {
+        name: "Construction Site Security",
+        image: "/services_images/construction.png",
+      },
+      { name: "Retail Security Services", image: "/services_images/mall.png" },
+      { name: "Corporate Security", image: "/services_images/bank.png" },
+      {
+        name: "Public Sector Protection",
+        image: "/services_images/street.png",
+      },
+      { name: "Care & Housing Security", image: "/services_images/office.png" },
     ],
   },
   {
@@ -33,12 +39,12 @@ const services = [
     name: "Electronic Security Systems",
     icon: "/vigilant_icons/Vector-2.svg",
     tags: [
-      "CCTV & Surveillance",
-      "Access Control Systems",
-      "Intruder Alarm Systems",
-      "Fire Detection Systems",
-      "Intercom & Door Entry",
-      "Remote Monitoring",
+      { name: "CCTV & Surveillance", image: "/services_images/street.png" },
+      { name: "Access Control Systems", image: "/services_images/office.png" },
+      { name: "Intruder Alarm Systems", image: "/services_images/bank.png" },
+      { name: "Fire Detection Systems", image: "/services_images/mall.png" },
+      { name: "Intercom & Door Entry", image: "/services_images/event.png" },
+      { name: "Remote Monitoring", image: "/services_images/construction.png" },
     ],
   },
   {
@@ -46,12 +52,12 @@ const services = [
     name: "Guarding Services",
     icon: "/vigilant_icons/Vector-14.svg",
     tags: [
-      "Manned Guarding",
-      "Mobile Patrols",
-      "Reception Security",
-      "Door Supervision",
-      "Key Holding & Response",
-      "Alarm Response",
+      { name: "Manned Guarding", image: "/services_images/street.png" },
+      { name: "Mobile Patrols", image: "/services_images/construction.png" },
+      { name: "Reception Security", image: "/services_images/office.png" },
+      { name: "Door Supervision", image: "/services_images/event.png" },
+      { name: "Key Holding & Response", image: "/services_images/bank.png" },
+      { name: "Alarm Response", image: "/services_images/mall.png" },
     ],
   },
   {
@@ -59,12 +65,15 @@ const services = [
     name: "Support Services",
     icon: "/vigilant_icons/Vector-6.svg",
     tags: [
-      "Cleaning Services",
-      "Facilities Management",
-      "Concierge Services",
-      "Maintenance Support",
-      "Landscaping Services",
-      "Waste Management",
+      { name: "Cleaning Services", image: "/services_images/office.png" },
+      { name: "Facilities Management", image: "/services_images/mall.png" },
+      { name: "Concierge Services", image: "/services_images/bank.png" },
+      {
+        name: "Maintenance Support",
+        image: "/services_images/construction.png",
+      },
+      { name: "Landscaping Services", image: "/services_images/street.png" },
+      { name: "Waste Management", image: "/services_images/event.png" },
     ],
   },
 ];
@@ -143,12 +152,22 @@ const services = [
               <div class="svc__tags-wrap">
                 <div class="svc__tags-row">
                   {s.tags.slice(0, 3).map((t) => (
-                    <div class="svc__tag">{t}</div>
+                    <div
+                      class="svc__tag"
+                      style={`background-image: linear-gradient(180deg, rgba(102,102,102,0) 20%, rgba(200,210,222,1) 100%), url('${t.image}')`}
+                    >
+                      {t.name}
+                    </div>
                   ))}
                 </div>
                 <div class="svc__tags-row">
                   {s.tags.slice(3).map((t) => (
-                    <div class="svc__tag">{t}</div>
+                    <div
+                      class="svc__tag"
+                      style={`background-image: linear-gradient(180deg, rgba(102,102,102,0) 20%, rgba(200,210,222,1) 100%), url('${t.image}')`}
+                    >
+                      {t.name}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -310,7 +329,8 @@ const services = [
   }
   .svc__row--active .svc__icon-img {
     /* Shift icon to navy/blue tint — matches Figma active icon color #33587D */
-    filter: brightness(0) saturate(100%) invert(33%) sepia(29%) saturate(700%) hue-rotate(175deg) brightness(90%) contrast(90%);
+    filter: brightness(0) saturate(100%) invert(33%) sepia(29%) saturate(700%)
+      hue-rotate(175deg) brightness(90%) contrast(90%);
   }
 
   /* Service name: Inter Bold 700 16px */
@@ -384,19 +404,21 @@ const services = [
 
   /* Tag card: 235×280px, padding 208px 11px 0px (text at bottom)
      Background: gradient overlay ON TOP of cover image */
+  /* Tag card: 235×280px, padding 208px 11px 0px (text at bottom)
+     Figma fill_BPAZT1:
+       layer 1 (top): linear-gradient(180deg, rgba(102,102,102,0) 70%, rgba(51,88,125,1) 78%)
+       layer 2 (bg):  IMAGE — scaleMode FILL / backgroundSize cover
+     Per-card background image set via inline style on each element */
   .svc__tag {
     width: 235px;
     height: 280px;
     flex-shrink: 0;
     border-radius: 12px;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-    background:
-      linear-gradient(
-        180deg,
-        rgba(102, 102, 102, 0) 70%,
-        rgba(51, 88, 125, 1) 78%
-      ),
-      url("/services/service-card-bg.png") center / cover no-repeat;
+    background-color: #d2dce8;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -405,10 +427,9 @@ const services = [
     font-weight: 500;
     font-size: 16px;
     line-height: 26px;
-    color: #ffffff;
+    /* Figma: fill_2FK5JE #323232 — dark text on light gray frosted overlay */
+    color: #323232;
     text-align: center;
-    /* Figma text color is #323232 but that would be invisible on dark gradient — 
-       the navy gradient overlay at bottom makes this white per visual spec */
   }
 
   /* ── CTA button ─────────────────────────────────────────── */
@@ -495,31 +516,31 @@ const services = [
 
 <script>
   // Service tab switching — runs after DOM is ready (Astro scripts are deferred modules)
-  const rows = document.querySelectorAll('[data-svc-id]');
-  const panels = document.querySelectorAll('[data-svc-panel]');
+  const rows = document.querySelectorAll("[data-svc-id]");
+  const panels = document.querySelectorAll("[data-svc-panel]");
 
   rows.forEach((row) => {
-    row.addEventListener('click', () => {
-      const targetId = row.getAttribute('data-svc-id');
+    row.addEventListener("click", () => {
+      const targetId = row.getAttribute("data-svc-id");
 
       // Deactivate all rows
       rows.forEach((r) => {
-        r.classList.remove('svc__row--active');
-        r.setAttribute('aria-pressed', 'false');
+        r.classList.remove("svc__row--active");
+        r.setAttribute("aria-pressed", "false");
       });
 
       // Activate clicked row
-      row.classList.add('svc__row--active');
-      row.setAttribute('aria-pressed', 'true');
+      row.classList.add("svc__row--active");
+      row.setAttribute("aria-pressed", "true");
 
       // Swap panels
       panels.forEach((panel) => {
-        if (panel.getAttribute('data-svc-panel') === targetId) {
-          panel.classList.add('svc__panel--active');
-          panel.setAttribute('aria-hidden', 'false');
+        if (panel.getAttribute("data-svc-panel") === targetId) {
+          panel.classList.add("svc__panel--active");
+          panel.setAttribute("aria-hidden", "false");
         } else {
-          panel.classList.remove('svc__panel--active');
-          panel.setAttribute('aria-hidden', 'true');
+          panel.classList.remove("svc__panel--active");
+          panel.setAttribute("aria-hidden", "true");
         }
       });
     });
