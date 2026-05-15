@@ -73,10 +73,10 @@
 
     <!-- Right: person image with ambient shape bg -->
     <div class="about__img-frame">
-      <!-- Soft gradient blob sitting behind the photo -->
-      <div class="about__img-blob" aria-hidden="true"></div>
+      <!-- Round shape sitting behind the photo -->
+      <div class="about__img-circle" aria-hidden="true"></div>
       <!-- Thin red left-edge accent line -->
-      <div class="about__img-stripe" aria-hidden="true"></div>
+      <!-- <div class="about__img-stripe" aria-hidden="true"></div> -->
       <!-- The actual photo -->
       <div class="about__img-wrap">
         <img
@@ -94,6 +94,7 @@
   .about {
     background-color: #ffffff;
     padding: 120px 64px 0;
+    overflow: hidden;
   }
 
   /* ── Two-column row ─────────────────────────────────────── */
@@ -226,22 +227,32 @@
     position: relative;
     width: 578px;
     flex-shrink: 0;
-    /* clip a diagonal notch off the bottom-right corner */
-    clip-path: polygon(0 0, 100% 0, 100% 88%, 88% 100%, 0 100%);
   }
 
-  /* Large soft ambient blob — navy radial gradient, no hard edges */
-  .about__img-blob {
+  /* Dark card disc sitting behind the photo */
+  .about__img-circle {
     position: absolute;
-    inset: -60px;
+    width: 910px;
+    height: 910px;
+    border-radius: 50%;
+    /* Deep navy card — dark and solid */
     background: radial-gradient(
-      ellipse 70% 65% at 60% 55%,
-      rgba(51, 88, 125, 0.28) 0%,
-      rgba(51, 88, 125, 0.10) 50%,
-      transparent 100%
+      circle at 38% 35%,
+      #243f5a 0%,
+      #1a2f44 50%,
+      #111e2c 100%
     );
+    top: -10%;
+    left: -3%;
+    /* transform: translate(-50%, -46%); */
     z-index: 0;
     pointer-events: none;
+    /* Thin red border as a clean brand accent */
+    /* border: 15px solid #b61f26; */
+    /* box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.35),
+      0 6px 18px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06); */
   }
 
   /* Thin red left-edge accent — full height, 3px wide */
@@ -251,7 +262,7 @@
     left: 0;
     width: 3px;
     height: 100%;
-    background: linear-gradient(180deg, #b61f26 0%, rgba(182,31,38,0) 100%);
+    background: linear-gradient(180deg, #b61f26 0%, rgba(182, 31, 38, 0) 100%);
     z-index: 3;
     border-radius: 2px;
   }
@@ -275,7 +286,6 @@
     object-position: center top;
     display: block;
   }
-
 
   /* ── Responsive ─────────────────────────────────────────── */
   @media (max-width: 1200px) {
@@ -354,38 +364,77 @@
   gsap.registerPlugin(ScrollTrigger);
 
   const aboutSection = document.querySelector("#about");
-  const st: ScrollTrigger.Vars = { trigger: aboutSection, start: "top 75%", once: true };
+  const st: ScrollTrigger.Vars = {
+    trigger: aboutSection,
+    start: "top 75%",
+    once: true,
+  };
 
   // Left content: slide in from left
   gsap.from(".about__content", {
-    x: -60, opacity: 0, duration: 0.9, ease: "power3.out",
+    x: -60,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
     scrollTrigger: st,
   });
 
-  // Blob swells in from nothing
-  gsap.from(".about__img-blob", {
-    scale: 0.6, opacity: 0, duration: 1.2, ease: "power2.out",
+  // Circle shape swells in from nothing
+  gsap.from(".about__img-circle", {
+    scale: 0.5,
+    opacity: 0,
+    duration: 1.4,
+    ease: "power2.out",
     transformOrigin: "center center",
     scrollTrigger: st,
   });
 
   // Red stripe draws downward (scaleY from top)
   gsap.from(".about__img-stripe", {
-    scaleY: 0, opacity: 0, duration: 0.8, delay: 0.2, ease: "power3.out",
+    scaleY: 0,
+    opacity: 0,
+    duration: 0.8,
+    delay: 0.2,
+    ease: "power3.out",
     transformOrigin: "top center",
     scrollTrigger: st,
   });
 
   // Photo slides in cleanly from the right
   gsap.from(".about__img-wrap", {
-    x: 50, opacity: 0, duration: 1, delay: 0.15, ease: "power3.out",
+    x: 50,
+    opacity: 0,
+    duration: 1,
+    delay: 0.15,
+    ease: "power3.out",
     scrollTrigger: st,
   });
 
   // Feature cards stagger up
-  gsap.from(".about__feature-card, .about__feature-row, .about__btn", {
-    y: 30, opacity: 0, duration: 0.6, stagger: 0.15, ease: "power2.out",
-    scrollTrigger: { trigger: ".about__features", start: "top 80%", once: true },
+  gsap.from(".about__feature-card, .about__feature-row", {
+    y: 30,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.15,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".about__features",
+      start: "top 85%",
+      once: true,
+    },
   });
 
+  // Button animates in separately — more forgiving trigger so it always fires
+  gsap.from(".about__btn", {
+    y: 20,
+    opacity: 0,
+    duration: 0.5,
+    delay: 0.35,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".about__btn",
+      start: "top 95%",
+      once: true,
+    },
+  });
 </script>
