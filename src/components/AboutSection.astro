@@ -71,13 +71,20 @@
       </div>
     </div>
 
-    <!-- Right: person image -->
-    <div class="about__img-wrap">
-      <img
-        src="/hero/hero-person.png"
-        alt="Vigilant Security officer"
-        class="about__img"
-      />
+    <!-- Right: person image with ambient shape bg -->
+    <div class="about__img-frame">
+      <!-- Soft gradient blob sitting behind the photo -->
+      <div class="about__img-blob" aria-hidden="true"></div>
+      <!-- Thin red left-edge accent line -->
+      <div class="about__img-stripe" aria-hidden="true"></div>
+      <!-- The actual photo -->
+      <div class="about__img-wrap">
+        <img
+          src="/hero/hero-person.png"
+          alt="Vigilant Security officer"
+          class="about__img"
+        />
+      </div>
     </div>
   </div>
 </section>
@@ -214,11 +221,47 @@
     transform: translateY(-1px);
   }
 
-  /* ── Right: person image ─────────────────────────────────── */
-  .about__img-wrap {
+  /* ── Right: image frame ──────────────────────────────── */
+  .about__img-frame {
+    position: relative;
     width: 578px;
-    height: 486px;
     flex-shrink: 0;
+    /* clip a diagonal notch off the bottom-right corner */
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 88% 100%, 0 100%);
+  }
+
+  /* Large soft ambient blob — navy radial gradient, no hard edges */
+  .about__img-blob {
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(
+      ellipse 70% 65% at 60% 55%,
+      rgba(51, 88, 125, 0.28) 0%,
+      rgba(51, 88, 125, 0.10) 50%,
+      transparent 100%
+    );
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Thin red left-edge accent — full height, 3px wide */
+  .about__img-stripe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, #b61f26 0%, rgba(182,31,38,0) 100%);
+    z-index: 3;
+    border-radius: 2px;
+  }
+
+  /* Photo container */
+  .about__img-wrap {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 486px;
     overflow: hidden;
     display: flex;
     align-items: flex-end;
@@ -232,6 +275,7 @@
     object-position: center top;
     display: block;
   }
+
 
   /* ── Responsive ─────────────────────────────────────────── */
   @media (max-width: 1200px) {
@@ -247,8 +291,11 @@
       width: 380px;
     }
 
-    .about__img-wrap {
+    .about__img-frame {
       width: 420px;
+    }
+
+    .about__img-wrap {
       height: 400px;
     }
   }
@@ -269,8 +316,13 @@
       width: 100%;
     }
 
-    .about__img-wrap {
+    .about__img-frame {
       width: 100%;
+      padding-right: 32px;
+      padding-bottom: 32px;
+    }
+
+    .about__img-wrap {
       height: 340px;
     }
 
@@ -302,45 +354,38 @@
   gsap.registerPlugin(ScrollTrigger);
 
   const aboutSection = document.querySelector("#about");
+  const st: ScrollTrigger.Vars = { trigger: aboutSection, start: "top 75%", once: true };
 
   // Left content: slide in from left
   gsap.from(".about__content", {
-    x: -60,
-    opacity: 0,
-    duration: 0.9,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: aboutSection,
-      start: "top 75%",
-      once: true,
-    },
+    x: -60, opacity: 0, duration: 0.9, ease: "power3.out",
+    scrollTrigger: st,
   });
 
-  // Right image: slide in from right, with a slight delay
+  // Blob swells in from nothing
+  gsap.from(".about__img-blob", {
+    scale: 0.6, opacity: 0, duration: 1.2, ease: "power2.out",
+    transformOrigin: "center center",
+    scrollTrigger: st,
+  });
+
+  // Red stripe draws downward (scaleY from top)
+  gsap.from(".about__img-stripe", {
+    scaleY: 0, opacity: 0, duration: 0.8, delay: 0.2, ease: "power3.out",
+    transformOrigin: "top center",
+    scrollTrigger: st,
+  });
+
+  // Photo slides in cleanly from the right
   gsap.from(".about__img-wrap", {
-    x: 60,
-    opacity: 0,
-    duration: 0.9,
-    delay: 0.15,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: aboutSection,
-      start: "top 75%",
-      once: true,
-    },
+    x: 50, opacity: 0, duration: 1, delay: 0.15, ease: "power3.out",
+    scrollTrigger: st,
   });
 
   // Feature cards stagger up
   gsap.from(".about__feature-card, .about__feature-row, .about__btn", {
-    y: 30,
-    opacity: 0,
-    duration: 0.6,
-    stagger: 0.15,
-    ease: "power2.out",
-    scrollTrigger: {
-      trigger: ".about__features",
-      start: "top 80%",
-      once: true,
-    },
+    y: 30, opacity: 0, duration: 0.6, stagger: 0.15, ease: "power2.out",
+    scrollTrigger: { trigger: ".about__features", start: "top 80%", once: true },
   });
+
 </script>
