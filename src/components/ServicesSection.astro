@@ -154,7 +154,7 @@ const services = [
                   {s.tags.slice(0, 3).map((t) => (
                     <div
                       class="svc__tag"
-                      style={`background-image: linear-gradient(180deg, rgba(102,102,102,0) 20%, rgba(200,210,222,1) 100%), url('${t.image}')`}
+                      style={`background: linear-gradient(180deg, rgba(102,102,102,0.00) 20%, rgba(208,220,234,0.92) 100%), url('${t.image}') lightgray 50% / cover no-repeat`}
                     >
                       {t.name}
                     </div>
@@ -164,7 +164,7 @@ const services = [
                   {s.tags.slice(3).map((t) => (
                     <div
                       class="svc__tag"
-                      style={`background-image: linear-gradient(180deg, rgba(102,102,102,0) 20%, rgba(200,210,222,1) 100%), url('${t.image}')`}
+                      style={`background: linear-gradient(180deg, rgba(102,102,102,0.00) 20%, rgba(208,220,234,0.92) 100%), url('${t.image}') lightgray 50% / cover no-repeat`}
                     >
                       {t.name}
                     </div>
@@ -415,10 +415,8 @@ const services = [
     flex-shrink: 0;
     border-radius: 12px;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-    background-color: #d2dce8;
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
+    /* fallback color while image loads */
+    background-color: lightgray;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -427,7 +425,7 @@ const services = [
     font-weight: 500;
     font-size: 16px;
     line-height: 26px;
-    /* Figma: fill_2FK5JE #323232 — dark text on light gray frosted overlay */
+    /* Dark text on frosted light-gray band at bottom */
     color: #323232;
     text-align: center;
   }
@@ -536,7 +534,7 @@ const services = [
         stagger: 0.07,
         ease: "back.out(1.3)",
         clearProps: "transform",
-      }
+      },
     );
   }
 
@@ -572,7 +570,6 @@ const services = [
   const initialPanel = document.querySelector(".svc__panel--active");
   if (initialPanel) animatePanel(initialPanel);
 </script>
-
 
 <script>
   import { gsap } from "gsap";
@@ -618,4 +615,3 @@ const services = [
     },
   });
 </script>
-
