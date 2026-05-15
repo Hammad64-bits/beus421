@@ -1,324 +1,391 @@
-<!-- Arrow BG decoration: 4 corners, each with a primary + shadow SVG -->
-<div class="figma-container">
-  <div class="flex-col" style="gap: 32px">
-    <div class="about-wrapper">
-      <!-- Top-left arrow (points up-left) -->
-      <div class="arrow-corner arrow-tl" data-arrow="top">
-        <svg
-          class="arrow-primary"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline
-            points="52,52 12,12 52,12"
-            stroke="var(--color-primary)"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></polyline>
-        </svg>
-        <svg
-          class="arrow-shadow"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline
-            points="52,52 12,12 52,12"
-            stroke="var(--color-secondary)"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></polyline>
-        </svg>
+---
+// our people / trust (710:1195)
+// Figma: padding 120px 64px 0px, white bg, row layout, gap 100px
+---
+
+<section class="about" id="about" aria-label="About Vigilant Security">
+  <div class="about__inner">
+    <!-- Left: text content -->
+    <div class="about__content">
+      <!-- Heading block -->
+      <div class="about__heading-block">
+        <div class="about__heading-wrap">
+          <h2 class="about__heading">
+            FOUNDED IN 2006 ON<br />ABSOLUTE TRUST.
+          </h2>
+        </div>
+        <div class="about__body-wrap">
+          <p class="about__body">
+            Vigilants Security was established with a singular mission: to
+            redefine the standards of enterprise protection. Our methodology
+            combines elite human intelligence with cutting-edge technological
+            frameworks.
+          </p>
+        </div>
       </div>
 
-      <!-- Top-right arrow (points up-right) -->
-      <div class="arrow-corner arrow-tr" data-arrow="top">
-        <svg
-          class="arrow-primary"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline
-            points="12,52 52,12 12,12"
-            stroke="var(--color-primary)"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></polyline>
-        </svg>
-        <svg
-          class="arrow-shadow"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline
-            points="12,52 52,12 12,12"
-            stroke="var(--color-secondary)"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></polyline>
-        </svg>
-      </div>
-
-      <!-- Bottom-left arrow (points down-left) -->
-      <div class="arrow-corner arrow-bl" data-arrow="bottom">
-        <svg
-          class="arrow-primary"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline
-            points="52,12 12,52 52,52"
-            stroke="var(--color-primary)"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></polyline>
-        </svg>
-        <svg
-          class="arrow-shadow"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline
-            points="52,12 12,52 52,52"
-            stroke="var(--color-secondary)"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></polyline>
-        </svg>
-      </div>
-
-      <!-- Bottom-right arrow (points down-right) -->
-      <div class="arrow-corner arrow-br" data-arrow="bottom">
-        <svg
-          class="arrow-primary"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline
-            points="12,12 52,52 12,52"
-            stroke="var(--color-primary)"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></polyline>
-        </svg>
-        <svg
-          class="arrow-shadow"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline
-            points="12,12 52,52 12,52"
-            stroke="var(--color-secondary)"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></polyline>
-        </svg>
-      </div>
-
-      <div class="flex-row" style="gap: 52px">
-        <div
-          class="flex-col-start"
-          style="gap: 40px; max-width: 650px;"
-          data-reveal="left"
-        >
-          <div class="flex-col-start" style="gap: 16px">
-            <span
-              class="pill-text"
-              style="padding: 8px; color: var(--color-primary)"
-            >
-              Trusted Security Experts
-            </span>
-            <h1 class="heading-2" style="color: var(--primary-text);">
-              Our Company
-            </h1>
-            <p
-              class="body-large"
-              style="text-align: left; color: var(--primary-text);"
-            >
-              Our Security Personnel are brand ambassadors who have built
-              lasting associations with our customers through quality service.
-              We encourage employees to improve their skills through ongoing
-              in-house and external training programmes, and are committed to
-              diversity recruitment.
-            </p>
-            <p
-              class="body-large"
-              style="text-align: left; color: var(--primary-text);"
-            >
-              Our security experts remain at the forefront of industry
-              regulations, ensuring we have the tools to offer leading-edge
-              solutions. Our mission: provide cost-effective solutions to
-              protect your assets and develop long-standing relationships.
+      <!-- Two feature cards with red left border -->
+      <div class="about__features">
+        <!-- Card 1: Architectural Integrity -->
+        <div class="about__feature-card">
+          <div class="about__feature-inner">
+            <h3 class="about__feature-title">ARCHITECTURAL INTEGRITY</h3>
+            <p class="about__feature-body">
+              Every security plan is structured like a building's
+              foundation—designed to withstand immense pressure and evolving
+              threats.
             </p>
           </div>
         </div>
 
-        <div
-          class="flex-col-start"
-          style="gap: 40px; max-width: 550px; background-color: #ffffff; padding: 15px 30px; border-radius: 16px; min-height: 100%;"
-          data-reveal="right"
-        >
-          <div class="flex-col-start" style="gap: 16px">
-            <div>
-              <h1 class="heading-2" style="color: var(--primary-text);">
-                Est. 2006
-              </h1>
-              <p
-                class="body-large"
-                style="text-align: left; color: var(--secondary-text);"
-              >
-                Nearly 20 years of experience
-              </p>
-            </div>
-            <div>
-              <h1 class="heading-2" style="color: var(--primary-text);">
-                UK &amp; Ireland
-              </h1>
-              <p
-                class="body-large"
-                style="text-align: left; color: var(--secondary-text);"
-              >
-                Nationwide coverage
-              </p>
-            </div>
-            <div>
-              <h1
-                class="heading-2"
-                style="color: var(--primary-text); display:flex;"
-              >
-                24/7
-              </h1>
-              <p
-                class="body-large"
-                style="text-align: left; color: var(--secondary-text);"
-              >
-                Round-the-clock protection
-              </p>
-            </div>
+        <!-- Card 2: Human Expertise -->
+        <div class="about__feature-row">
+          <div class="about__feature-inner">
+            <h3 class="about__feature-title">HUMAN EXPERTISE</h3>
+            <p class="about__feature-body">
+              Our personnel are not just guards; they are tactical analysts
+              trained to identify vulnerabilities before they manifest.
+            </p>
           </div>
         </div>
+
+        <!-- About Us CTA -->
+        <a href="/about" class="about__btn">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"
+            ></circle>
+            <path
+              d="M12 8v4m0 4h.01"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"></path>
+          </svg>
+          About Us
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: person image with ambient shape bg -->
+    <div class="about__img-frame">
+      <!-- Soft gradient blob sitting behind the photo -->
+      <div class="about__img-blob" aria-hidden="true"></div>
+      <!-- Thin red left-edge accent line -->
+      <div class="about__img-stripe" aria-hidden="true"></div>
+      <!-- The actual photo -->
+      <div class="about__img-wrap">
+        <img
+          src="/hero/hero-person.png"
+          alt="Vigilant Security officer"
+          class="about__img"
+        />
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <style>
-  /* ── Wrapper that positions corner arrows ──────────────────── */
-  .about-wrapper {
-    position: relative;
-    /* Ensure the arrows clip to/near the section bounds */
-    overflow: visible;
+  /* ── Section shell ──────────────────────────────────────── */
+  .about {
+    background-color: #ffffff;
+    padding: 120px 64px 0;
   }
 
-  /* ── Corner arrow containers ───────────────────────────────── */
-  .arrow-corner {
+  /* ── Two-column row ─────────────────────────────────────── */
+  .about__inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+    max-width: 1152px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── Left column ─────────────────────────────────────────── */
+  .about__content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 474px;
+    flex-shrink: 0;
+  }
+
+  .about__heading-block {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .about__heading-wrap,
+  .about__body-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .about__heading {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+    margin: 0;
+  }
+
+  .about__body {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    margin: 0;
+  }
+
+  /* ── Features block (left border accent) ────────────────── */
+  .about__features {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    padding-left: 48px;
+    border-left: 4px solid #b61f26;
+    width: 438px;
+    flex-shrink: 0;
+  }
+
+  .about__feature-card,
+  .about__feature-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    min-height: 99px;
+  }
+
+  .about__feature-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .about__feature-title {
+    font-family: "Inter", sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 28px;
+    color: #33587d;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .about__feature-body {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    margin: 0;
+  }
+
+  /* ── About Us button ─────────────────────────────────────── */
+  .about__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #b61f26;
+    color: #ffffff;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+    width: fit-content;
+  }
+
+  .about__btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  /* ── Right: image frame ──────────────────────────────── */
+  .about__img-frame {
+    position: relative;
+    width: 578px;
+    flex-shrink: 0;
+    /* clip a diagonal notch off the bottom-right corner */
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 88% 100%, 0 100%);
+  }
+
+  /* Large soft ambient blob — navy radial gradient, no hard edges */
+  .about__img-blob {
     position: absolute;
-    width: 72px;
-    height: 72px;
-    z-index: 2;
+    inset: -60px;
+    background: radial-gradient(
+      ellipse 70% 65% at 60% 55%,
+      rgba(51, 88, 125, 0.28) 0%,
+      rgba(51, 88, 125, 0.10) 50%,
+      transparent 100%
+    );
+    z-index: 0;
     pointer-events: none;
   }
 
-  /* Precise corner placement */
-  .arrow-tl {
-    top: 18px;
-    left: 18px;
-  }
-  .arrow-tr {
-    top: 18px;
-    right: 18px;
-  }
-  .arrow-bl {
-    bottom: 18px;
-    left: 18px;
-  }
-  .arrow-br {
-    bottom: 18px;
-    right: 18px;
+  /* Thin red left-edge accent — full height, 3px wide */
+  .about__img-stripe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, #b61f26 0%, rgba(182,31,38,0) 100%);
+    z-index: 3;
+    border-radius: 2px;
   }
 
-  /* Both SVGs stacked absolutely within the corner box */
-  .arrow-corner svg {
-    position: absolute;
-    inset: 0;
+  /* Photo container */
+  .about__img-wrap {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 486px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .about__img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
   }
 
-  /* Primary arrow: fully opaque */
-  .arrow-primary {
-    opacity: 0.25;
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 1200px) {
+    .about__inner {
+      gap: 60px;
+    }
+
+    .about__content {
+      width: 420px;
+    }
+
+    .about__features {
+      width: 380px;
+    }
+
+    .about__img-frame {
+      width: 420px;
+    }
+
+    .about__img-wrap {
+      height: 400px;
+    }
   }
 
-  /* Shadow/duplicate arrow: slightly dimmer, offset via JS transform */
-  .arrow-shadow {
-    opacity: 0.1;
-    /* Initial offset — JS will vary this on scroll */
-    transform: translate(8px, 8px);
-    transition: transform 0.05s linear;
+  @media (max-width: 960px) {
+    .about {
+      padding: 80px 32px 0;
+    }
+
+    .about__inner {
+      flex-direction: column;
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    .about__content,
+    .about__features {
+      width: 100%;
+    }
+
+    .about__img-frame {
+      width: 100%;
+      padding-right: 32px;
+      padding-bottom: 32px;
+    }
+
+    .about__img-wrap {
+      height: 340px;
+    }
+
+    .about__heading {
+      font-size: 36px;
+      line-height: 44px;
+    }
   }
 
-  /* ── Card style (unchanged) ────────────────────────────────── */
-  .card {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-items: center;
-    gap: 32px;
-    max-width: 362px;
-    height: 228px;
-    border-radius: 24px;
-    padding: 24px;
-    background-color: #ffffff;
+  @media (max-width: 600px) {
+    .about {
+      padding: 60px 20px 0;
+    }
+
+    .about__features {
+      padding-left: 24px;
+    }
+
+    .about__heading {
+      font-size: 28px;
+      line-height: 36px;
+    }
   }
 </style>
 
 <script>
-  (function () {
-    const wrapper = document.querySelector(".about-wrapper");
-    if (!wrapper) return;
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
 
-    const topCorners = wrapper.querySelectorAll("[data-arrow='top']");
-    const bottomCorners = wrapper.querySelectorAll("[data-arrow='bottom']");
+  const aboutSection = document.querySelector("#about");
+  const st: ScrollTrigger.Vars = { trigger: aboutSection, start: "top 75%", once: true };
 
-    // Parallax strength: max px the shadow shifts relative to primary
-    const SHADOW_OFFSET = 12; // base gap between primary & shadow
-    const PARALLAX_AMP = 10; // extra travel on scroll
+  // Left content: slide in from left
+  gsap.from(".about__content", {
+    x: -60, opacity: 0, duration: 0.9, ease: "power3.out",
+    scrollTrigger: st,
+  });
 
-    function update() {
-      const rect = wrapper.getBoundingClientRect();
-      const winH = window.innerHeight;
+  // Blob swells in from nothing
+  gsap.from(".about__img-blob", {
+    scale: 0.6, opacity: 0, duration: 1.2, ease: "power2.out",
+    transformOrigin: "center center",
+    scrollTrigger: st,
+  });
 
-      // progress: -1 (section above viewport) → 0 (centred) → +1 (below viewport)
-      const centre = rect.top + rect.height / 2 - winH / 2;
-      const range = winH / 2 + rect.height / 2;
-      const progress = Math.max(-1, Math.min(1, centre / range));
+  // Red stripe draws downward (scaleY from top)
+  gsap.from(".about__img-stripe", {
+    scaleY: 0, opacity: 0, duration: 0.8, delay: 0.2, ease: "power3.out",
+    transformOrigin: "top center",
+    scrollTrigger: st,
+  });
 
-      // Top arrows: as we scroll down (progress < 0 → section moves up) shadow drifts further up
-      const topShiftY = SHADOW_OFFSET - progress * PARALLAX_AMP; // grows as section rises
-      const bottomShiftY = SHADOW_OFFSET + progress * PARALLAX_AMP; // grows as section falls
+  // Photo slides in cleanly from the right
+  gsap.from(".about__img-wrap", {
+    x: 50, opacity: 0, duration: 1, delay: 0.15, ease: "power3.out",
+    scrollTrigger: st,
+  });
 
-      topCorners.forEach((el) => {
-        const shadow = el.querySelector(".arrow-shadow");
-        if (shadow) shadow.style.transform = `translate(8px, ${-topShiftY}px)`;
-      });
+  // Feature cards stagger up
+  gsap.from(".about__feature-card, .about__feature-row, .about__btn", {
+    y: 30, opacity: 0, duration: 0.6, stagger: 0.15, ease: "power2.out",
+    scrollTrigger: { trigger: ".about__features", start: "top 80%", once: true },
+  });
 
-      bottomCorners.forEach((el) => {
-        const shadow = el.querySelector(".arrow-shadow");
-        if (shadow)
-          shadow.style.transform = `translate(8px, ${bottomShiftY}px)`;
-      });
-    }
-
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
-    update(); // run once on load
-  })();
 </script>

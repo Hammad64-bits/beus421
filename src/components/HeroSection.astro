@@ -4,34 +4,6 @@ import HeroCarousel from "./hero/HeroCarousel.astro";
 
 <div class="figma-container hero-bg">
   <div class="hero-section">
-    <div class="chip">
-      <span class="staus"></span>
-      <span class="pill-text">SIA & NSI APPROVED</span>
-    </div>
-    <div class="heading">
-      <div class="heading-box">
-        <h1 class="heading-1">Protecting What Matters with</h1>
-        <h1 class="heading-1" style="color: var(--color-secondary);">
-          Advance Security
-        </h1>
-      </div>
-      <div class="heading-box">
-        <h2 class="body-large" style="color: white;">
-          We deliver proactive, technology driven security solutions for
-          business and communities.
-        </h2>
-      </div>
-    </div>
-    <div class="flex-row" style="gap: 32px;">
-      <button class="primary-btn flex-row">
-        <img src="/icons/quick-reply.svg" alt="box icon" />
-        <span> Quick Quote </span>
-      </button>
-      <button class="secondary-btn flex-row">
-        <img src="/icons/call-icon.svg" alt="phone icon" />
-        <span> Request Callback </span>
-      </button>
-    </div>
     <HeroCarousel />
   </div>
 </div>
@@ -43,15 +15,12 @@ import HeroCarousel from "./hero/HeroCarousel.astro";
 
   .hero-section {
     display: flex;
+    /* width: 1280px;
+    height: 832px; */
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 64px;
-    padding-top: 200px;
-    padding-bottom: 200px;
+    align-items: center;
     gap: 8px;
-    angle: 0 deg;
-    opacity: 1;
   }
 
   .chip {

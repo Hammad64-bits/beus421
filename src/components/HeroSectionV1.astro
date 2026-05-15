@@ -2,223 +2,248 @@
 
 ---
 
-<section class="hv1-section">
-  <!-- ── Top content row ───────────────────────────────────── -->
-  <div class="hv1-content">
-    <!-- Left: heading + CTAs -->
-    <div class="hv1-left">
-      <h1 class="heading-2">
-        <span class="hv1-heading-dark">Protect what's valuable</span>
-        <br />
-        <span class="hv1-heading-accent">stay Vigilant.</span>
-      </h1>
-
-      <!-- CTA card — sits at the bottom of the left col and overlaps the image -->
-      <div class="hv1-cta-card">
-        <a href="/contact" class="hv1-btn-ghost">Get Protected Now</a>
-        <a href="/contact" class="hv1-btn-primary">Contact us today</a>
-      </div>
-    </div>
-
-    <!-- Right: descriptive copy -->
-    <div class="hv1-right">
-      <p class="body-large hv1-body">
-        Protecting <span class="hv1-accent-text">People.</span> Securing
-        <span class="hv1-accent-text">Assets</span>. Delivering <span
-          class="hv1-accent-text">Peace of Mind.</span
-        >
-      </p>
-      <p class="body-large hv1-body">
-        Founded in <span class="hv1-accent-text">2006</span>, we are one of the
-        leading providers of physical security services in the UK and Ireland —
-        delivering<span class="hv1-accent-text"> high-standard</span>, <span
-          class="hv1-accent-text">cost-effective</span
-        >, and <span class="hv1-accent-text">tailor-made security</span>
-        solutions.
-      </p>
-    </div>
-  </div>
-
-  <!-- ── Full-bleed hero image ─────────────────────────────── -->
-  <div class="hv1-image-wrap">
-    <video autoplay loop muted playsinline class="hv1-image">
-      <source src="/videos/hero_background.mp4" type="video/mp4" />
+<section class="hero" id="hero">
+  <!-- Full-bleed video background -->
+  <div class="hero__bg">
+    <video
+      class="hero__bg-gif"
+      autoplay
+      loop
+      muted
+      playsinline
+      aria-hidden="true"
+    >
+      <source src="/videos/output.webm" type="video/webm" />
     </video>
+    <!-- Dark gradient overlay (bottom-heavy, matching Figma) -->
+    <div class="hero__overlay"></div>
   </div>
 
-  <style>
-    /* ── Section shell ───────────────────────────────────────── */
-    .hv1-section {
-      width: 100%;
-      background-color: var(--color-bg);
-      display: flex;
-      flex-direction: column;
-      /* no overflow:hidden so the CTA card can visually overlap the image */
-    }
+  <!-- Content layer -->
+  <div class="hero__inner">
+    <!-- Heading -->
+    <div class="hero__heading-wrap">
+      <h1 class="hero__heading">
+        Protecting People, Property<br />and Assets
+      </h1>
+    </div>
 
-    /* ── Top content row ─────────────────────────────────────── */
-    .hv1-content {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 64px;
-      max-width: 1152px;
-      margin-inline: auto;
-      width: 100%;
-      padding: 72px 64px 0;
-    }
+    <!-- CTA buttons -->
+    <div class="hero__ctas">
+      <a href="/contact" class="hero__btn hero__btn--red">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M5 12H19M19 12L13 6M19 12L13 18"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        Quick Quote
+      </a>
 
-    /* ── Left column ─────────────────────────────────────────── */
-    .hv1-left {
-      flex: 0 0 auto;
-      max-width: 420px;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    /* Heading */
-    .hv1-heading {
-      font-family: "Syne", sans-serif;
-      font-size: clamp(2.2rem, 4vw, 3.25rem);
-      font-weight: 700;
-      line-height: 1.15;
-    }
-
-    .hv1-heading-dark {
-      color: var(--color-secondary);
-    }
-    .hv1-heading-accent {
-      color: var(--color-primary);
-    }
-
-    /* CTA card — white pill that visually floats over the image below */
-    .hv1-cta-card {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 16px;
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 16px 20px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-      /* Negative bottom margin pulls the image up behind it */
-      margin-bottom: -28px;
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Ghost / outline button */
-    .hv1-btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: 1.5px solid var(--color-secondary);
-      font-family: "Inter", sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      color: var(--color-secondary);
-      background: transparent;
-      text-decoration: none;
-      white-space: nowrap;
-      transition:
-        background 180ms ease,
-        color 180ms ease;
-    }
-    .hv1-btn-ghost:hover {
-      background: var(--color-secondary);
-      color: #ffffff;
-    }
-
-    /* Solid primary button */
-    .hv1-btn-primary {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 20px;
-      border-radius: 8px;
-      background: var(--color-primary);
-      font-family: "Inter", sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      color: #ffffff;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: opacity 180ms ease;
-    }
-    .hv1-btn-primary:hover {
-      opacity: 0.88;
-    }
-
-    /* ── Right column ─────────────────────────────────────────── */
-    .hv1-right {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      padding-top: 8px; /* optical alignment with heading cap-height */
-    }
-
-    .hv1-body {
-      color: var(--primary-text);
-      text-align: left;
-    }
-
-    /* Inline accent colour for highlighted words */
-    .hv1-accent-text {
-      color: var(--color-primary);
-    }
-
-    /* ── Hero image ──────────────────────────────────────────── */
-    .hv1-image-wrap {
-      position: relative;
-      width: 100%;
-      /* Height drives how much of the image shows */
-      height: clamp(260px, 38vw, 420px);
-      overflow: hidden;
-    }
-
-    .hv1-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 60%;
-      display: block;
-    }
-
-    /* Gradient at the top of the image so it blends into the bg */
-
-    /* ── Responsive ──────────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .hv1-content {
-        flex-direction: column;
-        gap: 32px;
-        padding: 48px 32px 0;
-      }
-
-      .hv1-left {
-        max-width: 100%;
-      }
-
-      .hv1-cta-card {
-        margin-bottom: 0;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hv1-content {
-        padding: 36px 20px 0;
-      }
-
-      .hv1-cta-card {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .hv1-btn-ghost,
-      .hv1-btn-primary {
-        justify-content: center;
-      }
-    }
-  </style>
+      <a href="/contact" class="hero__btn hero__btn--navy">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.87a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        Request Call Back
+      </a>
+    </div>
+  </div>
 </section>
+
+<style>
+  /* ── Section shell ──────────────────────────────────────── */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 832px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ── Background GIF ─────────────────────────────────────── */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__bg-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ── Gradient overlay — transparent → semi-dark (bottom) ── */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.55) 60%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
+  }
+
+  /* ── Content layer ──────────────────────────────────────── */
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 56px;
+    padding: 200px 0;
+    width: 100%;
+  }
+
+  /* ── Heading ────────────────────────────────────────────── */
+  .hero__heading-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero__heading {
+    font-family: "Inter", sans-serif;
+    font-weight: 800;
+    font-size: 72px;
+    line-height: 70px;
+    letter-spacing: 0.0028em;
+    text-align: center;
+    color: #ffffff;
+    margin: 0;
+    padding: 0 64px;
+  }
+
+
+
+  /* ── CTA row ────────────────────────────────────────────── */
+  .hero__ctas {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .hero__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+    white-space: nowrap;
+  }
+
+  .hero__btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  .hero__btn--red {
+    background-color: #b61f26;
+    padding: 10px 24px;
+  }
+
+  .hero__btn--navy {
+    background-color: #33587d;
+    padding: 11px 16px;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .hero {
+      height: 700px;
+    }
+
+    .hero__heading {
+      font-size: 56px;
+      line-height: 60px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      height: 580px;
+    }
+
+    .hero__inner {
+      gap: 40px;
+      padding: 100px 0;
+    }
+
+    .hero__heading {
+      font-size: 40px;
+      line-height: 48px;
+      padding: 0 32px;
+    }
+
+    .hero__ctas {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      height: 520px;
+    }
+
+    .hero__heading {
+      font-size: 30px;
+      line-height: 36px;
+      padding: 0 20px;
+    }
+
+    .hero__btn--red,
+    .hero__btn--navy {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 20px;
+    }
+
+    .hero__ctas {
+      width: 100%;
+      padding: 0 24px;
+    }
+  }
+</style>
+
+

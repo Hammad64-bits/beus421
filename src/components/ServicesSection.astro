@@ -1,367 +1,621 @@
 ---
+// Service Section (1160:3964) — pixel perfect
+// Figma structure:
+//   padding: 120px 64px 0px | white bg
+//   inner 1152px: column gap 32px
+//     - Header: centered h2 + body
+//     - Body row (space-between):
+//         Left (layout_OU0XIT): column, hug — "WHAT WE OFFER" label + 4 service rows
+//         Right (layout_ZJXAYO): 753px fixed, column gap 56px
+//           - 2 rows of 3 tag cards (each row gap 24px, cards 235×280px)
+//           - CTA button (red outline, "View All Services")
+//
+// Service row (layout_Q9HEE1): column, gap 40px, padding 40px 0 0 24px
+//   - Icon pill 40×40 (navy 15% bg) + name (bold 700 16px) + arrow (24px)
+// Service Section (1160:3964) — pixel perfect + dynamic tab switching
+
 const services = [
   {
-    img: "/service/ticket.svg",
-    title: "Security Officers",
-    description:
-      "Professional event security in London, providing crowd control, access management, and SIA-licensed officers for events of all sizes.",
-    url: "/services/event-security",
+    id: "sector",
+    name: "Sector-Specific Security",
+    icon: "/vigilant_icons/Vector-9.svg",
+    tags: [
+      { name: "Event Security Services", image: "/services_images/event.png" },
+      {
+        name: "Construction Site Security",
+        image: "/services_images/construction.png",
+      },
+      { name: "Retail Security Services", image: "/services_images/mall.png" },
+      { name: "Corporate Security", image: "/services_images/bank.png" },
+      {
+        name: "Public Sector Protection",
+        image: "/services_images/street.png",
+      },
+      { name: "Care & Housing Security", image: "/services_images/office.png" },
+    ],
   },
   {
-    img: "/service/camera.svg",
-    title: "CCTV Monitoring",
-    description:
-      "Round-the-clock protection for your construction sites, deterring theft, vandalism and unauthorised access across the UK.",
-    url: "/services/construction-security",
+    id: "electronic",
+    name: "Electronic Security Systems",
+    icon: "/vigilant_icons/Vector-2.svg",
+    tags: [
+      { name: "CCTV & Surveillance", image: "/services_images/street.png" },
+      { name: "Access Control Systems", image: "/services_images/office.png" },
+      { name: "Intruder Alarm Systems", image: "/services_images/bank.png" },
+      { name: "Fire Detection Systems", image: "/services_images/mall.png" },
+      { name: "Intercom & Door Entry", image: "/services_images/event.png" },
+      { name: "Remote Monitoring", image: "/services_images/construction.png" },
+    ],
   },
   {
-    img: "/service/key.svg",
-    title: "Keyholding",
-    description:
-      "Experienced retail security officers who reduce shrinkage, prevent shoplifting, and create a safe shopping environment.",
-    url: "/services/retail-security",
+    id: "guarding",
+    name: "Guarding Services",
+    icon: "/vigilant_icons/Vector-14.svg",
+    tags: [
+      { name: "Manned Guarding", image: "/services_images/street.png" },
+      { name: "Mobile Patrols", image: "/services_images/construction.png" },
+      { name: "Reception Security", image: "/services_images/office.png" },
+      { name: "Door Supervision", image: "/services_images/event.png" },
+      { name: "Key Holding & Response", image: "/services_images/bank.png" },
+      { name: "Alarm Response", image: "/services_images/mall.png" },
+    ],
   },
   {
-    img: "/service/building.svg",
-    title: "Concierge & Front of House",
-    description:
-      "Tailored corporate security solutions protecting your people, assets, and premises with professionalism and discretion.",
-    url: "/services/corporate-security",
-  },
-  {
-    img: "/service/paw.svg",
-    title: "Support Workers",
-    description:
-      "Specialist security services for government buildings, hospitals, schools, and other public sector organisations.",
-    url: "/services/public-sector",
-  },
-  {
-    img: "/service/house.svg",
-    title: "Estate Management",
-    description:
-      "Sensitive, respectful security solutions for care homes, sheltered housing, and residential developments.",
-    url: "/services/care-housing",
-  },
-  {
-    img: "/service/wrentch.svg",
-    title: "Technical Services",
-    description:
-      "Trained lone-worker support and welfare officers ensuring the safety of vulnerable individuals in the community.",
-    url: "/services/support-workers",
-  },
-  {
-    img: "/service/camera.svg",
-    title: "Cleaning Staff",
-    description:
-      "Supply, installation, and monitoring of CCTV systems integrated with your wider security strategy.",
-    url: "/services/security-cameras",
+    id: "support",
+    name: "Support Services",
+    icon: "/vigilant_icons/Vector-6.svg",
+    tags: [
+      { name: "Cleaning Services", image: "/services_images/office.png" },
+      { name: "Facilities Management", image: "/services_images/mall.png" },
+      { name: "Concierge Services", image: "/services_images/bank.png" },
+      {
+        name: "Maintenance Support",
+        image: "/services_images/construction.png",
+      },
+      { name: "Landscaping Services", image: "/services_images/street.png" },
+      { name: "Waste Management", image: "/services_images/event.png" },
+    ],
   },
 ];
 ---
 
-<div class="figma-container">
-  <div class="flex-col" style="gap: 48px;">
-
-    <!-- Section header -->
-    <!-- <div class="flex-col" style="gap: 40px" data-reveal="up">
-      <h1 class="heading-2">Services Vigilant Offers</h1>
-      <p class="body-regular">
-        Our extensive range of security services in the UK is designed to
-        address the unique challenges faced by various sectors. Each service is
-        delivered by thoroughly vetted, SIA-licensed security officers and
-        backed by our commitment to professional excellence
+<section class="svc" id="services" aria-label="Comprehensive Security Services">
+  <div class="svc__inner">
+    <!-- ── Header ─────────────────────────────────────────── -->
+    <div class="svc__header">
+      <h2 class="svc__heading">Comprehensive Security Services</h2>
+      <p class="svc__subheading">
+        Delivering integrated security solutions across people, technology, and
+        operations to protect what matters most.
       </p>
-    </div> -->
-
-     <div class="flex-row" style="gap: 52px">
-    <div class="img-container" data-reveal="left">
-      <img
-        class="trust-img"
-        src="/services-info.webp"
-        alt="security cameras image"
-      />
     </div>
-    <div
-      class="flex-col-start"
-      style="gap: 40px; max-width: 550px;"
-      data-reveal="right"
-    >
-      <div class="flex-col-start" style="gap: 16px">
-        <span
-          class="pill-text"
-          style="padding: 8px; color: var(--color-primary)"
-        >
-          Our Expertise
-        </span>
-        <h1 class="heading-2" style="color: var(--primary-text);">
-          What We Do — Our Services
-        </h1>
-        <p
-          class="body-large"
-          style="text-align: left; color: var(--primary-text);"
-        >
-          Our extensive range of security services in the UK is designed to address the unique challenges faced by various sectors. Each service is delivered by thoroughly vetted, SIA-licensed security officers and backed by our commitment to professional excellence 
-        </p>
+
+    <!-- ── Body row ───────────────────────────────────────── -->
+    <div class="svc__body">
+      <!-- Left: label + service list -->
+      <div class="svc__left">
+        <span class="svc__label">WHAT WE OFFER</span>
+        <div class="svc__list">
+          {
+            services.map((s, i) => (
+              <button
+                class={`svc__row${i === 0 ? " svc__row--active" : ""}`}
+                data-svc-id={s.id}
+                aria-pressed={i === 0 ? "true" : "false"}
+                type="button"
+              >
+                <div class="svc__row-inner">
+                  <div class="svc__icon-wrap">
+                    <img
+                      src={s.icon}
+                      alt=""
+                      class="svc__icon-img"
+                      aria-hidden="true"
+                      width="24"
+                      height="24"
+                    />
+                  </div>
+                  <span class="svc__row-name">{s.name}</span>
+                  <svg
+                    class="svc__row-arrow"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M9 18l6-6-6-6"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="svc__row-divider" />
+              </button>
+            ))
+          }
+        </div>
       </div>
-     
-    </div>
-  </div>
 
-    <!-- Cards grid -->
-    <div class="services-grid">
-      {services.map((s, i) => (
-        <a href={s.url} class="service-card" data-reveal="up" data-reveal-delay={i * 70}>
-
-          <!-- Top accent bar -->
-          <div class="card-accent-bar"></div>
-
-          <!-- Card inner content -->
-          <div class="card-inner">
-
-            <!-- Icon + number row -->
-            <div class="card-top-row">
-              <div class="service-icon-wrap">
-                <img src={s.img} alt={s.title} width="22" height="22" />
-              </div>
-              <span class="card-number">0{i + 1}</span>
-            </div>
-
-            <!-- Heading -->
-            <div class="service-heading-row">
-              <span class="card-title">{s.title}</span>
-            </div>
-
-            <!-- Description -->
-            <p class="body-regular service-desc">
-              {s.description}
-            </p>
-
-            <!-- Show more link -->
-            <div class="service-link-row">
-              <span class="link-label">Explore service</span>
-              <div class="link-arrow">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path
-                    d="M4 10h12M11 5l5 5-5 5"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+      <!-- Right: tag panels (one per service, only active shown) + CTA -->
+      <div class="svc__right">
+        {
+          services.map((s, i) => (
+            <div
+              class={`svc__panel${i === 0 ? " svc__panel--active" : ""}`}
+              data-svc-panel={s.id}
+              aria-hidden={i !== 0 ? "true" : "false"}
+            >
+              <div class="svc__tags-wrap">
+                <div class="svc__tags-row">
+                  {s.tags.slice(0, 3).map((t) => (
+                    <div
+                      class="svc__tag"
+                      style={`background-image: linear-gradient(180deg, rgba(102,102,102,0) 20%, rgba(200,210,222,1) 100%), url('${t.image}')`}
+                    >
+                      {t.name}
+                    </div>
+                  ))}
+                </div>
+                <div class="svc__tags-row">
+                  {s.tags.slice(3).map((t) => (
+                    <div
+                      class="svc__tag"
+                      style={`background-image: linear-gradient(180deg, rgba(102,102,102,0) 20%, rgba(200,210,222,1) 100%), url('${t.image}')`}
+                    >
+                      {t.name}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-
-          </div>
-        </a>
-      ))}
+          ))
+        }
+        <a href="/services" class="svc__cta">View All Services</a>
+      </div>
     </div>
-
-    
   </div>
-</div>
+</section>
 
 <style>
-  .trust-img {
-    width: 518px;
-    height: 524px;
-    border-radius: 8px;
-  }
-  /* ── Cards grid ─────────────────────────────────────────── */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    justify-content: center;
+  /* ── Section ────────────────────────────────────────────── */
+  .svc {
+    background-color: #ffffff;
+    padding: 120px 64px 0;
   }
 
-  /* ── Card shell ──────────────────────────────────────────── */
-  .service-card {
-    position: relative;
+  .svc__inner {
     display: flex;
     flex-direction: column;
-    border-radius: 16px;
-    background: #ffffff;
-    border: 1px solid rgba(141, 153, 174, 0.2);
-    text-decoration: none;
-    overflow: hidden;
-    box-shadow:
-      0 1px 2px rgba(43, 45, 66, 0.04),
-      0 4px 12px rgba(43, 45, 66, 0.06);
-    transition:
-      transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1),
-      box-shadow 240ms ease,
-      border-color 240ms ease;
-  }
-
-  .service-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(217, 4, 41, 0.2);
-    box-shadow:
-      0 4px 12px rgba(43, 45, 66, 0.08),
-      0 16px 36px rgba(43, 45, 66, 0.1);
-  }
-
-  /* ── Top accent bar (red left-border reveal) ─────────────── */
-  .card-accent-bar {
-    height: 3px;
+    gap: 32px;
+    max-width: 1152px;
+    margin: 0 auto;
     width: 100%;
-    background: #d90429;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .service-card:hover .card-accent-bar {
-    transform: scaleX(1);
-  }
-
-  /* ── Card inner padding ──────────────────────────────────── */
-  .card-inner {
+  /* ── Header ─────────────────────────────────────────────── */
+  .svc__header {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 22px;
-    flex: 1;
-  }
-
-  /* ── Top row: icon + number ──────────────────────────────── */
-  .card-top-row {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
   }
 
-  /* ── Icon wrap ───────────────────────────────────────────── */
-  .service-icon-wrap {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: #edf2f4;
-    border: 1px solid rgba(141, 153, 174, 0.2);
+  .svc__heading {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+    text-align: center;
+    margin: 0;
+  }
+
+  .svc__subheading {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    text-align: center;
+    max-width: 700px;
+    margin: 0;
+  }
+
+  /* ── Body row ────────────────────────────────────────────── */
+  /* Figma: row, space-between */
+  .svc__body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    gap: 0;
+  }
+
+  /* ── Left ───────────────────────────────────────────────── */
+  /* Figma layout_OU0XIT: column, justifyContent center, hug sizing */
+  .svc__left {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    flex-shrink: 0;
+  }
+
+  .svc__label {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    color: #b61f26;
+    display: block;
+    text-align: left;
+  }
+
+  .svc__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Button reset — .svc__row is now a <button> */
+  .svc__row {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 40px 0 0 24px;
+    text-decoration: none;
+    background: none;
+    border: none;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: opacity 180ms ease;
+  }
+
+  .svc__row:hover {
+    opacity: 0.85;
+  }
+
+  /* Active: 4px red left border, adjust padding */
+  .svc__row--active {
+    border-left: 4px solid #b61f26;
+    padding-left: 20px;
+  }
+
+  /* Row inner: row, center, gap 8px */
+  .svc__row-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* Icon pill 40×40
+     Default (inactive): subtle grey background
+     Active: navy rgba(51,88,125,0.15) per Figma */
+  .svc__icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background: rgba(51, 88, 125, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: background 240ms ease, border-color 240ms ease;
+    transition: background 200ms ease;
   }
 
-  .service-card:hover .service-icon-wrap {
-    background: rgba(217, 4, 41, 0.08);
-    border-color: rgba(217, 4, 41, 0.2);
-  }
-
-  .service-icon-wrap img {
+  /* Icon image inside the pill */
+  .svc__icon-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
     display: block;
-    filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(4996%) hue-rotate(341deg) brightness(90%) contrast(110%);
-    transition: filter 240ms ease;
+    /* Default: dark icon, slightly muted */
+    filter: opacity(0.5);
+    transition: filter 200ms ease;
   }
 
-  .service-card:hover .service-icon-wrap img {
-    filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(4996%) hue-rotate(341deg) brightness(90%) contrast(110%);
+  /* Active state: navy pill + vibrant navy-tinted icon */
+  .svc__row--active .svc__icon-wrap {
+    background: rgba(51, 88, 125, 0.15);
+  }
+  .svc__row--active .svc__icon-img {
+    /* Shift icon to navy/blue tint — matches Figma active icon color #33587D */
+    filter: brightness(0) saturate(100%) invert(33%) sepia(29%) saturate(700%)
+      hue-rotate(175deg) brightness(90%) contrast(90%);
   }
 
-  /* ── Number badge ────────────────────────────────────────── */
-  .card-number {
-    font-size: 11px;
+  /* Service name: Inter Bold 700 16px */
+  .svc__row-name {
+    font-family: "Inter", sans-serif;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    color: rgba(141, 153, 174, 0.5);
-    transition: color 240ms ease;
-  }
-
-  .service-card:hover .card-number {
-    color: #d90429;
-  }
-
-  /* ── Heading ─────────────────────────────────────────────── */
-  .service-heading-row {
-    display: flex;
-    align-items: center;
-  }
-
-  .card-title {
-    font-size: 15.5px;
-    font-weight: 700;
-    line-height: 1.3;
-    color: #2b2d42;
-    transition: color 240ms ease;
-  }
-
-  .service-card:hover .card-title {
-    color: #d90429;
-  }
-
-  /* ── Description ─────────────────────────────────────────── */
-  .service-desc {
-    font-size: 13px;
-    line-height: 1.65;
-    color: #8d99ae;
-    text-align: left;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
     flex: 1;
-    margin: 0;
+    text-align: left;
   }
 
-  /* ── "Explore service" row ───────────────────────────────── */
-  .service-link-row {
+  .svc__row--active .svc__row-name {
+    color: #33587d;
+  }
+
+  .svc__row-arrow {
+    color: #323232;
+    flex-shrink: 0;
+    opacity: 0.4;
+  }
+
+  /* Divider: Figma layout_Z51YQO: 315px × 0 (1px stroke) */
+  .svc__row-divider {
+    width: 315px;
+    height: 1px;
+    background: #eeeeee;
+    margin-top: 40px;
+  }
+
+  /* ── Right ──────────────────────────────────────────────── */
+  /* Figma layout_ZJXAYO: 753px fixed width, column gap 56px */
+  .svc__right {
     display: flex;
+    flex-direction: column;
+    gap: 56px;
+    width: 753px;
+    flex-shrink: 0;
+    /* Stack panels using CSS grid overlay — active panel shows, inactive hidden */
+    position: relative;
+  }
+
+  /* Each panel: hidden by default, shown when active */
+  .svc__panel {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    opacity: 0;
+    transition: opacity 280ms ease;
+  }
+  .svc__panel--active {
+    display: flex;
+    opacity: 1;
+  }
+
+  /* Tags container: column, gap 24px */
+  .svc__tags-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Each tag row: row, center, gap 24px */
+  .svc__tags-row {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 8px;
-    margin-top: 4px;
-    padding-top: 12px;
-    border-top: 1px solid #edf2f4;
+    gap: 24px;
   }
 
-  .link-label {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: #8d99ae;
-    letter-spacing: 0.01em;
-    transition: color 240ms ease;
-  }
-
-  .service-card:hover .link-label {
-    color: #d90429;
-  }
-
-  .link-arrow {
+  /* Tag card: 235×280px, padding 208px 11px 0px (text at bottom)
+     Background: gradient overlay ON TOP of cover image */
+  /* Tag card: 235×280px, padding 208px 11px 0px (text at bottom)
+     Figma fill_BPAZT1:
+       layer 1 (top): linear-gradient(180deg, rgba(102,102,102,0) 70%, rgba(51,88,125,1) 78%)
+       layer 2 (bg):  IMAGE — scaleMode FILL / backgroundSize cover
+     Per-card background image set via inline style on each element */
+  .svc__tag {
+    width: 235px;
+    height: 280px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    background-color: #d2dce8;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
     display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 11px 20px;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    /* Figma: fill_2FK5JE #323232 — dark text on light gray frosted overlay */
+    color: #323232;
+    text-align: center;
+  }
+
+  /* ── CTA button ─────────────────────────────────────────── */
+  /* Figma: row, center, gap 6px, padding 11px 16px, stroke 1.5px #B61F26, radius 12px */
+  .svc__cta {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #edf2f4;
-    color: #8d99ae;
-    margin-left: auto;
-    transition: background 240ms ease, color 240ms ease, transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    padding: 11px 16px;
+    border: 1.5px solid #b61f26;
+    border-radius: 12px;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    color: #b61f26;
+    text-decoration: none;
+    width: fit-content;
+    transition:
+      background-color 180ms ease,
+      color 180ms ease;
   }
 
-  .service-card:hover .link-arrow {
-    background: #d90429;
+  .svc__cta:hover {
+    background-color: #b61f26;
     color: #ffffff;
-    transform: translateX(3px);
   }
 
-  .link-arrow svg {
-    display: block;
-    stroke: currentColor;
-  }
-
-  /* ── Responsive ──────────────────────────────────────────── */
+  /* ── Responsive ─────────────────────────────────────────── */
   @media (max-width: 1200px) {
-    .services-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .svc__right {
+      width: auto;
+      flex: 1;
+    }
+
+    .svc__tags-row {
+      flex-wrap: wrap;
     }
   }
 
-  @media (max-width: 700px) {
-    .services-grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 1100px) {
+    .svc__body {
+      flex-direction: column;
+      gap: 48px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .svc {
+      padding: 80px 32px 0;
+    }
+
+    .svc__heading {
+      font-size: 32px;
+      line-height: 40px;
+    }
+
+    .svc__tag {
+      width: 180px;
+      height: 220px;
+    }
+
+    .svc__row-divider {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .svc {
+      padding: 60px 20px 0;
+    }
+
+    .svc__tags-row {
+      gap: 12px;
+    }
+
+    .svc__tag {
+      width: 150px;
+      height: 190px;
+      font-size: 14px;
     }
   }
 </style>
+
+<script>
+  import { gsap } from "gsap";
+
+  const rows = document.querySelectorAll("[data-svc-id]");
+  const panels = document.querySelectorAll("[data-svc-panel]");
+
+  // Animate the cards inside a panel in with a stagger
+  function animatePanel(panel: Element) {
+    const tags = panel.querySelectorAll(".svc__tag");
+    // Reset so they can re-animate even on re-click
+    gsap.killTweensOf(tags);
+    gsap.fromTo(
+      tags,
+      { y: 28, opacity: 0, scale: 0.94 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.45,
+        stagger: 0.07,
+        ease: "back.out(1.3)",
+        clearProps: "transform",
+      }
+    );
+  }
+
+  rows.forEach((row) => {
+    row.addEventListener("click", () => {
+      const targetId = row.getAttribute("data-svc-id");
+
+      // Deactivate all rows
+      rows.forEach((r) => {
+        r.classList.remove("svc__row--active");
+        r.setAttribute("aria-pressed", "false");
+      });
+
+      // Activate clicked row
+      row.classList.add("svc__row--active");
+      row.setAttribute("aria-pressed", "true");
+
+      // Swap panels + animate incoming cards
+      panels.forEach((panel) => {
+        if (panel.getAttribute("data-svc-panel") === targetId) {
+          panel.classList.add("svc__panel--active");
+          panel.setAttribute("aria-hidden", "false");
+          animatePanel(panel);
+        } else {
+          panel.classList.remove("svc__panel--active");
+          panel.setAttribute("aria-hidden", "true");
+        }
+      });
+    });
+  });
+
+  // Run entrance animation on the initially active panel too
+  const initialPanel = document.querySelector(".svc__panel--active");
+  if (initialPanel) animatePanel(initialPanel);
+</script>
+
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Section header fades up
+  gsap.from(".svc__header", {
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#services",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Left service list slides in from left
+  gsap.from(".svc__left", {
+    x: -50,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".svc__body",
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  // Right panel slides in from right
+  gsap.from(".svc__right", {
+    x: 50,
+    opacity: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".svc__body",
+      start: "top 80%",
+      once: true,
+    },
+  });
+</script>
+

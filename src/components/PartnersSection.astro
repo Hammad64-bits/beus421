@@ -1,0 +1,582 @@
+---
+// Partners sections (1004:3675) — pixel perfect from fresh Figma fetch
+//
+// Two shadow variants (from Figma globalVars):
+//   effect_64GLMI: boxShadow 5px 5px 30px 0px rgba(51, 88, 125, 0.15)  ← navy (Polygon 20 & central)
+//   effect_UPG17C: boxShadow 5px 5px 30px 0px rgba(0, 0, 0, 0.15)      ← black (all other partner hexes)
+//
+// fill_QILAHB = [] = empty → no fill, transparent ghost hexes
+// fill_K2CVM8 = #FFFFFF = white fill for partner hexes
+//
+// Central hex (Frame 173, 350×350):
+//   Polygon 12: fill_V4PBKV = gradient (full opacity) + #FFFFFF base
+//     gradient: linear-gradient(238deg, rgba(211,120,124,1) 5%, rgba(182,31,38,1) 22%,
+//               rgba(211,120,124,1) 45%, rgba(226,165,168,1) 64%, rgba(211,120,124,1) 85%, rgba(182,31,38,1) 100%)
+//   effect_64GLMI = navy shadow
+//   image 27 (logo): at x:51, y:138 → 247×73px — FILL scaleMode (covers rect)
+//
+// Frame 177 / Frame 178 layout (layout_4AX44E: column, hug):
+//   Children are absolutely positioned within a 400×600 implicit container
+
+const leftGrid = [
+  // null src = empty ghost hex (fill_QILAHB = [])
+  { col: 1, row: 1, src: null, shadow: null },
+  { col: 2, row: 1, src: "/partners/partner-1.png", alt: "Partner 1", shadow: "navy" }, // Polygon 20 → effect_64GLMI
+  { col: 1, row: 2, src: "/partners/partner-2.png", alt: "Partner 2", shadow: "black" }, // Polygon 21 → effect_UPG17C
+  { col: 2, row: 2, src: null, shadow: null },
+  { col: 1, row: 3, src: null, shadow: null },
+  { col: 2, row: 3, src: "/partners/partner-3.png", alt: "Partner 3", shadow: "black" }, // Polygon 24 → effect_UPG17C
+];
+
+const rightGrid = [
+  { col: 1, row: 1, src: "/partners/partner-4.png", alt: "Partner 4", shadow: "black" }, // Polygon 13 → effect_UPG17C
+  { col: 2, row: 1, src: null, shadow: null },
+  { col: 1, row: 2, src: null, shadow: null },
+  { col: 2, row: 2, src: "/partners/partner-5.png", alt: "Partner 5", shadow: "black" }, // Polygon 17 → effect_UPG17C
+  { col: 1, row: 3, src: "/partners/partner-6.png", alt: "Partner 6", shadow: "black" }, // Polygon 15 → effect_UPG17C
+  { col: 2, row: 3, src: null, shadow: null },
+];
+
+function shadowClass(shadow: string | null) {
+  if (!shadow) return "";
+  return shadow === "navy" ? " hex--shadow-navy" : " hex--shadow-black";
+}
+---
+
+<section
+  class="partners"
+  id="partners"
+  aria-label="Our valued client partnerships"
+>
+  <div class="partners__inner">
+
+    <!-- Header: Frame 27, column, center, gap 8px, width 1152px -->
+    <div class="partners__header">
+      <h2 class="partners__heading">Our Valued Client<br />Partnerships</h2>
+      <p class="partners__body">
+        Vigilant Security Services is proud to partner with leading
+        organisations across diverse sectors,delivering bespoke security
+        solutions that safeguard their operations and assets.
+      </p>
+    </div>
+
+    <!-- Frame 179: row, gap 1px, alignItems center, width 1152px -->
+    <div class="partners__row">
+
+      <!-- Glow ellipses (absolutely positioned in Frame 179) -->
+      <!-- Ellipse 5: x:-213, y:308, 425×386, rgba(182,31,38,0.1), blur 250px -->
+      <div class="partners__blob partners__blob--red" aria-hidden="true"></div>
+      <!-- Ellipse 6: x:934, y:-224, 507×467, same color, blur 250px -->
+      <div class="partners__blob partners__blob--blue" aria-hidden="true"></div>
+
+      <!-- Frame 177: column, hug → implicit 400×600 from absolute children -->
+      <div class="partners__hex-grid">
+        {leftGrid.map((cell) => (
+          <div
+            class={`partners__hex-cell${cell.src ? ` partners__hex-cell--filled${shadowClass(cell.shadow)}` : " partners__hex-cell--empty"}`}
+            style={`grid-column:${cell.col};grid-row:${cell.row}`}
+            data-hex-id={cell.src ? `left-${cell.col}-${cell.row}` : undefined}
+          >
+            <div class="partners__hex-shape">
+              {cell.src && (
+                <img src={cell.src} alt={cell.alt} class="partners__logo" />
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Frame 173: 350×350, absolute-position children (polygon + image) -->
+      <!-- We replicate with relative container holding the polygon shape + absolutely-placed logo -->
+      <div class="partners__hex-main" aria-hidden="true">
+        <!-- Polygon 12: 350×350, gradient fill, effect_64GLMI (navy shadow) -->
+        <div class="partners__main-polygon"></div>
+        <!-- image 27: x:51, y:138, 247×73 -->
+        <img
+          src="/partners/partner-logo.png"
+          alt="Vigilant Security"
+          class="partners__main-logo"
+        />
+      </div>
+
+      <!-- Frame 178: mirror of Frame 177 -->
+      <div class="partners__hex-grid">
+        {rightGrid.map((cell) => (
+          <div
+            class={`partners__hex-cell${cell.src ? ` partners__hex-cell--filled${shadowClass(cell.shadow)}` : " partners__hex-cell--empty"}`}
+            style={`grid-column:${cell.col};grid-row:${cell.row}`}
+            data-hex-id={cell.src ? `right-${cell.col}-${cell.row}` : undefined}
+          >
+            <div class="partners__hex-shape">
+              {cell.src && (
+                <img src={cell.src} alt={cell.alt} class="partners__logo" />
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ─────────────────────────────────────────────── */
+  /* layout_DGF1QB: column, center, gap 8px, padding 30px 64px 120px */
+  .partners {
+    background: #ffffff;
+    padding: 30px 64px 120px;
+    overflow: hidden;
+  }
+
+  .partners__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 64px; /* layout_GXH2EH: gap 64px */
+    max-width: 1152px;
+    margin: 0 auto;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  /* layout_8D8A0N: column, center, gap 8px, width 1152px */
+  .partners__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .partners__heading {
+    /* Heading 2: Inter SemiBold 600, 44px, line-height 52px, letterSpacing -0.45% */
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.0045em;
+    color: #33587d;
+    text-align: center;
+    margin: 0;
+  }
+
+  .partners__body {
+    /* Body Regular: Inter 400, 16px, line-height 26px, center */
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #323232;
+    text-align: center;
+    max-width: 800px;
+    margin: 0;
+  }
+
+  /* ── Frame 179: row, gap 1px, alignItems center ──────────── */
+  .partners__row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1px;
+    position: relative;
+    width: 1152px;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  /* ── Glow ellipses ───────────────────────────────────────── */
+  /* Figma: position absolute inside Frame 179 */
+  .partners__blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* Ellipse 5: x:-213, y:308, 425×386, rgba(182,31,38,0.1), blur 250px */
+  .partners__blob--red {
+    width: 425px;
+    height: 386px;
+    background: rgba(182, 31, 38, 0.1);
+    filter: blur(250px);
+    left: -213px;
+    top: 308px;
+  }
+  /* Ellipse 6: x:934, y:-224, 507×467, same fill, blur 250px */
+  .partners__blob--blue {
+    width: 507px;
+    height: 467px;
+    background: rgba(182, 31, 38, 0.1);
+    filter: blur(250px);
+    left: 934px;
+    top: -224px;
+  }
+
+  /* ── Frame 177 / 178: 2-col × 3-row grid ────────────────── */
+  /* layout_4AX44E: column, hug → children at absolute positions 0-399 × 0-599 */
+  .partners__hex-grid {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-template-rows: 200px 200px 200px;
+    width: 400px;
+    height: 600px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Hexagon cell: outer wrapper carries shadow, inner shape carries clip-path ── */
+  /* Outer wrapper: positions in grid, carries filter:drop-shadow */
+  .partners__hex-cell {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Inner shape: white fill + rounded hex clip-path
+     Figma borderRadius: 24px on REGULAR_POLYGON 200×200
+     Computed: quadratic bezier at each corner (r=24, unit diagonal=±0.8944/±0.4472) */
+  .partners__hex-shape {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: path('M 78.53 10.73 Q 100 0 121.47 10.73 L 178.53 39.27 Q 200 50 200 74 L 200 126 Q 200 150 178.53 160.73 L 121.47 189.27 Q 100 200 78.53 189.27 L 21.47 160.73 Q 0 150 0 126 L 0 74 Q 0 50 21.47 39.27 Z');
+  }
+
+  /* Filled hex: fill_K2CVM8 = #FFFFFF — applied to inner shape */
+  .partners__hex-cell--filled .partners__hex-shape {
+    background: #ffffff;
+  }
+
+  /* Navy shadow (effect_64GLMI): 5px 5px 30px 0px rgba(51,88,125,0.15) on OUTER wrapper */
+  .hex--shadow-navy {
+    filter: drop-shadow(5px 5px 30px rgba(51, 88, 125, 0.15));
+    transition: filter 200ms ease, transform 200ms ease;
+  }
+  .hex--shadow-navy:hover {
+    filter: drop-shadow(5px 8px 24px rgba(51, 88, 125, 0.3));
+    transform: translateY(-3px);
+  }
+
+  /* Black shadow (effect_UPG17C): 5px 5px 30px 0px rgba(0,0,0,0.15) on OUTER wrapper */
+  .hex--shadow-black {
+    filter: drop-shadow(5px 5px 30px rgba(0, 0, 0, 0.15));
+    transition: filter 200ms ease, transform 200ms ease;
+  }
+  .hex--shadow-black:hover {
+    filter: drop-shadow(5px 8px 24px rgba(0, 0, 0, 0.3));
+    transform: translateY(-3px);
+  }
+
+  /* Empty ghost hex: fill_QILAHB = [] → no fill, no shadow */
+  .partners__hex-cell--empty {
+    filter: none;
+  }
+  .partners__hex-cell--empty .partners__hex-shape {
+    background: transparent;
+  }
+
+  /* Partner logo image inside hex */
+  .partners__logo {
+    width: 72%;
+    height: 58%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* ── Frame 173: Central hex container 350×350 ────────────── */
+  /* Holds Polygon 12 (350×350, gradient) + image 27 (247×73 at x:51,y:138) */
+  .partners__hex-main {
+    width: 350px;
+    height: 350px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Polygon 12: 350×350 gradient + navy shadow (effect_64GLMI)
+     fill_V4PBKV: gradient fill (full opacity, both stops are 1.0 rgba)
+                + #FFFFFF as second fill (layer under gradient)
+     The "15%" in Figma inspector is the LAYER opacity of the gradient fill.
+     This means: gradient at 15% opacity over white. */
+  .partners__main-polygon {
+    position: absolute;
+    inset: 0;
+    width: 350px;
+    height: 350px;
+    /* Rounded hex: borderRadius 24px on 350×350 REGULAR_POLYGON */
+    clip-path: path('M 153.53 10.73 Q 175 0 196.47 10.73 L 328.53 76.77 Q 350 87.5 350 111.5 L 350 238.5 Q 350 262.5 328.53 273.23 L 196.47 339.27 Q 175 350 153.53 339.27 L 21.47 273.23 Q 0 262.5 0 238.5 L 0 111.5 Q 0 87.5 21.47 76.77 Z');
+    /* Gradient reversed (58deg = 238deg - 180°) + 15% opacity over white */
+    background:
+      linear-gradient(
+        58deg,
+        rgba(211, 120, 124, 0.15) 5%,
+        rgba(182, 31, 38, 0.15) 22%,
+        rgba(211, 120, 124, 0.15) 45%,
+        rgba(226, 165, 168, 0.15) 64%,
+        rgba(211, 120, 124, 0.15) 85%,
+        rgba(182, 31, 38, 0.15) 100%
+      ),
+      #ffffff;
+    /* effect_64GLMI: boxShadow 5px 5px 30px 0px rgba(51,88,125,0.15) */
+    filter: drop-shadow(5px 5px 30px rgba(51, 88, 125, 0.15));
+  }
+
+  /* image 27-Picsart-BackgroundRemover 1: x:51, y:138, 247×73
+     scaleMode: FILL → objectFit: cover */
+  .partners__main-logo {
+    position: absolute;
+    left: 51px;
+    top: 138px;
+    width: 247px;
+    height: 73px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 1200px) {
+    .partners {
+      padding: 30px 40px 100px;
+    }
+    .partners__row {
+      width: 100%;
+    }
+    .partners__hex-grid {
+      grid-template-columns: 160px 160px;
+      grid-template-rows: 160px 160px 160px;
+      width: 320px;
+      height: 480px;
+    }
+    .partners__hex-cell {
+      width: 160px;
+      height: 160px;
+    }
+    /* 160×160, r=20 */
+    .partners__hex-shape {
+      width: 160px;
+      height: 160px;
+      clip-path: path('M 62.11 8.94 Q 80 0 97.89 8.94 L 142.11 31.06 Q 160 40 160 60 L 160 100 Q 160 120 142.11 128.94 L 97.89 151.06 Q 80 160 62.11 151.06 L 17.89 128.94 Q 0 120 0 100 L 0 60 Q 0 40 17.89 31.06 Z');
+    }
+    .partners__hex-main {
+      width: 280px;
+      height: 280px;
+    }
+    .partners__main-polygon {
+      width: 280px;
+      height: 280px;
+      /* 280×280, r=22 */
+      clip-path: path('M 120.32 9.84 Q 140 0 159.68 9.84 L 260.32 60.16 Q 280 70 280 92 L 280 188 Q 280 210 260.32 219.84 L 159.68 270.16 Q 140 280 120.32 270.16 L 19.68 219.84 Q 0 210 0 188 L 0 92 Q 0 70 19.68 60.16 Z');
+    }
+    .partners__main-logo {
+      left: 40px;
+      top: 110px;
+      width: 200px;
+      height: 58px;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .partners__row {
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+    }
+    .partners__hex-grid {
+      grid-template-columns: 140px 140px;
+      grid-template-rows: 140px 140px 140px;
+      width: 280px;
+      height: 420px;
+    }
+    .partners__hex-cell {
+      width: 140px;
+      height: 140px;
+    }
+    /* 140×140, r=18 */
+    .partners__hex-shape {
+      width: 140px;
+      height: 140px;
+      clip-path: path('M 53.9 8.05 Q 70 0 86.1 8.05 L 123.9 26.95 Q 140 35 140 53 L 140 87 Q 140 105 123.9 113.05 L 86.1 131.95 Q 70 140 53.9 131.95 L 16.1 113.05 Q 0 105 0 87 L 0 53 Q 0 35 16.1 26.95 Z');
+    }
+    .partners__hex-main {
+      width: 240px;
+      height: 240px;
+    }
+    .partners__main-polygon {
+      width: 240px;
+      height: 240px;
+      /* 240×240, r=20 */
+      clip-path: path('M 102.11 8.94 Q 120 0 137.89 8.94 L 222.11 51.06 Q 240 60 240 80 L 240 160 Q 240 180 222.11 188.94 L 137.89 231.06 Q 120 240 102.11 231.06 L 17.89 188.94 Q 0 180 0 160 L 0 80 Q 0 60 17.89 51.06 Z');
+    }
+    .partners__main-logo {
+      left: 34px;
+      top: 95px;
+      width: 170px;
+      height: 50px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .partners {
+      padding: 20px 24px 80px;
+    }
+    .partners__heading {
+      font-size: 32px;
+      line-height: 40px;
+    }
+    .partners__hex-grid {
+      grid-template-columns: 110px 110px;
+      grid-template-rows: 110px 110px 110px;
+      width: 220px;
+      height: 330px;
+    }
+    .partners__hex-cell {
+      width: 110px;
+      height: 110px;
+    }
+    /* 110×110, r=14 */
+    .partners__hex-shape {
+      width: 110px;
+      height: 110px;
+      clip-path: path('M 42.48 6.26 Q 55 0 67.52 6.26 L 97.48 21.24 Q 110 27.5 110 41.5 L 110 68.5 Q 110 82.5 97.48 88.76 L 67.52 103.74 Q 55 110 42.48 103.74 L 12.52 88.76 Q 0 82.5 0 68.5 L 0 41.5 Q 0 27.5 12.52 21.24 Z');
+    }
+    .partners__hex-cell--empty {
+      display: none;
+    }
+    .partners__hex-main {
+      width: 190px;
+      height: 190px;
+    }
+    .partners__main-polygon {
+      width: 190px;
+      height: 190px;
+      /* 190×190, r=16 */
+      clip-path: path('M 80.69 7.16 Q 95 0 109.31 7.16 L 175.69 40.34 Q 190 47.5 190 63.5 L 190 126.5 Q 190 142.5 175.69 149.66 L 109.31 182.84 Q 95 190 80.69 182.84 L 14.31 149.66 Q 0 142.5 0 126.5 L 0 63.5 Q 0 47.5 14.31 40.34 Z');
+    }
+    .partners__main-logo {
+      left: 27px;
+      top: 75px;
+      width: 136px;
+      height: 40px;
+    }
+  }
+</style>
+
+<style>
+  /* ── Per-hex float animations ─────────────────────────────── */
+  /* Each filled hex gets a gentle bob at a unique phase/speed   */
+  [data-hex-id="left-2-1"]  { animation: hex-float-a 4.2s ease-in-out infinite; }
+  [data-hex-id="left-1-2"]  { animation: hex-float-b 3.8s ease-in-out infinite; }
+  [data-hex-id="left-2-3"]  { animation: hex-float-c 4.6s ease-in-out infinite; }
+  [data-hex-id="right-1-1"] { animation: hex-float-b 4.0s ease-in-out infinite; }
+  [data-hex-id="right-2-2"] { animation: hex-float-a 3.6s ease-in-out infinite; }
+  [data-hex-id="right-1-3"] { animation: hex-float-c 4.4s ease-in-out infinite; }
+
+  /* Central hex: slower, larger amplitude bob */
+  .partners__hex-main { animation: hex-float-main 5s ease-in-out infinite; }
+
+  @keyframes hex-float-a {
+    0%, 100% { transform: translateY(0px);    }
+    50%       { transform: translateY(-10px);  }
+  }
+  @keyframes hex-float-b {
+    0%, 100% { transform: translateY(-5px);  }
+    50%       { transform: translateY(5px);   }
+  }
+  @keyframes hex-float-c {
+    0%, 100% { transform: translateY(0px);   }
+    33%       { transform: translateY(-8px);  }
+    66%       { transform: translateY(4px);   }
+  }
+  @keyframes hex-float-main {
+    0%, 100% { transform: translateY(0px) scale(1);    }
+    50%       { transform: translateY(-8px) scale(1.01); }
+  }
+</style>
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── Pause CSS float until entrance is done ─────────────────
+  const allHexes = document.querySelectorAll("[data-hex-id], .partners__hex-main");
+  allHexes.forEach((el) => {
+    (el as HTMLElement).style.animationPlayState = "paused";
+  });
+
+  // ── Each hex flies in from its own direction ───────────────
+  // Left grid: partner-1(col2,row1) = top-right, partner-2(col1,row2) = left, partner-3(col2,row3) = bottom-right
+  // Right grid: partner-4(col1,row1) = top-left, partner-5(col2,row2) = right, partner-6(col1,row3) = bottom-left
+  const hexConfigs: { id: string; x: number; y: number; rotation: number; delay: number }[] = [
+    { id: "left-2-1",  x:  80, y: -120, rotation: -25, delay: 0.2  }, // top-right → flies from top-right
+    { id: "left-1-2",  x: -140, y:   0, rotation:  15, delay: 0.35 }, // left      → flies from far left
+    { id: "left-2-3",  x:  80, y:  120, rotation:  20, delay: 0.5  }, // bottom-right → from bottom-right
+    { id: "right-1-1", x: -80, y: -120, rotation:  25, delay: 0.28 }, // top-left  → flies from top-left
+    { id: "right-2-2", x:  140, y:   0, rotation: -15, delay: 0.43 }, // right     → flies from far right
+    { id: "right-1-3", x: -80, y:  120, rotation: -20, delay: 0.58 }, // bottom-left → from bottom-left
+  ];
+
+  const st: ScrollTrigger.Vars = {
+    trigger: ".partners__row",
+    start: "top 76%",
+    once: true,
+  };
+
+  // Header fades up
+  gsap.from(".partners__header", {
+    y: 32,
+    opacity: 0,
+    duration: 0.75,
+    ease: "power3.out",
+    scrollTrigger: { trigger: "#partners", start: "top 80%", once: true },
+  });
+
+  // Central hex: dramatic scale-in + glow pulse
+  gsap.fromTo(
+    ".partners__hex-main",
+    { scale: 0.4, opacity: 0, rotation: -12 },
+    {
+      scale: 1,
+      opacity: 1,
+      rotation: 0,
+      duration: 1.1,
+      ease: "back.out(1.8)",
+      scrollTrigger: st,
+      onComplete() {
+        // Un-pause the CSS float on the main hex
+        (document.querySelector(".partners__hex-main") as HTMLElement | null)
+          ?.style.setProperty("animation-play-state", "running");
+      },
+    }
+  );
+
+  // Partner hexes fly in one by one from their own direction
+  hexConfigs.forEach(({ id, x, y, rotation, delay }) => {
+    const el = document.querySelector(`[data-hex-id="${id}"]`);
+    if (!el) return;
+
+    gsap.fromTo(
+      el,
+      { x, y, opacity: 0, rotation, scale: 0.6 },
+      {
+        x: 0,
+        y: 0,
+        opacity: 1,
+        rotation: 0,
+        scale: 1,
+        duration: 0.85,
+        delay,
+        ease: "back.out(1.4)",
+        scrollTrigger: st,
+        onComplete() {
+          // Un-pause CSS float for this hex
+          (el as HTMLElement).style.animationPlayState = "running";
+        },
+      }
+    );
+  });
+</script>
