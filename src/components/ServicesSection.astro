@@ -26,7 +26,10 @@ const services = [
         image: "/services_images/construction.png",
       },
       { name: "Retail Security Services", image: "/services_images/mall.png" },
-      { name: "Corporate Security", image: "/services_images/bank.png" },
+      {
+        name: "Corporate Security Services",
+        image: "/services_images/bank.png",
+      },
       {
         name: "Public Sector Protection",
         image: "/services_images/street.png",
@@ -89,12 +92,12 @@ const services = [
         operations to protect what matters most.
       </p>
     </div>
-
+    <span class="svc__label">WHAT WE OFFER</span>
     <!-- ── Body row ───────────────────────────────────────── -->
     <div class="svc__body">
       <!-- Left: label + service list -->
       <div class="svc__left">
-        <span class="svc__label">WHAT WE OFFER</span>
+        <!-- <span class="svc__label">WHAT WE OFFER</span> -->
         <div class="svc__list">
           {
             services.map((s, i) => (
@@ -154,7 +157,7 @@ const services = [
                   {s.tags.slice(0, 3).map((t) => (
                     <div
                       class="svc__tag"
-                      style={`background: linear-gradient(180deg, rgba(102,102,102,0.00) 20%, rgba(208,220,234,0.92) 100%), url('${t.image}') lightgray 50% / cover no-repeat`}
+                      style={`background: linear-gradient(180deg, rgba(50,50,50,0.00) 50%, #000 100%), url('${t.image}') lightgray 50% / cover no-repeat`}
                     >
                       {t.name}
                     </div>
@@ -164,7 +167,7 @@ const services = [
                   {s.tags.slice(3).map((t) => (
                     <div
                       class="svc__tag"
-                      style={`background: linear-gradient(180deg, rgba(102,102,102,0.00) 20%, rgba(208,220,234,0.92) 100%), url('${t.image}') lightgray 50% / cover no-repeat`}
+                      style={`background: linear-gradient(180deg, rgba(50,50,50,0.00) 50%, #000 100%), url('${t.image}') lightgray 50% / cover no-repeat`}
                     >
                       {t.name}
                     </div>
@@ -275,11 +278,14 @@ const services = [
     cursor: pointer;
     width: 100%;
     text-align: left;
-    transition: opacity 180ms ease;
+    transition:
+      opacity 180ms ease,
+      border-left 180ms ease;
   }
 
   .svc__row:hover {
     opacity: 0.85;
+    border-left: 4px solid rgba(182, 31, 39, 0.15);
   }
 
   /* Active: 4px red left border, adjust padding */
@@ -416,17 +422,17 @@ const services = [
     border-radius: 12px;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
     /* fallback color while image loads */
-    background-color: lightgray;
+    /* background-color: lightgray; */
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding: 0 11px 20px;
+    padding: 0 28px 20px;
     font-family: "Inter", sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 26px;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 28px;
     /* Dark text on frosted light-gray band at bottom */
-    color: #323232;
+    color: #ffffff;
     text-align: center;
   }
 
@@ -437,13 +443,13 @@ const services = [
     align-items: center;
     justify-content: center;
     padding: 11px 16px;
-    border: 1.5px solid #b61f26;
+    background-color: #b61f26;
+    color: #ffffff;
     border-radius: 12px;
     font-family: "Inter", sans-serif;
     font-weight: 700;
     font-size: 16px;
     line-height: 26px;
-    color: #b61f26;
     text-decoration: none;
     width: fit-content;
     transition:
@@ -452,7 +458,7 @@ const services = [
   }
 
   .svc__cta:hover {
-    background-color: #b61f26;
+    background-color: #33587d;
     color: #ffffff;
   }
 

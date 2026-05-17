@@ -287,12 +287,14 @@ const articles = [
     text-decoration: none;
     transition:
       opacity 180ms ease,
-      transform 180ms ease;
+      transform 180ms ease,
+      background-color 180ms ease;
   }
 
   .news__cta:hover {
     opacity: 0.88;
     transform: translateY(-1px);
+    background-color: #33587d;
   }
 
   /* ── Responsive ─────────────────────────────────────────── */
@@ -328,48 +330,51 @@ const articles = [
     }
   }
 </style>
+<style>
+  .news__header,
+  .news__card,
+  .news__cta {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s ease;
+  }
+
+  .news__header.is-visible,
+  .news__card.is-visible,
+  .news__cta.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  gsap.registerPlugin(ScrollTrigger);
+  const header = document.querySelector(".news__header");
+  const cards = document.querySelectorAll(".news__card");
+  const cta = document.querySelector(".news__cta");
 
-  // Header fades up
-  gsap.from(".news__header", {
-    y: 36,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: "#insights",
-      start: "top 80%",
-      once: true,
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
     },
+    { threshold: 0.15 }
+  );
+
+  if (header) observer.observe(header);
+
+  cards.forEach((card, i) => {
+    (card as HTMLElement).style.transitionDelay = `${i * 0.12}s`;
+    observer.observe(card);
   });
 
-  // Cards stagger in
-  gsap.from(".news__card", {
-    y: 50,
-    opacity: 0,
-    duration: 0.75,
-    stagger: 0.14,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: ".news__cards",
-      start: "top 82%",
-      once: true,
-    },
-  });
-
-  // CTA button fades in after cards
-  gsap.from(".news__cta", {
-    y: 20,
-    opacity: 0,
-    duration: 0.6,
-    ease: "power2.out",
-    scrollTrigger: {
-      trigger: ".news__cta",
-      start: "top 90%",
-      once: true,
-    },
-  });
+  if (cta) {
+    (cta as HTMLElement).style.transitionDelay = `${cards.length * 0.12 + 0.1}s`;
+    observer.observe(cta);
+  }
 </script>

@@ -305,6 +305,16 @@ button {
   letter-spacing: 0px;
   color: #ffffff;
   cursor: pointer;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    background-color 180 ease;
+}
+
+.primary-btn:hover {
+  background-color: var(--color-primary);
+  opacity: 0.88;
+  transform: translateY(-1px);
 }
 
 .secondary-btn {
