@@ -60,6 +60,7 @@
     <!-- Right: person image with ambient shape bg -->
     <div class="about__img-frame">
       <!-- Round shape sitting behind the photo -->
+      <div class="about__img-circle-2" aria-hidden="true"></div>
       <div class="about__img-circle" aria-hidden="true"></div>
       <!-- Thin red left-edge accent line -->
       <!-- <div class="about__img-stripe" aria-hidden="true"></div> -->
@@ -213,34 +214,34 @@
   /* ── Right: image frame ──────────────────────────────── */
   .about__img-frame {
     position: relative;
-    width: 578px;
+    width: 480px;
+    height: 480px;
     flex-shrink: 0;
   }
 
-  /* Dark card disc sitting behind the photo */
+  /* Soft lavender decorative circle offset behind the photo */
   .about__img-circle {
     position: absolute;
-    width: 910px;
-    height: 910px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    /* Deep navy card — dark and solid */
-    background: radial-gradient(
-      circle at 38% 35%,
-      #243f5a 0%,
-      #1a2f44 50%,
-      #111e2c 100%
-    );
-    top: -10%;
-    left: -20%;
-    /* transform: translate(-50%, -46%); */
+    background: #cdd5e0;
+    bottom: -28px;
+    left: -28px;
     z-index: 0;
     pointer-events: none;
-    /* Thin red border as a clean brand accent */
-    /* border: 15px solid #b61f26; */
-    /* box-shadow:
-      0 20px 50px rgba(0, 0, 0, 0.35),
-      0 6px 18px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06); */
+  }
+
+  .about__img-circle-2 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #b61f26;
+    bottom: -20px;
+    left: -39px;
+    z-index: 0;
+    pointer-events: none;
   }
 
   /* Thin red left-edge accent — full height, 3px wide */
@@ -255,20 +256,23 @@
     border-radius: 2px;
   }
 
-  /* Photo container */
+  /* Photo container — circular clip */
   .about__img-wrap {
-    position: relative;
-    z-index: 2;
+    position: absolute;
+    top: 30px;
+    left: -31px;
     width: 100%;
-    height: auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 2;
   }
 
   .about__img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
     display: block;
   }
 
@@ -287,11 +291,8 @@
     }
 
     .about__img-frame {
-      width: 420px;
-    }
-
-    .about__img-wrap {
-      height: auto;
+      width: 380px;
+      height: 380px;
     }
   }
 
@@ -312,13 +313,9 @@
     }
 
     .about__img-frame {
-      width: 100%;
-      padding-right: 32px;
-      padding-bottom: 32px;
-    }
-
-    .about__img-wrap {
-      height: auto;
+      width: 320px;
+      height: 320px;
+      align-self: center;
     }
 
     .about__heading {
